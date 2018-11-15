@@ -72,14 +72,14 @@ class Query(ObjectType):
         }
     ).json()['response']['accounts']
 
-    account_info['laundry'] = "0.0"  # initialize default
+    account_info['laundry'] = "0.00"  # initialize default
     for acct in accounts:
       if acct['accountDisplayName'] == ACCOUNT_NAMES['citybucks']:
-        account_info['city_bucks'] = str(acct['balance'])
+        account_info['city_bucks'] = str("{0:.2f}".format(round(acct['balance'], 2)))
       elif acct['accountDisplayName'] == ACCOUNT_NAMES['laundry']:
         account_info['laundry'] = str("{0:.2f}".format(round(acct['balance'], 2)))
       elif acct['accountDisplayName'] == ACCOUNT_NAMES['brbs']:
-        account_info['brbs'] = str(acct['balance'])
+        account_info['brbs'] = str("{0:.2f}".format(round(acct['balance'], 2)))
       # Need more research to implement swipes:
       # Each plan has a different accountDisplayName
       account_info['swipes'] = ''
