@@ -8,8 +8,10 @@ from src.constants import (
     IMAGES_URL,
     NUM_DAYS_STORED_IN_DB,
     STATIC_EATERIES_URL,
+    STATIC_MENUS_URL,
     PAY_METHODS,
     UPDATE_DELAY,
+    TRILLIUM_ID,
     WEEKDAYS,
 )
 from src.schema import Data
@@ -46,7 +48,7 @@ def start_update():
 def parse_eatery(data_json):
   for eatery in data_json['data']['eateries']:
     eatery_id = eatery.get('id', resolve_id(eatery))
-    dining_items = parse_dining_items(eatery, eatery_id)
+    dining_items = trillium_menu() if eatery_id == TRILLIUM_ID else parse_dining_items(eatery)
     phone = eatery.get('contactPhone', 'N/A')
     phone = phone if phone else 'N/A'  # handle None values
 
@@ -119,12 +121,13 @@ def parse_events(event_list, eatery_id, event_date):
 def parse_food_stations(station_list, eatery_id):
   new_stations = []
   for station in station_list:
+    default_index = len(new_stations)
     station_items = parse_food_items(station['items'])
     new_station = FoodStationType(
         category=station.get('category', ''),
         items=station_items,
         item_count=len(station_items),
-        sort_idx=station.get('sortIdx', '')
+        sort_idx=station.get('sortIdx', default_index)
     )
     new_stations.append(new_station)
   return new_stations
@@ -132,22 +135,24 @@ def parse_food_stations(station_list, eatery_id):
 def parse_food_items(item_list):
   new_food_items = []
   for item in item_list:
+    default_index = len(new_food_items)
     new_food_items.append(
         FoodItemType(
             healthy=item.get('healthy', False),
             item=item.get('item', ''),
-            sort_idx=item.get('sortIdx', '')
+            sort_idx=item.get('sortIdx', default_index)
         )
     )
   return new_food_items
 
-def parse_dining_items(eatery, eatery_id):
+def parse_dining_items(eatery):
   dining_items = {'items': []}
   for item in eatery['diningItems']:
+    default_index = len(dining_items['items'])
     dining_items['items'].append({
         'healthy': item.get('healthy', False),
-        'item': item['item'],
-        'sortIdx': 0
+        'item': item.get('item', ''),
+        'sortIdx': item.get('sortIdx', default_index)
     })
   return [dining_items]
 
@@ -174,7 +179,7 @@ def parse_campus_area(eatery):
 def parse_static_eateries(statics_json):
   for eatery in statics_json['eateries']:
     new_id = eatery.get('id', resolve_id(eatery))
-    dining_items = parse_dining_items(eatery, new_id)
+    dining_items = parse_dining_items(eatery)
     new_eatery = EateryType(
         about=eatery.get('about', ''),
         about_short=eatery.get('aboutshort', ''),
@@ -253,3 +258,7 @@ def format_time(start_time, end_time, start_date):
   new_end = "{}:{}:{}".format(end_date, end_hour, end_minute)
 
   return [new_start, new_end]
+
+def trillium_menu():
+  statics_json = get(STATIC_MENUS_URL).json()
+  return parse_dining_items(statics_json['Trillium'][0])
