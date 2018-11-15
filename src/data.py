@@ -10,8 +10,8 @@ from src.constants import (
     STATIC_EATERIES_URL,
     STATIC_MENUS_URL,
     PAY_METHODS,
-    UPDATE_DELAY,
     TRILLIUM_ID,
+    UPDATE_DELAY,
     WEEKDAYS,
 )
 from src.schema import Data
@@ -48,7 +48,7 @@ def start_update():
 def parse_eatery(data_json):
   for eatery in data_json['data']['eateries']:
     eatery_id = eatery.get('id', resolve_id(eatery))
-    dining_items = trillium_menu() if eatery_id == TRILLIUM_ID else parse_dining_items(eatery)
+    dining_items = get_trillium_menu() if eatery_id == TRILLIUM_ID else parse_dining_items(eatery)
     phone = eatery.get('contactPhone', 'N/A')
     phone = phone if phone else 'N/A'  # handle None values
 
@@ -259,6 +259,6 @@ def format_time(start_time, end_time, start_date):
 
   return [new_start, new_end]
 
-def trillium_menu():
+def get_trillium_menu():
   statics_json = get(STATIC_MENUS_URL).json()
   return parse_dining_items(statics_json['Trillium'][0])
