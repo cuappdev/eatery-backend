@@ -72,7 +72,10 @@ class Query(ObjectType):
         }
     ).json()['response']['accounts']
 
-    account_info['laundry'] = "0.00"  # initialize default
+    # intialize default values
+    account_info['brbs'] = '0.00' 
+    account_info['city_bucks'] = '0.00'
+    account_info['laundry'] = '0.00'
     for acct in accounts:
       if acct['accountDisplayName'] == ACCOUNT_NAMES['citybucks']:
         account_info['city_bucks'] = str("{0:.2f}".format(round(acct['balance'], 2)))
