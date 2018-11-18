@@ -34,3 +34,8 @@ WEEKDAYS = {
     'saturday': [5],
     'sunday': [6]
 }
+YELP_LATITUDE = 42.440680
+YELP_LONGITUDE = -76.486043
+YELP_NUMBER_LIMIT = 50
+YELP_RADIUS = 200  # units meters
+YELP_QUERY_DELAY = .1  # units seconds

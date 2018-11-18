@@ -3,6 +3,7 @@ from threading import Timer
 
 from requests import get
 
+from src.collegetown import collegetown_search
 from src.constants import (
     CORNELL_DINING_URL,
     IMAGES_URL,
@@ -39,6 +40,8 @@ def start_update():
     parse_eatery(data_json)
     statics_json = get(STATIC_EATERIES_URL).json()
     parse_static_eateries(statics_json)
+    collegetown_eateries = collegetown_search()
+    parse_collegetown_eateries(collegetown_eateries)
     Data.update_data(eateries)
   except Exception as e:
     print('Data update failed:', e)
@@ -262,3 +265,6 @@ def format_time(start_time, end_time, start_date):
 def get_trillium_menu():
   statics_json = get(STATIC_MENUS_URL).json()
   return parse_dining_items(statics_json['Trillium'][0])
+
+def parse_collegetown_eateries(eateries):
+  return []

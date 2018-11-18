@@ -22,3 +22,4 @@ MANIFEST
 .env
 .venv
 venv/
+venv2/
