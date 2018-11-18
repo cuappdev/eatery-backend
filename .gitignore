@@ -20,6 +20,4 @@ MANIFEST
 
 # Environments
 .env
-.venv
 venv/
-venv2/

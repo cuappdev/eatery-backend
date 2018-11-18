@@ -24,10 +24,7 @@ class Query(ObjectType):
   eateries = List(
       EateryType,
       eatery_id=Int(name='id'),
-      date=Date(),
-      eatery_name=String(name='name'),
-      campus_area=String(name='area'),
-      is_open=Boolean()
+      collegetown=Boolean()
   )
   account_info = Field(
       AccountInfoType,
@@ -35,8 +32,10 @@ class Query(ObjectType):
       session_id=String(name='id')
   )
 
-  def resolve_eateries(self, info, eatery_id=None):
-    if eatery_id is None:
+  def resolve_eateries(self, info, eatery_id=None, collegetown=False):
+    if collegetown:
+      return [eatery for eatery in Data.eateries.values() if eatery.collegetown]
+    elif eatery_id is None:
       return [eatery for eatery in Data.eateries.values()]
     eatery = Data.eateries.get(eatery_id)
     return [eatery] if eatery is not None else []
@@ -73,7 +72,7 @@ class Query(ObjectType):
     ).json()['response']['accounts']
 
     # intialize default values
-    account_info['brbs'] = '0.00' 
+    account_info['brbs'] = '0.00'
     account_info['city_bucks'] = '0.00'
     account_info['laundry'] = '0.00'
     for acct in accounts:
