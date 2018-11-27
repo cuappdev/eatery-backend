@@ -8,9 +8,9 @@ from src.constants import (
     CORNELL_DINING_URL,
     IMAGES_URL,
     NUM_DAYS_STORED_IN_DB,
+    PAY_METHODS,
     STATIC_EATERIES_URL,
     STATIC_MENUS_URL,
-    PAY_METHODS,
     TRILLIUM_ID,
     UPDATE_DELAY,
     WEEKDAYS,
@@ -18,8 +18,11 @@ from src.constants import (
 from src.schema import Data
 from src.types import (
     CampusAreaType,
+    CampusEateryType,
+    CollegetownEateryType,
+    CollegetownEventType,
+    CollegetownHoursType,
     CoordinatesType,
-    EateryType,
     EventType,
     FoodItemType,
     FoodStationType,
@@ -27,7 +30,8 @@ from src.types import (
     PaymentMethodsType,
 )
 
-eateries = {}
+campus_eateries = {}
+collegetown_eateries = {}
 static_eateries = {}
 
 today = date.today()
@@ -40,13 +44,13 @@ def start_update():
     parse_eatery(data_json)
     statics_json = requests.get(STATIC_EATERIES_URL).json()
     parse_static_eateries(statics_json)
-    collegetown_eateries = collegetown_search()
-    parse_collegetown_eateries(collegetown_eateries)
-    Data.update_data(eateries)
+    yelp_query = collegetown_search()
+    parse_collegetown_eateries(yelp_query)
+    Data.update_data(campus_eateries, collegetown_eateries)
   except Exception as e:
     print('Data update failed:', e)
-  # finally:
-  #   Timer(UPDATE_DELAY, start_update).start()
+  finally:
+    Timer(UPDATE_DELAY, start_update).start()
 
 def parse_eatery(data_json):
   for eatery in data_json['data']['eateries']:
@@ -55,12 +59,11 @@ def parse_eatery(data_json):
     phone = eatery.get('contactPhone', 'N/A')
     phone = phone if phone else 'N/A'  # handle None values
 
-    new_eatery = EateryType(
+    new_eatery = CampusEateryType(
         about=eatery.get('about', ''),
         about_short=eatery.get('aboutshort', ''),
         campus_area=parse_campus_area(eatery),
         coordinates=parse_coordinates(eatery),
-        collegetown=False,
         eatery_type=parse_eatery_type(eatery),
         id=eatery_id,
         image_url=get_image_url(eatery.get('slug')),
@@ -72,7 +75,7 @@ def parse_eatery(data_json):
         phone=phone,
         slug=eatery.get('slug')
     )
-    eateries[new_eatery.id] = new_eatery
+    campus_eateries[new_eatery.id] = new_eatery
 
 def get_image_url(slug):
   return "{}{}.jpg".format(IMAGES_URL, slug)
@@ -184,12 +187,11 @@ def parse_static_eateries(statics_json):
   for eatery in statics_json['eateries']:
     new_id = eatery.get('id', resolve_id(eatery))
     dining_items = parse_dining_items(eatery)
-    new_eatery = EateryType(
+    new_eatery = CampusEateryType(
         about=eatery.get('about', ''),
         about_short=eatery.get('aboutshort', ''),
         campus_area=parse_campus_area(eatery),
         coordinates=parse_coordinates(eatery),
-        collegetown=False,
         eatery_type=parse_eatery_type(eatery),
         id=new_id,
         image_url=get_image_url(eatery.get('slug')),
@@ -201,7 +203,7 @@ def parse_static_eateries(statics_json):
         phone=eatery.get('contactPhone', 'N/A'),
         slug=eatery.get('slug', '')
     )
-    eateries[new_eatery.id] = new_eatery
+    campus_eateries[new_eatery.id] = new_eatery
 
 def resolve_id(eatery, collegetown=False):
   """Returns a new id (int) for an external eatery
@@ -247,6 +249,10 @@ def parse_static_op_hours(hours_list, eatery_id, dining_items):
   return new_operating_hours
 
 def format_time(start_time, end_time, start_date, hr24=False, overnight=False):
+  """Returns a formatted time concatenated with date (string) for an eatery event
+  Input comes in two forms depending on if it is collegetown eatery (24hr format).
+  Some end times are 'earlier' than the start time, indicating we have rolled over to a new day.
+  """
   if hr24:
     start = datetime.strptime(start_time, '%H%M')
     start_time = start.strftime('%I:%M%p')
@@ -277,47 +283,42 @@ def get_trillium_menu():
 def parse_collegetown_eateries(collegetown_data):
   for eatery in collegetown_data:
     new_id = resolve_id(eatery, collegetown=True)
-    new_eatery = EateryType(
-        about='',
-        about_short='',
-        campus_area=CampusAreaType(
-            description='Collegetown',
-            description_short='C-town'
-        ),
+    new_eatery = CollegetownEateryType(
+        address=eatery['location']['address1'],
+        categories=[cuisine['title'] for cuisine in eatery.get('categories', [])],
         coordinates=parse_coordinates(eatery),
-        collegetown=True,
         eatery_type='Collegetown Restaurant',
         id=new_id,
-        image_url=eatery['image_url'],
-        location=eatery['location']['address1'],
+        image_url=eatery.get('image_url', ''),
         name=eatery.get('name', ''),
-        name_short=eatery.get('name', ''),
-        operating_hours=parse_collegetown_op_hours(eatery),
+        operating_hours=parse_collegetown_hours(eatery),
         payment_methods=PaymentMethodsType(
             brbs=False,
             cash=True,
             cornell_card=False,
-            swipes=False,
             credit=True,
+            swipes=False,
             mobile=False,
         ),
         phone=eatery.get('phone', 'N/A'),
-        slug=eatery.get('alias', '')
-    )
-    eateries[new_eatery.id] = new_eatery
+        price=eatery.get('price', ''),
+        url=eatery.get('url', ''),
 
-def parse_collegetown_op_hours(eatery):
+    )
+    collegetown_eateries[new_eatery.id] = new_eatery
+
+def parse_collegetown_hours(eatery):
   hours_list = eatery.get('hours', [{}])[0].get('open', [])
+  # gets open hours from first dictionary in hours, empty dict-list provided to mimic hours format
   new_operating_hours = []
 
   for i in range(NUM_DAYS_STORED_IN_DB):
     new_date = today + timedelta(days=i)
     new_events = [event for event in hours_list if event['day'] == new_date.weekday()]
     new_operating_hours.append(
-        OperatingHoursType(
+        CollegetownHoursType(
             date=new_date.isoformat(),
-            events=parse_collegetown_events(new_events, new_date.isoformat()),
-            status='EVENTS'
+            events=parse_collegetown_events(new_events, new_date.isoformat())
         )
     )
   return new_operating_hours
@@ -330,15 +331,12 @@ def parse_collegetown_events(event_list, event_date):
         event.get('end', ''),
         event_date,
         hr24=True,
-        overnight=event['is_overnight']
+        overnight=event.get('is_overnight', False)
     )
-    new_event = EventType(
-        cal_summary='',
-        description='',
+    new_event = CollegetownEventType(
+        description='General',
         end_time=end,
-        menu=[],
         start_time=start,
-        station_count=0
     )
     new_events.append(new_event)
   return new_events

@@ -1,6 +1,6 @@
-from graphene import Boolean, Field, Float, Int, List, ObjectType, String
+from graphene import Field, Float, Int, List, ObjectType, String
 
-from src.types.operating_hours_type import OperatingHoursType
+from src.types.operating_hours_type import OperatingHoursType, CollegetownHoursType
 from src.types.payment_methods_type import PaymentMethodsType
 
 class CampusAreaType(ObjectType):
@@ -12,18 +12,26 @@ class CoordinatesType(ObjectType):
   longitude = Float(required=True)
 
 class EateryType(ObjectType):
-  about = String(required=True)
-  about_short = String(required=True)
-  campus_area = Field(CampusAreaType, required=True)
   coordinates = Field(CoordinatesType, required=True)
-  collegetown = Boolean(required=True)
   eatery_type = String(required=True)
   id = Int(required=True)
   image_url = String(required=True)
-  location = String(required=True)
   name = String(required=True)
-  name_short = String(required=True)
-  operating_hours = List(OperatingHoursType, required=True)
   payment_methods = Field(PaymentMethodsType, required=True)
   phone = String(required=True)
+
+class CampusEateryType(EateryType):
+  about = String(required=True)
+  about_short = String(required=True)
+  campus_area = Field(CampusAreaType, required=True)
+  location = String(required=True)
+  name_short = String(required=True)
+  operating_hours = List(OperatingHoursType, required=True)
   slug = String(required=True)
+
+class CollegetownEateryType(EateryType):
+  address = String(required=True)
+  categories = List(String, required=True)
+  operating_hours = List(CollegetownHoursType, required=True)
+  price = String(required=True)
+  url = String(required=True)
