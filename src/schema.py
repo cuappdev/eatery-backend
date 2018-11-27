@@ -41,7 +41,7 @@ class Query(ObjectType):
 
   def get_eateries(eateries, eatery_id):
     if eatery_id is None:
-      return [eatery for eatery in eateries.values()]
+      return list(eateries.values())
     eatery = eateries.get(eatery_id)
     return [eatery] if eatery is not None else []
 
