@@ -34,3 +34,8 @@ WEEKDAYS = {
     'saturday': [5],
     'sunday': [6]
 }
+YELP_LATITUDE = 42.440680
+YELP_LONGITUDE = -76.486043
+YELP_RADIUS = 200  # meters
+YELP_RESTAURANT_LIMIT = 50  # maximum restaurants returned per query (as allowed by yelp)
+YELP_QUERY_DELAY = 0.8  # seconds
