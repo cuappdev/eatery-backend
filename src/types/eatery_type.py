@@ -34,4 +34,5 @@ class CollegetownEateryType(EateryType):
   categories = List(String, required=True)
   operating_hours = List(CollegetownHoursType, required=True)
   price = String(required=True)
+  rating = String(required=True)
   url = String(required=True)

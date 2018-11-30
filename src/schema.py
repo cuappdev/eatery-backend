@@ -51,7 +51,6 @@ class Query(ObjectType):
   def resolve_collegetown_eateries(self, info, eatery_id=None):
     return Query.get_eateries(Data.collegetown_eateries, eatery_id)
 
-
   def resolve_account_info(self, info, session_id=None):
     if session_id is None:
       return "Provide a valid session ID!"
