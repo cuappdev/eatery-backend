@@ -62,7 +62,7 @@ class Query(ObjectType):
 
   def resolve_eateries(self, info, eatery_id=None):
     return Query.get_eateries(Data.campus_eateries, eatery_id)
-
+  
   def resolve_account_info(self, info, session_id=None):
     if session_id is None:
       return "Provide a valid session ID!"

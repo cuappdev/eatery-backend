@@ -32,7 +32,7 @@ cp env.template .env
 ## Running the App
 
 ````bash
-flask run
+sh start_server.sh
 ````
 
 ## GraphQL Interface
