@@ -303,7 +303,6 @@ def parse_collegetown_eateries(collegetown_data):
         phone=eatery.get('phone', 'N/A'),
         price=eatery.get('price', ''),
         url=eatery.get('url', ''),
-
     )
     collegetown_eateries[new_eatery.id] = new_eatery
 
