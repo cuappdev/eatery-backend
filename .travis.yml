@@ -1,17 +1,23 @@
 language: python
 python:
-    - '3.6'
+- '3.6'
 sudo: required
 services:
-    - docker
+- docker
 script:
-    - 
+- 
+addons:
+  ssh_known_hosts: eatery-backend.cornellappdev.com
 deploy:
-    provider: script
-    script: bash docker_push
-    on:
-        branch: release
+  provider: script
+  script: bash docker_push
+  skip_cleanup: true
+  on:
+    branch: release
 env:
-    global:
-        - secure: GzWobC5BqYy1stTRXNxrr/npB3hzjvtWuM2wXTmhBJ5OXjGdKqI4ZUCJDihNIVkii4L/tA5fQhLXzRxCj6wReajV9ArjlRUKmIkiNk4aYEs202GOfDmXaHx9Fj0KqOI6mDyjYySrH2GaQ0mhsPkz64czQFMrku9UcyWXZIE2NtMaM+ghdt/rbJpjSlOcoqY9g1K6QtkFFXHM+YrvgdYDMsWxf6DujIuceynydNeasUSSefsfYhmAgaU33TBvXa/0BZPJFhRCPhwLH6qVJzxFQVqX75CKQPW+DLUb+B/1JIYhCEwfQem3Elg9FYYwdKDgk1nP1D0Hc0kYreh8VXXRDOhc7y8fuhLnz2zcC4Y7R33rbSeHuoBpa0X96c4W6GjZVwm4aisaQX2Bf8t6lZdAxkb7irH/iDwflwgBHVnO5gZ/6AOcOh2HqJozvCEYS3b7112rR9AKYw9oJN0b8Ms/HMY3sFtoC3RhNKAmr2PUICDmZJ6tftnt4epDcXxqMd9AQCMb8AAhfA9o6OMK17MxJxaY3MZm2uRCRCa3cEl+k+jqVLA9SNZHDm3ifTdVnU4kNErI3HeiKWkkADN0vrIRPC+YHY7LbUuZh3E6WOr9H9QPFzTxCp7jIqvb1gKk3UP+Dv5fynMytAzbH0hj+fhHAmZF/5B52ahFPW2J2vB/eZg=
-        - secure: mFIlbISDA1d378xJd6KNCVGK7gHSrTBhycY8NvpxNgdhgCqbovepxuJ4dfvpz+BNYrXlbKP82MHiqpEpw29QX4eTlZ3RrT3eF6p7MV6m0qj3izom4MmXJ5o/82XZSYcuTpXV7VYuXI5ilkhI4ec0vF5QVG81MgzN0cfYFJtk+Fu8K4aln25cOJJh+f4XNNNp1DT0eoigh/fPgOCODyP9rmeEWXZ10X2OQBd0UcdWDkrDtHRrZqOAJh9EVVZu2FjpSIsLXJK0QkgDQHhciNd1fBELzuPGgRKITqEi/wHcf4JyhhSiwR2+P8sdDvLHoNYjh3DumtSRt6q1N7k1s/YLltLoal2NR9bI/mZN+TZPPOXWYraU/5OmPTrwmXQNHEba+kY1wZXwzMvA4Ult9znwlwOwEDN4ggrKEte7zKVVEpGfRfeGN0YYANMT+VUotDKkonAHBubAhKJwrkAxLtCZBjPkwyMJYIJgcRpj0C4jEYQ/Gl844/B/Qeh0xv4CWH1uBRVyrAj/L/OEnf0N2+gYP4CN2dqVhOYFY18yuHc1kwLEkZ6p5XN34+KgcX/S/gA6ThXYtg9BO2srtpmLG/eme2TILEJ4D4tB+Mxcx+Wg7zlU0KINky0dr+Us4fNoM8zvA5HA+sJ1PYn9eITiR8GnG0l8v25bAcZj9240LlzUeiU=
+  global:
+  - secure: GzWobC5BqYy1stTRXNxrr/npB3hzjvtWuM2wXTmhBJ5OXjGdKqI4ZUCJDihNIVkii4L/tA5fQhLXzRxCj6wReajV9ArjlRUKmIkiNk4aYEs202GOfDmXaHx9Fj0KqOI6mDyjYySrH2GaQ0mhsPkz64czQFMrku9UcyWXZIE2NtMaM+ghdt/rbJpjSlOcoqY9g1K6QtkFFXHM+YrvgdYDMsWxf6DujIuceynydNeasUSSefsfYhmAgaU33TBvXa/0BZPJFhRCPhwLH6qVJzxFQVqX75CKQPW+DLUb+B/1JIYhCEwfQem3Elg9FYYwdKDgk1nP1D0Hc0kYreh8VXXRDOhc7y8fuhLnz2zcC4Y7R33rbSeHuoBpa0X96c4W6GjZVwm4aisaQX2Bf8t6lZdAxkb7irH/iDwflwgBHVnO5gZ/6AOcOh2HqJozvCEYS3b7112rR9AKYw9oJN0b8Ms/HMY3sFtoC3RhNKAmr2PUICDmZJ6tftnt4epDcXxqMd9AQCMb8AAhfA9o6OMK17MxJxaY3MZm2uRCRCa3cEl+k+jqVLA9SNZHDm3ifTdVnU4kNErI3HeiKWkkADN0vrIRPC+YHY7LbUuZh3E6WOr9H9QPFzTxCp7jIqvb1gKk3UP+Dv5fynMytAzbH0hj+fhHAmZF/5B52ahFPW2J2vB/eZg=
+  - secure: mFIlbISDA1d378xJd6KNCVGK7gHSrTBhycY8NvpxNgdhgCqbovepxuJ4dfvpz+BNYrXlbKP82MHiqpEpw29QX4eTlZ3RrT3eF6p7MV6m0qj3izom4MmXJ5o/82XZSYcuTpXV7VYuXI5ilkhI4ec0vF5QVG81MgzN0cfYFJtk+Fu8K4aln25cOJJh+f4XNNNp1DT0eoigh/fPgOCODyP9rmeEWXZ10X2OQBd0UcdWDkrDtHRrZqOAJh9EVVZu2FjpSIsLXJK0QkgDQHhciNd1fBELzuPGgRKITqEi/wHcf4JyhhSiwR2+P8sdDvLHoNYjh3DumtSRt6q1N7k1s/YLltLoal2NR9bI/mZN+TZPPOXWYraU/5OmPTrwmXQNHEba+kY1wZXwzMvA4Ult9znwlwOwEDN4ggrKEte7zKVVEpGfRfeGN0YYANMT+VUotDKkonAHBubAhKJwrkAxLtCZBjPkwyMJYIJgcRpj0C4jEYQ/Gl844/B/Qeh0xv4CWH1uBRVyrAj/L/OEnf0N2+gYP4CN2dqVhOYFY18yuHc1kwLEkZ6p5XN34+KgcX/S/gA6ThXYtg9BO2srtpmLG/eme2TILEJ4D4tB+Mxcx+Wg7zlU0KINky0dr+Us4fNoM8zvA5HA+sJ1PYn9eITiR8GnG0l8v25bAcZj9240LlzUeiU=
+before_install:
+- openssl aes-256-cbc -K $encrypted_a1a4bde2c477_key -iv $encrypted_a1a4bde2c477_iv
+  -in server.pem.enc -out server.pem -d

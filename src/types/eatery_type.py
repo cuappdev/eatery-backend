@@ -11,7 +11,7 @@ class CoordinatesType(ObjectType):
   latitude = Float(required=True)
   longitude = Float(required=True)
 
-class EateryType(ObjectType):
+class EateryBaseType(ObjectType):
   coordinates = Field(CoordinatesType, required=True)
   eatery_type = String(required=True)
   id = Int(required=True)
@@ -20,7 +20,7 @@ class EateryType(ObjectType):
   payment_methods = Field(PaymentMethodsType, required=True)
   phone = String(required=True)
 
-class CampusEateryType(EateryType):
+class CampusEateryType(EateryBaseType):
   about = String(required=True)
   about_short = String(required=True)
   campus_area = Field(CampusAreaType, required=True)
@@ -29,7 +29,7 @@ class CampusEateryType(EateryType):
   operating_hours = List(OperatingHoursType, required=True)
   slug = String(required=True)
 
-class CollegetownEateryType(EateryType):
+class CollegetownEateryType(EateryBaseType):
   address = String(required=True)
   categories = List(String, required=True)
   operating_hours = List(CollegetownHoursType, required=True)

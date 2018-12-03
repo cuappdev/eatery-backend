@@ -304,7 +304,6 @@ def parse_collegetown_eateries(collegetown_data):
         price=eatery.get('price', ''),
         rating=eatery.get('rating', 'N/A'),
         url=eatery.get('url', ''),
-
     )
     collegetown_eateries[new_eatery.id] = new_eatery
 
