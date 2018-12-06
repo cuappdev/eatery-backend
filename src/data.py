@@ -42,6 +42,7 @@ def start_update():
     dining_query = requests.get(CORNELL_DINING_URL)
     data_json = dining_query.json()
     parse_eatery(data_json)
+    fill_empty_menus(campus_eateries)
     statics_json = requests.get(STATIC_EATERIES_URL).json()
     parse_static_eateries(statics_json)
     yelp_query = collegetown_search()
@@ -127,6 +128,8 @@ def parse_events(event_list, eatery_id, event_date):
 
 def parse_food_stations(station_list, eatery_id):
   new_stations = []
+  if len(station_list) == 1 and not station_list[0]['items']:  # no menu actually provided
+    return new_stations
   for station in station_list:
     default_index = len(new_stations)
     station_items = parse_food_items(station['items'])
@@ -279,6 +282,18 @@ def format_time(start_time, end_time, start_date, hr24=False, overnight=False):
 def get_trillium_menu():
   statics_json = requests.get(STATIC_MENUS_URL).json()
   return parse_dining_items(statics_json['Trillium'][0])
+
+def fill_empty_menus(eateries):
+  for eatery in eateries.values():
+    for operating_hour in eatery.operating_hours:
+      # need to choose event with data we want to copy
+      if len(operating_hour.events) <= 1 or not operating_hour.events[0].menu:  # ignore these
+        continue
+      base_event = operating_hour.events[0]
+      for event in operating_hour.events:
+        if not event.menu:
+          event.menu = base_event.menu
+          event.station_count = base_event.station_count
 
 def parse_collegetown_eateries(collegetown_data):
   for eatery in collegetown_data:
