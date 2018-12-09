@@ -26,13 +26,13 @@ UPDATE_DELAY_TESTING = 60  # 1 minute in seconds
 # [M, T, W, Th, F, St, S]
 # [0, 1, 2, 3, 4, 5, 6]
 WEEKDAYS = {
-    'monday-wednesday': [0, 1, 2],
-    'monday-thursday': [0, 1, 2, 3],
-    'monday-friday': [0, 1, 2, 3, 4],
-    'thursday': [3],
-    'friday': [4],
-    'saturday': [5],
-    'sunday': [6]
+    'monday': 0,
+    'tuesday': 1,
+    'wednesday': 2,
+    'thursday': 3,
+    'friday': 4,
+    'saturday': 5,
+    'sunday': 6
 }
 YELP_LATITUDE = 42.440680
 YELP_LONGITUDE = -76.486043
