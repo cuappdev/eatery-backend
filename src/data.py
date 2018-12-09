@@ -227,7 +227,14 @@ def parse_eatery_type(eatery):
 def parse_static_op_hours(hours_list, eatery_id, dining_items):
   weekdays = {}
   for hours in hours_list:
-    for weekday in WEEKDAYS[hours['weekday']]:
+    if '-' in hours['weekday']:
+      start, end = hours['weekday'].split('-')
+      start_index = WEEKDAYS[start]
+      end_index = WEEKDAYS[end] + 1
+      days = list(range(start_index, end_index))
+    else:
+      days = [WEEKDAYS[hours['weekday']]]
+    for weekday in days:
       if weekday not in weekdays:
         weekdays[weekday] = hours['events']
 
