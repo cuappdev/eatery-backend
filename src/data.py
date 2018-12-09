@@ -42,6 +42,7 @@ def start_update():
     dining_query = requests.get(CORNELL_DINING_URL)
     data_json = dining_query.json()
     parse_eatery(data_json)
+    fill_empty_menus(campus_eateries)
     statics_json = requests.get(STATIC_EATERIES_URL).json()
     parse_static_eateries(statics_json)
     yelp_query = collegetown_search()
@@ -127,6 +128,8 @@ def parse_events(event_list, eatery_id, event_date):
 
 def parse_food_stations(station_list, eatery_id):
   new_stations = []
+  if len(station_list) == 1 and not station_list[0]['items']:  # no menu actually provided
+    return new_stations
   for station in station_list:
     default_index = len(new_stations)
     station_items = parse_food_items(station['items'])
@@ -227,7 +230,14 @@ def parse_eatery_type(eatery):
 def parse_static_op_hours(hours_list, eatery_id, dining_items):
   weekdays = {}
   for hours in hours_list:
-    for weekday in WEEKDAYS[hours['weekday']]:
+    if '-' in hours['weekday']:
+      start, end = hours['weekday'].split('-')
+      start_index = WEEKDAYS[start]
+      end_index = WEEKDAYS[end] + 1
+      days = list(range(start_index, end_index))
+    else:
+      days = [WEEKDAYS[hours['weekday']]]
+    for weekday in days:
       if weekday not in weekdays:
         weekdays[weekday] = hours['events']
 
@@ -280,6 +290,18 @@ def get_trillium_menu():
   statics_json = requests.get(STATIC_MENUS_URL).json()
   return parse_dining_items(statics_json['Trillium'][0])
 
+def fill_empty_menus(eateries):
+  for eatery in eateries.values():
+    for operating_hour in eatery.operating_hours:
+      # need to choose event with data we want to copy
+      if len(operating_hour.events) <= 1 or not operating_hour.events[0].menu:  # ignore these
+        continue
+      base_event = operating_hour.events[0]
+      for event in operating_hour.events:
+        if not event.menu:
+          event.menu = base_event.menu
+          event.station_count = base_event.station_count
+
 def parse_collegetown_eateries(collegetown_data):
   for eatery in collegetown_data:
     new_id = resolve_id(eatery, collegetown=True)
@@ -302,8 +324,8 @@ def parse_collegetown_eateries(collegetown_data):
         ),
         phone=eatery.get('phone', 'N/A'),
         price=eatery.get('price', ''),
+        rating=eatery.get('rating', 'N/A'),
         url=eatery.get('url', ''),
-
     )
     collegetown_eateries[new_eatery.id] = new_eatery
 

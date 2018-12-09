@@ -6,7 +6,11 @@ from graphene.types.datetime import Date
 import pytz
 import requests
 
-from src.constants import *
+from src.constants import (
+    ACCOUNT_NAMES,
+    CORNELL_INSTITUTION_ID,
+    GET_URL,
+)
 from src.types import (
     AccountInfoType,
     CampusEateryType,
@@ -24,7 +28,13 @@ class Data(object):
     Data.campus_eateries = campus_eateries
     Data.collegetown_eateries = collegetown_eateries
 
+
 class Query(ObjectType):
+  account_info = Field(
+      AccountInfoType,
+      date=Date(),
+      session_id=String(name='id'),
+  )
   campus_eateries = List(
       CampusEateryType,
       eatery_id=Int(name='id'),
@@ -33,10 +43,9 @@ class Query(ObjectType):
       CollegetownEateryType,
       eatery_id=Int(name='id'),
   )
-  account_info = Field(
-      AccountInfoType,
-      date=Date(),
-      session_id=String(name='id')
+  eateries = List(
+      CampusEateryType,
+      eatery_id=Int(name='id'),
   )
 
   def get_eateries(eateries, eatery_id):
@@ -51,7 +60,9 @@ class Query(ObjectType):
   def resolve_collegetown_eateries(self, info, eatery_id=None):
     return Query.get_eateries(Data.collegetown_eateries, eatery_id)
 
-
+  def resolve_eateries(self, info, eatery_id=None):
+    return Query.get_eateries(Data.campus_eateries, eatery_id)
+  
   def resolve_account_info(self, info, session_id=None):
     if session_id is None:
       return "Provide a valid session ID!"
@@ -99,7 +110,6 @@ class Query(ObjectType):
       account_info['swipes'] = ''
 
     # Query 3: Get list of transactions
-    CORNELL_INSTITUTION_ID = '73116ae4-22ad-4c71-8ffd-11ba015407b1'
     transactions = requests.post(
         GET_URL + '/commerce',
         json={
