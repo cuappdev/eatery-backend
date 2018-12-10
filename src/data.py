@@ -45,9 +45,11 @@ def start_update():
     fill_empty_menus(campus_eateries)
     statics_json = requests.get(STATIC_EATERIES_URL).json()
     parse_static_eateries(statics_json)
+    Data.update_data(campus_eateries)
+    print('[{0}] Updating collegetown'.format(datetime.now()))
     yelp_query = collegetown_search()
     parse_collegetown_eateries(yelp_query)
-    Data.update_data(campus_eateries, collegetown_eateries)
+    Data.update_collegetown(collegetown_eateries)
   except Exception as e:
     print('Data update failed:', e)
   finally:

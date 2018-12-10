@@ -22,10 +22,12 @@ class Data(object):
   campus_eateries = {}
   collegetown_eateries = {}
 
+  @staticmethod
+  def update_data(campus_eateries):
+    Data.campus_eateries = campus_eateries
 
   @staticmethod
-  def update_data(campus_eateries, collegetown_eateries):
-    Data.campus_eateries = campus_eateries
+  def update_collegetown(collegetown_eateries):
     Data.collegetown_eateries = collegetown_eateries
 
 
@@ -62,7 +64,7 @@ class Query(ObjectType):
 
   def resolve_eateries(self, info, eatery_id=None):
     return Query.get_eateries(Data.campus_eateries, eatery_id)
-  
+
   def resolve_account_info(self, info, session_id=None):
     if session_id is None:
       return "Provide a valid session ID!"
