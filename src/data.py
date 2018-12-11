@@ -38,16 +38,19 @@ today = date.today()
 
 def start_update():
   try:
-    print('[{0}] Updating data'.format(datetime.now()))
+    print('[{}] Updating campus'.format(datetime.now()))
     dining_query = requests.get(CORNELL_DINING_URL)
     data_json = dining_query.json()
     parse_eatery(data_json)
+    merge_hours(campus_eateries)
     fill_empty_menus(campus_eateries)
-    statics_json = requests.get(STATIC_EATERIES_URL).json()
-    parse_static_eateries(statics_json)
+    static_json = requests.get(STATIC_EATERIES_URL).json()
+    parse_static_eateries(static_json)
+    Data.update_data(campus_eateries)
+    print('[{}] Updating collegetown'.format(datetime.now()))
     yelp_query = collegetown_search()
     parse_collegetown_eateries(yelp_query)
-    Data.update_data(campus_eateries, collegetown_eateries)
+    Data.update_collegetown_data(collegetown_eateries)
   except Exception as e:
     print('Data update failed:', e)
   finally:
@@ -186,8 +189,8 @@ def parse_campus_area(eatery):
       description_short=description_short
   )
 
-def parse_static_eateries(statics_json):
-  for eatery in statics_json['eateries']:
+def parse_static_eateries(static_json):
+  for eatery in static_json['eateries']:
     new_id = eatery.get('id', resolve_id(eatery))
     dining_items = parse_dining_items(eatery)
     new_eatery = CampusEateryType(
@@ -287,10 +290,11 @@ def format_time(start_time, end_time, start_date, hr24=False, overnight=False):
   return [new_start, new_end]
 
 def get_trillium_menu():
-  statics_json = requests.get(STATIC_MENUS_URL).json()
-  return parse_dining_items(statics_json['Trillium'][0])
+  static_json = requests.get(STATIC_MENUS_URL).json()
+  return parse_dining_items(static_json['Trillium'][0])
 
 def fill_empty_menus(eateries):
+  # may no longer be necessary, merge_hours seems to fill this purpose
   for eatery in eateries.values():
     for operating_hour in eatery.operating_hours:
       # need to choose event with data we want to copy
@@ -299,8 +303,23 @@ def fill_empty_menus(eateries):
       base_event = operating_hour.events[0]
       for event in operating_hour.events:
         if not event.menu:
+          # print never shows up so I think this method is now useless
+          print('filling menu for {} on {}'.format(eatery.name, operating_hour.date))
           event.menu = base_event.menu
           event.station_count = base_event.station_count
+
+def merge_hours(eateries):
+  for eatery in eateries.values():
+    for operating_hour in eatery.operating_hours:
+      if len(operating_hour.events) <= 1:  # ignore hours that don't have multiple events
+        continue
+      base_event = operating_hour.events[0]
+      for event in operating_hour.events[:]:  # iterate over copy of list so we can safely remove
+        if event.start_time == base_event.end_time and not event.menu:
+          base_event.end_time = event.end_time
+          operating_hour.events.remove(event)
+          print('merged events for {} on {}'.format(eatery.name, operating_hour.date))
+        base_event = event
 
 def parse_collegetown_eateries(collegetown_data):
   for eatery in collegetown_data:
