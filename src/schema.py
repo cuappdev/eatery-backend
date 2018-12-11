@@ -27,7 +27,7 @@ class Data(object):
     Data.campus_eateries = campus_eateries
 
   @staticmethod
-  def update_collegetown(collegetown_eateries):
+  def update_collegetown_data(collegetown_eateries):
     Data.collegetown_eateries = collegetown_eateries
 
 
