@@ -309,11 +309,10 @@ def fill_empty_menus(eateries):
 def merge_hours(eateries):
   for eatery in eateries.values():
     for operating_hour in eatery.operating_hours:
-      # need to choose event with data we want to copy
-      if len(operating_hour.events) <= 1:  # ignore these
+      if len(operating_hour.events) <= 1:  # ignore hours that don't have multiple events
         continue
       base_event = operating_hour.events[0]
-      for event in operating_hour.events[:]:
+      for event in operating_hour.events[:]:  # iterate over copy of list so we can safely remove
         if event.start_time == base_event.end_time and not event.menu:
           base_event.end_time = event.end_time
           operating_hour.events.remove(event)
