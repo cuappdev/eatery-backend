@@ -204,8 +204,13 @@ def parse_static_eateries(static_json):
         location=eatery.get('location', ''),
         name=eatery.get('name', ''),
         name_short=eatery.get('nameshort', ''),
-        operating_hours=parse_static_op_hours(eatery['operatingHours'], new_id, dining_items),
-        payment_methods=parse_payment_methods(eatery['payMethods']),
+        operating_hours=parse_static_op_hours(
+            eatery.get('operatingHours', []),
+            new_id,
+            dining_items,
+            eatery.get('datesClosed', [])
+        ),
+        payment_methods=parse_payment_methods(eatery.get('payMethods', [])),
         phone=eatery.get('contactPhone', 'N/A'),
         slug=eatery.get('slug', '')
     )
@@ -230,7 +235,7 @@ def parse_eatery_type(eatery):
   except Exception:
     return 'Unknown'
 
-def parse_static_op_hours(hours_list, eatery_id, dining_items):
+def parse_static_op_hours(hours_list, eatery_id, dining_items, dates_closed):
   weekdays = {}
   for hours in hours_list:
     if '-' in hours['weekday']:
@@ -247,18 +252,30 @@ def parse_static_op_hours(hours_list, eatery_id, dining_items):
   new_operating_hours = []
   for i in range(NUM_DAYS_STORED_IN_DB):
     new_date = today + timedelta(days=i)
-    new_events = weekdays.get(new_date.weekday(), [])
+    for dates in dates_closed:
+      if '-' not in dates:
+        closed_date = datetime.strptime(dates, '%m/%d/%y').date()
+        if new_date == closed_date:
+          break
+      else:
+        start_str, end_str = dates.split('-')
+        start_date = datetime.strptime(start_str, '%m/%d/%y').date()
+        end_date = datetime.strptime(end_str, '%m/%d/%y').date()
+        if start_date <= new_date <= end_date:
+          break
+    else:
+      # new_date is not present in dates_closed, we can add this date to the db
+      new_events = weekdays.get(new_date.weekday(), [])
+      for event in new_events:
+        event['menu'] = dining_items
 
-    for event in new_events:
-      event['menu'] = dining_items
-
-    new_operating_hours.append(
-        OperatingHoursType(
-            date=new_date.isoformat(),
-            events=parse_events(new_events, eatery_id, new_date.isoformat()),
-            status='EVENTS'
-        )
-    )
+      new_operating_hours.append(
+          OperatingHoursType(
+              date=new_date.isoformat(),
+              events=parse_events(new_events, eatery_id, new_date.isoformat()),
+              status='EVENTS'
+          )
+      )
   return new_operating_hours
 
 def format_time(start_time, end_time, start_date, hr24=False, overnight=False):
