@@ -105,7 +105,7 @@ class Query(ObjectType):
         account_info['city_bucks'] = str("{0:.2f}".format(round(acct['balance'], 2)))
       elif acct['accountDisplayName'] == ACCOUNT_NAMES['laundry']:
         account_info['laundry'] = str("{0:.2f}".format(round(acct['balance'], 2)))
-      elif acct['accountDisplayName'] == ACCOUNT_NAMES['brbs']:
+      elif ACCOUNT_NAMES['brbs'] in acct['accountDisplayName']:
         account_info['brbs'] = str("{0:.2f}".format(round(acct['balance'], 2)))
       # Need more research to implement swipes:
       # Each plan has a different accountDisplayName
