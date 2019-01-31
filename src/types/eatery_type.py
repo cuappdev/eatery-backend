@@ -4,7 +4,6 @@ from src.types.operating_hours_type import OperatingHoursType, CollegetownHoursT
 from src.types.payment_methods_type import PaymentMethodsType
 
 class CampusAreaType(ObjectType):
-  description = String(required=True)
   description_short = String(required=True)
 
 class CoordinatesType(ObjectType):
@@ -22,7 +21,6 @@ class EateryBaseType(ObjectType):
 
 class CampusEateryType(EateryBaseType):
   about = String(required=True)
-  about_short = String(required=True)
   campus_area = Field(CampusAreaType, required=True)
   location = String(required=True)
   name_short = String(required=True)
