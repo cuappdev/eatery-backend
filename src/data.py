@@ -74,7 +74,7 @@ def parse_eatery(data_json):
         location=eatery.get('location', ''),
         name=eatery.get('name', ''),
         name_short=eatery.get('nameshort', ''),
-        operating_hours=parse_operating_hours(eatery, eatery_id, dining_items),
+        operating_hours=parse_operating_hours(eatery, dining_items),
         payment_methods=parse_payment_methods(eatery['payMethods']),
         phone=phone,
         slug=eatery.get('slug')
@@ -94,7 +94,7 @@ def parse_payment_methods(methods):
   payment_methods.swipes = any(pay['descrshort'] == PAY_METHODS['swipes'] for pay in methods)
   return payment_methods
 
-def parse_operating_hours(eatery, eatery_id, dining_items):
+def parse_operating_hours(eatery, dining_items):
   new_operating_hours = []
   hours_list = eatery['operatingHours']
   for hours in hours_list:
@@ -107,17 +107,17 @@ def parse_operating_hours(eatery, eatery_id, dining_items):
 
     new_operating_hour = OperatingHoursType(
         date=new_date,
-        events=parse_events(hours_events, eatery_id, new_date),
+        events=parse_events(hours_events, new_date),
         status=hours.get('status', '')
     )
     new_operating_hours.append(new_operating_hour)
   return new_operating_hours
 
-def parse_events(event_list, eatery_id, event_date):
+def parse_events(event_list, event_date):
   new_events = []
   for event in event_list:
     start, end = format_time(event.get('start', ''), event.get('end', ''), event_date)
-    stations = parse_food_stations(event['menu'], eatery_id)
+    stations = parse_food_stations(event['menu'])
     new_event = EventType(
         cal_summary=event.get('calSummary', ''),
         description=event.get('descr', ''),
@@ -129,7 +129,7 @@ def parse_events(event_list, eatery_id, event_date):
     new_events.append(new_event)
   return new_events
 
-def parse_food_stations(station_list, eatery_id):
+def parse_food_stations(station_list):
   new_stations = []
   if len(station_list) == 1 and not station_list[0]['items']:  # no menu actually provided
     return new_stations
@@ -206,7 +206,6 @@ def parse_static_eateries(static_json):
         name_short=eatery.get('nameshort', ''),
         operating_hours=parse_static_op_hours(
             eatery.get('operatingHours', []),
-            new_id,
             dining_items,
             eatery.get('datesClosed', [])
         ),
@@ -235,7 +234,7 @@ def parse_eatery_type(eatery):
   except Exception:
     return 'Unknown'
 
-def parse_static_op_hours(hours_list, eatery_id, dining_items, dates_closed):
+def parse_static_op_hours(hours_list, dining_items, dates_closed):
   weekdays = {}
   for hours in hours_list:
     if '-' in hours['weekday']:
@@ -272,7 +271,7 @@ def parse_static_op_hours(hours_list, eatery_id, dining_items, dates_closed):
       new_operating_hours.append(
           OperatingHoursType(
               date=new_date.isoformat(),
-              events=parse_events(new_events, eatery_id, new_date.isoformat()),
+              events=parse_events(new_events, new_date.isoformat()),
               status='EVENTS'
           )
       )
