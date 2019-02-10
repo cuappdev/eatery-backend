@@ -38,5 +38,4 @@ sh start_server.sh
 ## GraphQL Interface
 
 The flask app runs on your ['localhost'](http://localhost:5000/) via port 5000.
-
 Hello, World!
