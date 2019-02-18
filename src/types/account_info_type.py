@@ -1,6 +1,7 @@
 from graphene import List, ObjectType, String
 
 class TransactionType(ObjectType):
+  amount = String(required=True)
   name = String(required=True)
   timestamp = String(required=True)
 
