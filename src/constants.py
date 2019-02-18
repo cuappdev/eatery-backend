@@ -9,6 +9,7 @@ CORNELL_DINING_URL = 'https://now.dining.cornell.edu/api/1.0/dining/eateries.jso
 CORNELL_INSTITUTION_ID = '73116ae4-22ad-4c71-8ffd-11ba015407b1'
 GET_URL = 'https://services.get.cbord.com/GETServices/services/json'
 GIT_CONTENT_URL = 'https://raw.githubusercontent.com/cuappdev'
+IGNORE_LOCATIONS = ['BS-No Bill Workstation', 'Admin Workstation (B)']
 IMAGES_URL = GIT_CONTENT_URL + '/assets/master/eatery/eatery-images/'
 NUM_DAYS_STORED_IN_DB = 8
 PAY_METHODS = {
