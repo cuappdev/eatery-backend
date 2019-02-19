@@ -10,6 +10,7 @@ from src.constants import (
     ACCOUNT_NAMES,
     CORNELL_INSTITUTION_ID,
     GET_URL,
+    IGNORE_LOCATIONS,
 )
 from src.types import (
     AccountInfoType,
@@ -135,10 +136,15 @@ class Query(ObjectType):
     account_info['history'] = []
 
     for t in transactions:
+      if ACCOUNT_NAMES['brbs'] not in t['accountName'] or t['locationName'] in IGNORE_LOCATIONS:
+        continue
       dt_utc = parser.parse(t['actualDate']).astimezone(pytz.timezone('UTC'))
       dt_est = dt_utc.astimezone(pytz.timezone('US/Eastern'))
       new_transaction = {
-          'name': t['locationName'],
+          'amount': t['amount'],
+          'name': t['locationName'][:t['locationName'].rfind(' ')],
+          # removes the register numbers at the end of the string by taking the substring up until
+          # the last space (right before the number)
           'timestamp': dt_est.strftime("%D at %I:%M %p")
       }
       account_info['history'].append(TransactionType(**new_transaction))
