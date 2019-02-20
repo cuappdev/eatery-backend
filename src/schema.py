@@ -10,7 +10,6 @@ from src.constants import (
     ACCOUNT_NAMES,
     CORNELL_INSTITUTION_ID,
     GET_URL,
-    SWIPE_PLANS,
     IGNORE_LOCATIONS,
     SWIPE_PLANS,
 )
