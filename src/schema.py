@@ -11,6 +11,7 @@ from src.constants import (
     CORNELL_INSTITUTION_ID,
     GET_URL,
     IGNORE_LOCATIONS,
+    SWIPE_PLANS,
 )
 from src.types import (
     AccountInfoType,
@@ -101,6 +102,7 @@ class Query(ObjectType):
     account_info['brbs'] = '0.00'
     account_info['city_bucks'] = '0.00'
     account_info['laundry'] = '0.00'
+    account_info['swipes'] = ''
     for acct in accounts:
       if acct['accountDisplayName'] == ACCOUNT_NAMES['citybucks']:
         account_info['city_bucks'] = str("{0:.2f}".format(round(acct['balance'], 2)))
@@ -108,9 +110,8 @@ class Query(ObjectType):
         account_info['laundry'] = str("{0:.2f}".format(round(acct['balance'], 2)))
       elif ACCOUNT_NAMES['brbs'] in acct['accountDisplayName']:
         account_info['brbs'] = str("{0:.2f}".format(round(acct['balance'], 2)))
-      # Need more research to implement swipes:
-      # Each plan has a different accountDisplayName
-      account_info['swipes'] = ''
+      elif any(meal_swipe_name in acct['accountDisplayName'] for meal_swipe_name in SWIPE_PLANS):
+        account_info['swipes'] = str(acct['balance'])
 
     # Query 3: Get list of transactions
     transactions = requests.post(
