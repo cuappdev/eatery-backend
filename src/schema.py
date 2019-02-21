@@ -10,6 +10,8 @@ from src.constants import (
     ACCOUNT_NAMES,
     CORNELL_INSTITUTION_ID,
     GET_URL,
+    IGNORE_LOCATIONS,
+    SWIPE_PLANS,
 )
 from src.types import (
     AccountInfoType,
@@ -100,6 +102,7 @@ class Query(ObjectType):
     account_info['brbs'] = '0.00'
     account_info['city_bucks'] = '0.00'
     account_info['laundry'] = '0.00'
+    account_info['swipes'] = ''
     for acct in accounts:
       if acct['accountDisplayName'] == ACCOUNT_NAMES['citybucks']:
         account_info['city_bucks'] = str("{0:.2f}".format(round(acct['balance'], 2)))
@@ -107,9 +110,8 @@ class Query(ObjectType):
         account_info['laundry'] = str("{0:.2f}".format(round(acct['balance'], 2)))
       elif ACCOUNT_NAMES['brbs'] in acct['accountDisplayName']:
         account_info['brbs'] = str("{0:.2f}".format(round(acct['balance'], 2)))
-      # Need more research to implement swipes:
-      # Each plan has a different accountDisplayName
-      account_info['swipes'] = ''
+      elif any(meal_swipe_name in acct['accountDisplayName'] for meal_swipe_name in SWIPE_PLANS):
+        account_info['swipes'] = str(acct['balance'])
 
     # Query 3: Get list of transactions
     transactions = requests.post(
@@ -135,10 +137,15 @@ class Query(ObjectType):
     account_info['history'] = []
 
     for t in transactions:
+      if ACCOUNT_NAMES['brbs'] not in t['accountName'] or t['locationName'] in IGNORE_LOCATIONS:
+        continue
       dt_utc = parser.parse(t['actualDate']).astimezone(pytz.timezone('UTC'))
       dt_est = dt_utc.astimezone(pytz.timezone('US/Eastern'))
       new_transaction = {
-          'name': t['locationName'],
+          'amount': t['amount'],
+          'name': t['locationName'][:t['locationName'].rfind(' ')],
+          # removes the register numbers at the end of the string by taking the substring up until
+          # the last space (right before the number)
           'timestamp': dt_est.strftime("%D at %I:%M %p")
       }
       account_info['history'].append(TransactionType(**new_transaction))

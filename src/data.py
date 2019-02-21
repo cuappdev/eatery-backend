@@ -43,7 +43,6 @@ def start_update():
     data_json = dining_query.json()
     parse_eatery(data_json)
     merge_hours(campus_eateries)
-    fill_empty_menus(campus_eateries)
     static_json = requests.get(STATIC_EATERIES_URL).json()
     parse_static_eateries(static_json)
     Data.update_data(campus_eateries)
@@ -65,19 +64,18 @@ def parse_eatery(data_json):
 
     new_eatery = CampusEateryType(
         about=eatery.get('about', ''),
-        about_short=eatery.get('aboutshort', ''),
         campus_area=parse_campus_area(eatery),
         coordinates=parse_coordinates(eatery),
         eatery_type=parse_eatery_type(eatery),
         id=eatery_id,
-        image_url=get_image_url(eatery.get('slug')),
+        image_url=get_image_url(eatery.get('slug', '')),
         location=eatery.get('location', ''),
         name=eatery.get('name', ''),
         name_short=eatery.get('nameshort', ''),
-        operating_hours=parse_operating_hours(eatery, eatery_id, dining_items),
+        operating_hours=parse_operating_hours(eatery, dining_items),
         payment_methods=parse_payment_methods(eatery['payMethods']),
         phone=phone,
-        slug=eatery.get('slug')
+        slug=eatery.get('slug', '')
     )
     campus_eateries[new_eatery.id] = new_eatery
 
@@ -94,7 +92,7 @@ def parse_payment_methods(methods):
   payment_methods.swipes = any(pay['descrshort'] == PAY_METHODS['swipes'] for pay in methods)
   return payment_methods
 
-def parse_operating_hours(eatery, eatery_id, dining_items):
+def parse_operating_hours(eatery, dining_items):
   new_operating_hours = []
   hours_list = eatery['operatingHours']
   for hours in hours_list:
@@ -107,40 +105,33 @@ def parse_operating_hours(eatery, eatery_id, dining_items):
 
     new_operating_hour = OperatingHoursType(
         date=new_date,
-        events=parse_events(hours_events, eatery_id, new_date),
-        status=hours.get('status', '')
+        events=parse_events(hours_events, new_date)
     )
     new_operating_hours.append(new_operating_hour)
   return new_operating_hours
 
-def parse_events(event_list, eatery_id, event_date):
+def parse_events(event_list, event_date):
   new_events = []
   for event in event_list:
     start, end = format_time(event.get('start', ''), event.get('end', ''), event_date)
-    stations = parse_food_stations(event['menu'], eatery_id)
     new_event = EventType(
         cal_summary=event.get('calSummary', ''),
         description=event.get('descr', ''),
         end_time=end,
-        menu=stations,
-        start_time=start,
-        station_count=len(stations)
+        menu=parse_food_stations(event.get('menu', [])),
+        start_time=start
     )
     new_events.append(new_event)
   return new_events
 
-def parse_food_stations(station_list, eatery_id):
+def parse_food_stations(station_list):
   new_stations = []
   if len(station_list) == 1 and not station_list[0]['items']:  # no menu actually provided
     return new_stations
   for station in station_list:
-    default_index = len(new_stations)
-    station_items = parse_food_items(station['items'])
     new_station = FoodStationType(
         category=station.get('category', ''),
-        items=station_items,
-        item_count=len(station_items),
-        sort_idx=station.get('sortIdx', default_index)
+        items=parse_food_items(station.get('items', []))
     )
     new_stations.append(new_station)
   return new_stations
@@ -148,12 +139,10 @@ def parse_food_stations(station_list, eatery_id):
 def parse_food_items(item_list):
   new_food_items = []
   for item in item_list:
-    default_index = len(new_food_items)
     new_food_items.append(
         FoodItemType(
             healthy=item.get('healthy', False),
-            item=item.get('item', ''),
-            sort_idx=item.get('sortIdx', default_index)
+            item=item.get('item', '')
         )
     )
   return new_food_items
@@ -161,11 +150,9 @@ def parse_food_items(item_list):
 def parse_dining_items(eatery):
   dining_items = {'items': []}
   for item in eatery['diningItems']:
-    default_index = len(dining_items['items'])
     dining_items['items'].append({
         'healthy': item.get('healthy', False),
-        'item': item.get('item', ''),
-        'sortIdx': item.get('sortIdx', default_index)
+        'item': item.get('item', '')
     })
   return [dining_items]
 
@@ -182,32 +169,26 @@ def parse_coordinates(eatery):
 def parse_campus_area(eatery):
   description, description_short = '', ''
   if 'campusArea' in eatery:
-    description = eatery['campusArea']['descr']
     description_short = eatery['campusArea']['descrshort']
   return CampusAreaType(
-      description=description,
       description_short=description_short
   )
 
 def parse_static_eateries(static_json):
   for eatery in static_json['eateries']:
-    new_id = eatery.get('id', resolve_id(eatery))
-    dining_items = parse_dining_items(eatery)
     new_eatery = CampusEateryType(
         about=eatery.get('about', ''),
-        about_short=eatery.get('aboutshort', ''),
         campus_area=parse_campus_area(eatery),
         coordinates=parse_coordinates(eatery),
         eatery_type=parse_eatery_type(eatery),
-        id=new_id,
+        id=eatery.get('id', resolve_id(eatery)),
         image_url=get_image_url(eatery.get('slug')),
         location=eatery.get('location', ''),
         name=eatery.get('name', ''),
         name_short=eatery.get('nameshort', ''),
         operating_hours=parse_static_op_hours(
             eatery.get('operatingHours', []),
-            new_id,
-            dining_items,
+            parse_dining_items(eatery),
             eatery.get('datesClosed', [])
         ),
         payment_methods=parse_payment_methods(eatery.get('payMethods', [])),
@@ -235,7 +216,7 @@ def parse_eatery_type(eatery):
   except Exception:
     return 'Unknown'
 
-def parse_static_op_hours(hours_list, eatery_id, dining_items, dates_closed):
+def parse_static_op_hours(hours_list, dining_items, dates_closed):
   weekdays = {}
   for hours in hours_list:
     if '-' in hours['weekday']:
@@ -272,8 +253,7 @@ def parse_static_op_hours(hours_list, eatery_id, dining_items, dates_closed):
       new_operating_hours.append(
           OperatingHoursType(
               date=new_date.isoformat(),
-              events=parse_events(new_events, eatery_id, new_date.isoformat()),
-              status='EVENTS'
+              events=parse_events(new_events, new_date.isoformat())
           )
       )
   return new_operating_hours
@@ -309,21 +289,6 @@ def format_time(start_time, end_time, start_date, hr24=False, overnight=False):
 def get_trillium_menu():
   static_json = requests.get(STATIC_MENUS_URL).json()
   return parse_dining_items(static_json['Trillium'][0])
-
-def fill_empty_menus(eateries):
-  # may no longer be necessary, merge_hours seems to fill this purpose
-  for eatery in eateries.values():
-    for operating_hour in eatery.operating_hours:
-      # need to choose event with data we want to copy
-      if len(operating_hour.events) <= 1 or not operating_hour.events[0].menu:  # ignore these
-        continue
-      base_event = operating_hour.events[0]
-      for event in operating_hour.events:
-        if not event.menu:
-          # print never shows up so I think this method is now useless
-          print('filling menu for {} on {}'.format(eatery.name, operating_hour.date))
-          event.menu = base_event.menu
-          event.station_count = base_event.station_count
 
 def merge_hours(eateries):
   for eatery in eateries.values():
