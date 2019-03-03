@@ -52,8 +52,6 @@ SWIPE_PLANS = ['Bear Basic', 'Bear Choice', 'Bear Traditional']
 TRILLIUM_ID = 23
 UPDATE_DELAY = 86400  # 24 hours in seconds
 UPDATE_DELAY_TESTING = 60  # 1 minute in seconds
-# [M, T, W, Th, F, St, S]
-# [0, 1, 2, 3, 4, 5, 6]
 WEEKDAYS = {
     'monday': 0,
     'tuesday': 1,

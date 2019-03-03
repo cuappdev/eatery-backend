@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.DS_Store
 
 # Distribution / packaging
 .Python
@@ -21,3 +22,9 @@ MANIFEST
 # Environments
 .env
 venv/
+
+# Swipe Data
+server.pem
+instructions.txt
+data.log
+*.csv
