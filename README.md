@@ -10,7 +10,7 @@ Technologies involved include:
 Virtualenv setup!
 
 ```bash
-virtualenv venv
+virtualenv -p python3.7 venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
@@ -21,6 +21,7 @@ The required environment variables for this API are the following:
 
 ```bash
 FLASK_ENV=development
+YELP_API_KEY=API_KEY
 ```
 
 To use `autoenv` with this repository, run the following and set the variables appropriately.

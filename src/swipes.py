@@ -58,6 +58,7 @@ def parse_to_csv(file_name='data.csv', limit=-1):
         update_info['old_data'] = df
         print('marker and old data found')
 
+<<<<<<< HEAD
       # read most recent data first
       for line in list(reversed(swipe_data.readlines())):
         if line_counter == limit:  # limit used for testing purposes
@@ -95,6 +96,41 @@ def parse_to_csv(file_name='data.csv', limit=-1):
         # print(timestamp_str)
         session_type = sort_session_type(date, breaks)
         weekday = weekdays[timestamp.weekday()]
+=======
+def parse_to_csv(limit=-1):
+  """
+  Takes in a data.log file of swipe logs and converts them to a tabular format.
+  Argument limit: used to limit number of logs to parse (for testing.
+  Creates one csv file (updates file if already exists):
+  data.csv - stores all swipe events
+    date: date of swipe event, string (mm/dd/yyyy)
+    weekday: weekday of swipe event, string (ex: monday, tuesday, etc.)
+    in_session: whether or not school is on a break, boolean
+    location: eatery of swipe event, string (some locations have different names than dining.now's)
+    start_time: left edge of timeblock, string (hh:mm AM/PM)
+    end_time: right edge of timeblock, string (hh:mm AM/PM)
+    swipes: number of swipes, int
+  """
+  weekdays = {index: day for day, index in WEEKDAYS.items()} # invert our weekday -> index dict
+  with open('data.log', 'r') as swipe_data:
+    i = 0
+    line_counter = 0
+    data_list = []
+    for line in swipe_data:
+      if line_counter == limit:
+        break
+      try:
+        # skip over empty log lines (the odd lines)
+        if i % 2 == 1:
+          i += 1
+          continue
+        obj = json.loads(line)
+        if obj['TIMESTAMP'] == 'Invalid date':
+          raise Exception
+        date = datetime.strptime(obj['TIMESTAMP'], '%Y-%m-%d %I:%M:00 %p')
+        in_session = True  # TODO: add dating logic to determine
+        weekday = weekdays[date.weekday()]
+>>>>>>> Add documentation
         # sort time into a time block
         if timestamp.minute > 30:
           delta = timedelta(minutes=30)
@@ -114,6 +150,7 @@ def parse_to_csv(file_name='data.csv', limit=-1):
           if location not in LOCATION_NAMES:
             continue
           data_list.append(pd.DataFrame(data={
+<<<<<<< HEAD
               'date': timestamp.strftime('%m/%d/%Y'),
               'end_time': end_time,
               'session_type': session_type,
@@ -149,12 +186,38 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
   tb-averages.csv - the timeblock swipe averages
     session_type: type of class session (regular, winter, summer, finals, etc.)
     weekday: weekday of swipe event, string (ex: monday, tuesday, etc.)
+=======
+              'date': date.strftime('%m/%d/%Y'),
+              'end_time': end_time,
+              'in_session': in_session,
+              'location': place['UNIT_NAME'],
+              'start_time': start_time,
+              'swipes': place['CROWD_COUNT'],
+              'weekday': weekday,
+          }, index=[0]))
+      except Exception as e:
+        print(e)
+      i += 1
+      line_counter += 1
+    print('done parsing data.log')
+    df = pd.concat(data_list)
+    df.to_csv('data.csv', header=True, index=False)
+
+def sort_csv():
+  """
+  Sorts and runs average swipe/time calculations.
+  Creates two csv files (updates files if already exists):
+  tb-averages.csv - the timeblock swipe averages
+    weekday: weekday of swipe event, string (ex: monday, tuesday, etc.)
+    in_session: whether or not school is on a break, boolean
+>>>>>>> Add documentation
     location: eatery of swipe event, string (some locations have different names than dining.now's)
     start_time: left edge of timeblock, string (hh:mm AM/PM)
     end_time: right edge of timeblock, string (hh:mm AM/PM)
     swipes: number of swipes, int
     counter: number of events within this timeblock (used to calculate average), int
     average: average number of swipes in this timeblock, float (2 decimals)
+<<<<<<< HEAD
   """
   try:
     df = pd.read_csv(input_file_path)
@@ -182,6 +245,8 @@ def sort_by_day(input_file_path, output_file = 'daily-averages.csv'):
   """
   Sorts and runs average swipe/time calculations.
   Saves to a csv file (updates files if already exists):
+=======
+>>>>>>> Add documentation
   daily-averages.csv - the daily swipe averages
     weekday: weekday of swipe event, string (ex: monday, tuesday, etc.)
     in_session: whether or not school is on a break, boolean
@@ -190,6 +255,7 @@ def sort_by_day(input_file_path, output_file = 'daily-averages.csv'):
     counter: number of events within this timeblock (used to calculate average), int
     average: average number of swipes in this timeblock, float (2 decimals)
   """
+<<<<<<< HEAD
   try:
     df = pd.read_csv(input_file_path)
     df = df.drop(columns=['start_time', 'end_time', 'dining_hall', 'brb_only'])
@@ -278,3 +344,60 @@ def sort_session_type(date, breaks):
       # print(label)
       return label
   return 'regular'
+=======
+  df = pd.read_csv('data.csv')
+  # make copies
+  df_daily = df.copy(deep=True).drop(columns=['start_time', 'end_time'])
+  df_timeblock = df.copy(deep=True)
+  # begin time block calculations
+  df_timeblock = df_timeblock.groupby(['weekday', 'start_time', 'end_time', 'location', 'swipes', 'in_session']).count().reset_index()
+  df_timeblock = df_timeblock.rename(index=str, columns={'date': 'counter'})
+  # sum together swipes and counters for rows with the same timeblock and location
+  df_timeblock = df_timeblock.groupby(['weekday', 'start_time', 'end_time', 'location', 'in_session']).sum().reset_index()
+
+  # TODO: fixing counting errors
+  # for location in df_timeblock['location'].unique():
+  #   max_count = df_timeblock.loc[df_timeblock['location'] == location].max()[-1]
+  #   print(location, max_count)
+  #   # print(df_timeblock.loc[df_timeblock['location'] == location]['counter'])
+  #   df_timeblock.loc[df_timeblock['location'] == location]['counter'] = max_count
+  #   print(df_timeblock.loc[df_timeblock['location'] == location]['counter'])
+  #   # df_timeblock.where(df_timeblock['location'] == location)['counter'] = max_count
+
+  df_timeblock['average'] = np.around(np.divide(df_timeblock['swipes'], df_timeblock['counter']), decimals=2)
+  df_timeblock = df_timeblock.sort_values(by=['location', 'weekday'])
+  df_timeblock.to_csv('tb-averages.csv', header=True, index=False)
+
+  # begin daily calculations
+  df_daily = df_daily.groupby(['date', 'weekday', 'location', 'in_session']).sum().reset_index()
+  # count the number of times a location/date pair occur
+  df_daily = df_daily.groupby(['weekday', 'location', 'swipes', 'in_session']).count().reset_index()
+  df_daily = df_daily.rename(index=str, columns={'date': 'counter'})
+  # sum swipes and counters for rows with the same weekday and location
+  df_daily = df_daily.groupby(['weekday', 'location', 'in_session']).sum().reset_index()
+  df_daily['average'] = np.around(np.divide(df_daily['swipes'], df_daily['counter']), decimals=2)
+  df_daily = df_daily.sort_values(by=['location', 'weekday'])
+  df_daily.to_csv('daily-averages.csv', header=True, index=False)
+
+def export_data(file):
+  """
+  Transforms our tabular data into custom objects to be placed in Eatery objects
+  """
+  df = pd.read_csv(file)
+  data = {}
+  today = date.today().weekday()
+  in_session = True  # add actual logic in future
+  for location in df['location'].unique():
+    # look at information that pertains to today's criteria
+    new_df = df.loc[df['location'] == location and df['weekday'] == today and df['in_session'] == in_session]
+    json_data = json.loads(new_df.to_json(orient='table'))
+    for row in json_data['data']:
+      new_timeblock = SwipeDataType(
+          average_swipes=row['average'],
+          end_time=row['end_time'],
+          in_session=row['in_session'],
+          start_time=row['start_time'],
+      )
+    data[location] = [new_timeblock] if not data[location] else data[location].append(new_timeblock)
+  return data
+>>>>>>> Add documentation
