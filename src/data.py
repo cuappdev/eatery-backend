@@ -422,8 +422,9 @@ def merge_hours(eateries):
       if len(operating_hour.events) <= 1:  # ignore hours that don't have multiple events
         continue
       base_event = operating_hour.events[0]
-      for event in operating_hour.events[:]:  # iterate over copy of list so we can safely remove
-        if event.start_time == base_event.end_time and not event.menu:
+      for event in operating_hour.events[1:]:  # iterate over copy of list so we can safely remove
+        if event.start_time == base_event.end_time and \
+            (not event.menu or event.menu[0].equals(base_event.menu[0])):
           base_event.end_time = event.end_time
           operating_hour.events.remove(event)
           print('merged events for {} on {}'.format(eatery.name, operating_hour.date))
