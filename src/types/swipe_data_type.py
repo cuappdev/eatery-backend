@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 from graphene import Float, Int, ObjectType, String
+=======
+from graphene import Boolean, Float, ObjectType, String
+>>>>>>> Transfer swipe data into CampusEateryType
 
 class SwipeDataType(ObjectType):
 <<<<<<< HEAD

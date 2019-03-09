@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 
 from src.constants import (
+<<<<<<< HEAD
   BRB_ONLY,
   DINING_HALL,
   EATERY_DATA_PATH,
@@ -14,6 +15,9 @@ from src.constants import (
   ISOLATE_DATE,
   ISOLATE_SWIPES,
   WAIT_TIME_CONVERSION,
+=======
+  LOCATION_NAMES,
+>>>>>>> Transfer swipe data into CampusEateryType
   WEEKDAYS,
 )
 from src.eatery import string_to_date_range
@@ -24,6 +28,7 @@ breaks = {}
 for label, dates in SCHOOL_BREAKS.items():
   breaks[label] = string_to_date_range(dates)
 
+<<<<<<< HEAD
 def parse_to_csv(file_name='data.csv', limit=-1):
   """
   Takes in a data.log file of swipe logs and converts them to a tabular format.
@@ -98,6 +103,11 @@ def parse_to_csv(file_name='data.csv', limit=-1):
         weekday = weekdays[timestamp.weekday()]
 =======
 def parse_to_csv(limit=-1):
+=======
+weekdays = {index: day for day, index in WEEKDAYS.items()} # invert our weekday -> index dict
+
+def parse_to_csv(file_name='data.csv', limit=-1):
+>>>>>>> Transfer swipe data into CampusEateryType
   """
   Takes in a data.log file of swipe logs and converts them to a tabular format.
   Argument limit: used to limit number of logs to parse (for testing.
@@ -111,8 +121,8 @@ def parse_to_csv(limit=-1):
     end_time: right edge of timeblock, string (hh:mm AM/PM)
     swipes: number of swipes, int
   """
-  weekdays = {index: day for day, index in WEEKDAYS.items()} # invert our weekday -> index dict
-  with open('data.log', 'r') as swipe_data:
+  global weekdays
+  with open('src/data.log', 'r') as swipe_data:
     i = 0
     line_counter = 0
     data_list = []
@@ -201,9 +211,10 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
       line_counter += 1
     print('done parsing data.log')
     df = pd.concat(data_list)
-    df.to_csv('data.csv', header=True, index=False)
+    df.to_csv(file_name, header=True, index=False)
+    return sort_csv(file_name)
 
-def sort_csv():
+def sort_csv(file, output_file1='tb-averages.csv', output_file2='daily-averages.csv'):
   """
   Sorts and runs average swipe/time calculations.
   Creates two csv files (updates files if already exists):
@@ -255,6 +266,7 @@ def sort_by_day(input_file_path, output_file = 'daily-averages.csv'):
     counter: number of events within this timeblock (used to calculate average), int
     average: average number of swipes in this timeblock, float (2 decimals)
   """
+<<<<<<< HEAD
 <<<<<<< HEAD
   try:
     df = pd.read_csv(input_file_path)
@@ -346,6 +358,9 @@ def sort_session_type(date, breaks):
   return 'regular'
 =======
   df = pd.read_csv('data.csv')
+=======
+  df = pd.read_csv(file)
+>>>>>>> Transfer swipe data into CampusEateryType
   # make copies
   df_daily = df.copy(deep=True).drop(columns=['start_time', 'end_time'])
   df_timeblock = df.copy(deep=True)
@@ -366,7 +381,7 @@ def sort_session_type(date, breaks):
 
   df_timeblock['average'] = np.around(np.divide(df_timeblock['swipes'], df_timeblock['counter']), decimals=2)
   df_timeblock = df_timeblock.sort_values(by=['location', 'weekday'])
-  df_timeblock.to_csv('tb-averages.csv', header=True, index=False)
+  df_timeblock.to_csv(output_file1, header=True, index=False)
 
   # begin daily calculations
   df_daily = df_daily.groupby(['date', 'weekday', 'location', 'in_session']).sum().reset_index()
@@ -377,19 +392,25 @@ def sort_session_type(date, breaks):
   df_daily = df_daily.groupby(['weekday', 'location', 'in_session']).sum().reset_index()
   df_daily['average'] = np.around(np.divide(df_daily['swipes'], df_daily['counter']), decimals=2)
   df_daily = df_daily.sort_values(by=['location', 'weekday'])
-  df_daily.to_csv('daily-averages.csv', header=True, index=False)
+  df_daily.to_csv(output_file2, header=True, index=False)
+  return {'timeblock': output_file1, 'daily': output_file2}
 
 def export_data(file):
   """
   Transforms our tabular data into custom objects to be placed in Eatery objects
   """
+  global weekdays
   df = pd.read_csv(file)
   data = {}
-  today = date.today().weekday()
+  today = weekdays[date.today().weekday()]
   in_session = True  # add actual logic in future
   for location in df['location'].unique():
+    # remove locations that are not eateries we care about
+    if location not in LOCATION_NAMES:
+      continue
+    true_location = LOCATION_NAMES[location]
     # look at information that pertains to today's criteria
-    new_df = df.loc[df['location'] == location and df['weekday'] == today and df['in_session'] == in_session]
+    new_df = df.loc[(df['location'] == location) & (df['weekday'] == today) & (df['in_session'] == in_session)]
     json_data = json.loads(new_df.to_json(orient='table'))
     for row in json_data['data']:
       new_timeblock = SwipeDataType(
@@ -398,6 +419,9 @@ def export_data(file):
           in_session=row['in_session'],
           start_time=row['start_time'],
       )
-    data[location] = [new_timeblock] if not data[location] else data[location].append(new_timeblock)
+      if true_location not in data:
+        data[true_location] = [new_timeblock]
+      else:
+        data[true_location].append(new_timeblock)
   return data
 >>>>>>> Add documentation
