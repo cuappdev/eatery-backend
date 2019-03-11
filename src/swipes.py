@@ -11,6 +11,7 @@ from src.constants import (
   EATERY_DATA_PATH,
   LOCATION_NAMES,
   SCHOOL_BREAKS,
+<<<<<<< HEAD
   ISOLATE_COUNTER_SWIPES,
   ISOLATE_DATE,
   ISOLATE_SWIPES,
@@ -18,10 +19,13 @@ from src.constants import (
 =======
   LOCATION_NAMES,
 >>>>>>> Transfer swipe data into CampusEateryType
+=======
+>>>>>>> Replace in_session with session_type
   WEEKDAYS,
 )
 from src.eatery import string_to_date_range
 from src.types import SwipeDataType
+<<<<<<< HEAD
 
 weekdays = {index: day for day, index in WEEKDAYS.items()} # invert our weekday -> index dict
 breaks = {}
@@ -62,6 +66,8 @@ def parse_to_csv(file_name='data.csv', limit=-1):
         df.drop(marker_row.index, inplace=True)  # remove previous time marker
         update_info['old_data'] = df
         print('marker and old data found')
+=======
+>>>>>>> Replace in_session with session_type
 
 <<<<<<< HEAD
       # read most recent data first
@@ -105,6 +111,9 @@ def parse_to_csv(file_name='data.csv', limit=-1):
 def parse_to_csv(limit=-1):
 =======
 weekdays = {index: day for day, index in WEEKDAYS.items()} # invert our weekday -> index dict
+breaks = {}
+for label, dates in SCHOOL_BREAKS.items():
+  breaks[label] = string_to_date_range(dates)
 
 def parse_to_csv(file_name='data.csv', limit=-1):
 >>>>>>> Transfer swipe data into CampusEateryType
@@ -121,6 +130,7 @@ def parse_to_csv(file_name='data.csv', limit=-1):
     end_time: right edge of timeblock, string (hh:mm AM/PM)
     swipes: number of swipes, int
   """
+  global breaks
   global weekdays
   with open('src/data.log', 'r') as swipe_data:
     i = 0
@@ -137,10 +147,17 @@ def parse_to_csv(file_name='data.csv', limit=-1):
         obj = json.loads(line)
         if obj['TIMESTAMP'] == 'Invalid date':
           raise Exception
+<<<<<<< HEAD
         date = datetime.strptime(obj['TIMESTAMP'], '%Y-%m-%d %I:%M:00 %p')
         in_session = True  # TODO: add dating logic to determine
         weekday = weekdays[date.weekday()]
 >>>>>>> Add documentation
+=======
+        timestamp = datetime.strptime(obj['TIMESTAMP'], '%Y-%m-%d %I:%M:00 %p')
+        date = timestamp.date()
+        session_type = sort_session_type(date, breaks)
+        weekday = weekdays[timestamp.weekday()]
+>>>>>>> Replace in_session with session_type
         # sort time into a time block
         if timestamp.minute > 30:
           delta = timedelta(minutes=30)
@@ -160,6 +177,7 @@ def parse_to_csv(file_name='data.csv', limit=-1):
           if location not in LOCATION_NAMES:
             continue
           data_list.append(pd.DataFrame(data={
+<<<<<<< HEAD
 <<<<<<< HEAD
               'date': timestamp.strftime('%m/%d/%Y'),
               'end_time': end_time,
@@ -198,8 +216,11 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
     weekday: weekday of swipe event, string (ex: monday, tuesday, etc.)
 =======
               'date': date.strftime('%m/%d/%Y'),
+=======
+              'date': timestamp.strftime('%m/%d/%Y'),
+>>>>>>> Replace in_session with session_type
               'end_time': end_time,
-              'in_session': in_session,
+              'session_type': session_type,
               'location': place['UNIT_NAME'],
               'start_time': start_time,
               'swipes': place['CROWD_COUNT'],
@@ -365,10 +386,10 @@ def sort_session_type(date, breaks):
   df_daily = df.copy(deep=True).drop(columns=['start_time', 'end_time'])
   df_timeblock = df.copy(deep=True)
   # begin time block calculations
-  df_timeblock = df_timeblock.groupby(['weekday', 'start_time', 'end_time', 'location', 'swipes', 'in_session']).count().reset_index()
+  df_timeblock = df_timeblock.groupby(['weekday', 'start_time', 'end_time', 'location', 'swipes', 'session_type']).count().reset_index()
   df_timeblock = df_timeblock.rename(index=str, columns={'date': 'counter'})
   # sum together swipes and counters for rows with the same timeblock and location
-  df_timeblock = df_timeblock.groupby(['weekday', 'start_time', 'end_time', 'location', 'in_session']).sum().reset_index()
+  df_timeblock = df_timeblock.groupby(['weekday', 'start_time', 'end_time', 'location', 'session_type']).sum().reset_index()
 
   # TODO: fixing counting errors
   # for location in df_timeblock['location'].unique():
@@ -384,12 +405,12 @@ def sort_session_type(date, breaks):
   df_timeblock.to_csv(output_file1, header=True, index=False)
 
   # begin daily calculations
-  df_daily = df_daily.groupby(['date', 'weekday', 'location', 'in_session']).sum().reset_index()
+  df_daily = df_daily.groupby(['date', 'weekday', 'location', 'session_type']).sum().reset_index()
   # count the number of times a location/date pair occur
-  df_daily = df_daily.groupby(['weekday', 'location', 'swipes', 'in_session']).count().reset_index()
+  df_daily = df_daily.groupby(['weekday', 'location', 'swipes', 'session_type']).count().reset_index()
   df_daily = df_daily.rename(index=str, columns={'date': 'counter'})
   # sum swipes and counters for rows with the same weekday and location
-  df_daily = df_daily.groupby(['weekday', 'location', 'in_session']).sum().reset_index()
+  df_daily = df_daily.groupby(['weekday', 'location', 'session_type']).sum().reset_index()
   df_daily['average'] = np.around(np.divide(df_daily['swipes'], df_daily['counter']), decimals=2)
   df_daily = df_daily.sort_values(by=['location', 'weekday'])
   df_daily.to_csv(output_file2, header=True, index=False)
@@ -399,24 +420,26 @@ def export_data(file):
   """
   Transforms our tabular data into custom objects to be placed in Eatery objects
   """
+  global breaks
   global weekdays
   df = pd.read_csv(file)
   data = {}
-  today = weekdays[date.today().weekday()]
-  in_session = True  # add actual logic in future
+  today = date.today()
+  session_type = sort_session_type(today, breaks)
   for location in df['location'].unique():
     # remove locations that are not eateries we care about
     if location not in LOCATION_NAMES:
       continue
     true_location = LOCATION_NAMES[location]
     # look at information that pertains to today's criteria
-    new_df = df.loc[(df['location'] == location) & (df['weekday'] == today) & (df['in_session'] == in_session)]
+    # df['weekday'] == weekdays[today.weekday()]
+    new_df = df.loc[(df['location'] == location) & (df['weekday'] == 'monday') & (df['session_type'] == session_type)]
     json_data = json.loads(new_df.to_json(orient='table'))
     for row in json_data['data']:
       new_timeblock = SwipeDataType(
           average_swipes=row['average'],
           end_time=row['end_time'],
-          in_session=row['in_session'],
+          session_type=row['session_type'],
           start_time=row['start_time'],
       )
       if true_location not in data:
@@ -424,4 +447,16 @@ def export_data(file):
       else:
         data[true_location].append(new_timeblock)
   return data
+<<<<<<< HEAD
 >>>>>>> Add documentation
+=======
+
+def sort_session_type(date, breaks):
+  """
+  sorts the given date to the proper session_type
+  """
+  for label, dates in breaks.items():
+    if dates[0] <= date <= dates[1]:
+      return label
+  return 'regular'
+>>>>>>> Replace in_session with session_type

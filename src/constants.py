@@ -55,6 +55,16 @@ PAY_METHODS = {
     'mobile': 'Mobile Payments',
     'swipes': 'Meal Plan - Swipe'
 }
+SCHOOL_BREAKS = {
+  'fall': '10/6/18-10/9/18',
+  'thanksgiving': '11/21/18-11/25/18',
+  'finals_winter': '12/5/18-12/15/18',
+  'winter': '12/16/18-1/21/19',
+  'february': '2/23/19-2/26/19',
+  'spring': '3/30/19-4/7/19',
+  'finals_spring': '5/8/19-5/18/19',
+  'summer': '5/19/19-8/28/19'
+}
 STATIC_EATERIES_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/externalEateries.json'
 STATIC_CTOWN_HOURS_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/externalHours.json'
 STATIC_MENUS_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/hardcodedMenus.json'

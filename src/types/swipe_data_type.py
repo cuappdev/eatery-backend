@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 from graphene import Float, Int, ObjectType, String
 =======
 from graphene import Boolean, Float, ObjectType, String
 >>>>>>> Transfer swipe data into CampusEateryType
+=======
+from graphene import Float, ObjectType, String
+>>>>>>> Replace in_session with session_type
 
 class SwipeDataType(ObjectType):
 <<<<<<< HEAD
@@ -14,7 +18,7 @@ class SwipeDataType(ObjectType):
   wait_time_low = Int(required=True)
 =======
   average_swipes = Float(required=True)
-  in_session = Boolean(required=True)
+  session_type = String(required=True)
   end_time = String(required=True)
   start_time = String(required=True)
 >>>>>>> Add documentation
