@@ -3,7 +3,6 @@ ACCOUNT_NAMES = {
     'citybucks': 'CB1 City Bucks',
     'cornell_card': 'CC1 Cornell Card',
     'laundry': 'LAU Sem Laundry'
-    # 'swipes': TBD
 }
 CORNELL_DINING_URL = 'https://now.dining.cornell.edu/api/1.0/dining/eateries.json'
 CORNELL_INSTITUTION_ID = '73116ae4-22ad-4c71-8ffd-11ba015407b1'

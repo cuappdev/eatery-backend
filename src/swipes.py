@@ -2,6 +2,7 @@ from os.path import isfile
 from datetime import date, datetime, timedelta
 import json
 import numpy as np
+from os.path import isfile
 import pandas as pd
 
 from src.constants import (
@@ -136,17 +137,27 @@ def parse_to_csv(file_name='data.csv', limit=-1):
     i = 0
     line_counter = 0
     data_list = []
-    for line in swipe_data:
+    update_info = {}
+    if isfile('./{}'.format(file_name)):
+      df = pd.read_csv(file_name)
+      marker_row = df.head(1)
+      update_info['end'] = marker_row
+      df.drop(marker_row.index, inplace=True)
+      update_info['old_data'] = df
+    # read most recent data first
+    for line in list(reversed(swipe_data.readlines())):
       if line_counter == limit:
         break
       try:
-        # skip over empty log lines (the odd lines)
-        if i % 2 == 1:
+        # skip over empty log lines (odd lines going forward, even lines goind reversed)
+        if i % 2 == 0:
           i += 1
           continue
         obj = json.loads(line)
-        if obj['TIMESTAMP'] == 'Invalid date':
+        timestamp_str = obj['TIMESTAMP']
+        if timestamp_str == 'Invalid date' or obj['UNITS'] == []:
           raise Exception
+<<<<<<< HEAD
 <<<<<<< HEAD
         date = datetime.strptime(obj['TIMESTAMP'], '%Y-%m-%d %I:%M:00 %p')
         in_session = True  # TODO: add dating logic to determine
@@ -154,6 +165,23 @@ def parse_to_csv(file_name='data.csv', limit=-1):
 >>>>>>> Add documentation
 =======
         timestamp = datetime.strptime(obj['TIMESTAMP'], '%Y-%m-%d %I:%M:00 %p')
+=======
+        if 'new_marker' not in update_info:
+          # mark the timeblock to stop at on next update
+          update_info['new_marker'] = pd.DataFrame(data={
+              'date': timestamp_str,
+              'end_time': '',
+              'session_type': '',
+              'location': '',
+              'start_time': '',
+              'swipes': 0,
+              'weekday': '',
+          }, index=[0])
+        if 'end' in update_info and update_info['end'].iloc[0]['date'] == timestamp_str:
+          print('hit time marker from last update on {}'.format(timestamp_str))
+          break
+        timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %I:%M:00 %p')
+>>>>>>> Add data updating logic
         date = timestamp.date()
         session_type = sort_session_type(date, breaks)
         weekday = weekdays[timestamp.weekday()]
@@ -170,7 +198,6 @@ def parse_to_csv(file_name='data.csv', limit=-1):
         elif timestamp.minute <= 30:
           start_time = timestamp.strftime('%I:00 %p')
           end_time = timestamp.strftime('%I:30 %p')
-
         for place in obj['UNITS']:
           location = place['UNIT_NAME']
           # remove locations that are not eateries we care about
@@ -231,11 +258,17 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
       i += 1
       line_counter += 1
     print('done parsing data.log')
+    if 'old_data' in update_info:
+      data_list.append(update_info['old_data'])
     df = pd.concat(data_list)
     df.to_csv(file_name, header=True, index=False)
-    return sort_csv(file_name)
+    file_names = sort_csv(file_name)
+    # add new marker to front of table to be used next time
+    df = pd.concat([update_info['new_end'], df])
+    df.to_csv(file_name, header=True, index=False)
+    return file_names
 
-def sort_csv(file, output_file1='tb-averages.csv', output_file2='daily-averages.csv'):
+def sort_csv(file_name, output_file1='tb-averages.csv', output_file2='daily-averages.csv'):
   """
   Sorts and runs average swipe/time calculations.
   Creates two csv files (updates files if already exists):
@@ -287,6 +320,7 @@ def sort_by_day(input_file_path, output_file = 'daily-averages.csv'):
     counter: number of events within this timeblock (used to calculate average), int
     average: average number of swipes in this timeblock, float (2 decimals)
   """
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   try:
@@ -382,10 +416,14 @@ def sort_session_type(date, breaks):
 =======
   df = pd.read_csv(file)
 >>>>>>> Transfer swipe data into CampusEateryType
+=======
+  df = pd.read_csv(file_name)
+>>>>>>> Add data updating logic
   # make copies
   df_daily = df.copy(deep=True).drop(columns=['start_time', 'end_time'])
   df_timeblock = df.copy(deep=True)
   # begin time block calculations
+  df_timeblock = df_timeblock.groupby(['date', 'weekday', 'start_time', 'end_time', 'location', 'session_type']).sum().reset_index()
   df_timeblock = df_timeblock.groupby(['weekday', 'start_time', 'end_time', 'location', 'swipes', 'session_type']).count().reset_index()
   df_timeblock = df_timeblock.rename(index=str, columns={'date': 'counter'})
   # sum together swipes and counters for rows with the same timeblock and location
