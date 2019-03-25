@@ -13,6 +13,7 @@ from src.constants import (
   LOCATION_NAMES,
   SCHOOL_BREAKS,
 <<<<<<< HEAD
+<<<<<<< HEAD
   ISOLATE_COUNTER_SWIPES,
   ISOLATE_DATE,
   ISOLATE_SWIPES,
@@ -22,6 +23,9 @@ from src.constants import (
 >>>>>>> Transfer swipe data into CampusEateryType
 =======
 >>>>>>> Replace in_session with session_type
+=======
+  WAIT_TIME_CONVERSION,
+>>>>>>> Add wait time bounds
   WEEKDAYS,
 )
 from src.eatery import string_to_date_range
@@ -264,7 +268,7 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
     df.to_csv(file_name, header=True, index=False)
     file_names = sort_csv(file_name)
     # add new marker to front of table to be used next time
-    df = pd.concat([update_info['new_end'], df])
+    df = pd.concat([update_info['new_marker'], df])
     df.to_csv(file_name, header=True, index=False)
     return file_names
 
@@ -439,6 +443,8 @@ def sort_session_type(date, breaks):
   #   # df_timeblock.where(df_timeblock['location'] == location)['counter'] = max_count
 
   df_timeblock['average'] = np.around(np.divide(df_timeblock['swipes'], df_timeblock['counter']), decimals=2)
+  df_timeblock['wait_time_low'] = np.floor(np.multiply(df_timeblock['average'], WAIT_TIME_CONVERSION))
+  df_timeblock['wait_time_high'] = np.ceil(np.multiply(df_timeblock['average'], WAIT_TIME_CONVERSION))
   df_timeblock = df_timeblock.sort_values(by=['location', 'weekday'])
   df_timeblock.to_csv(output_file1, header=True, index=False)
 

@@ -71,6 +71,7 @@ SWIPE_PLANS = ['Bear Basic', 'Bear Choice', 'Bear Traditional']
 TRILLIUM_ID = 23
 UPDATE_DELAY = 86400  # 24 hours in seconds
 UPDATE_DELAY_TESTING = 60  # 1 minute in seconds
+WAIT_TIME_CONVERSION = .0333  # default multiplier for converting average swipes/count to wait time
 WEEKDAYS = {
     'monday': 0,
     'tuesday': 1,
