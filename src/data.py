@@ -44,6 +44,7 @@ def start_update():
     yelp_query = collegetown_search()
     parse_collegetown_eateries(yelp_query, collegetown_eateries)
     Data.update_collegetown_data(collegetown_eateries)
+    print('[{}] All data updated, waiting for requests'.format(datetime.now()))
   except Exception as e:
     print('Data update failed:', e)
   finally:
