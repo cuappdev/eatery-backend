@@ -44,6 +44,7 @@ def start_update():
     yelp_query = collegetown_search()
     parse_collegetown_eateries(yelp_query, collegetown_eateries)
     Data.update_collegetown_data(collegetown_eateries)
+    print('[{}] All data updated, waiting for requests'.format(datetime.now()))
   except Exception as e:
     print('Data update failed:', e)
   finally:
@@ -66,8 +67,10 @@ def merge_hours(eateries):
         continue
       base_event = operating_hour.events[0]
       for event in operating_hour.events[1:]:  # iterate over copy of list so we can safely remove
-        if event.start_time == base_event.end_time and \
-            (not event.menu or event.menu[0].equals(base_event.menu[0])):
+        if (event.start_time == base_event.end_time and
+            event.menu and
+            base_event.menu and
+            event.menu[0].equals(base_event.menu[0])):
           base_event.end_time = event.end_time
           operating_hour.events.remove(event)
           print('merged events for {} on {}'.format(eatery.name, operating_hour.date))
