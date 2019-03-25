@@ -31,3 +31,4 @@ def collegetown_search():
     return eateries
   except Exception as e:
     print(e)
+    return []
