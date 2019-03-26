@@ -10,6 +10,7 @@ from src.types import (
     EventType,
     FoodItemType,
     FoodStationType,
+    PaymentMethodsEnum,
     PaymentMethodsType
 )
 
@@ -113,6 +114,29 @@ def parse_payment_methods(methods):
   payment_methods.cornell_card = any(pay['descrshort'] == PAY_METHODS['c-card'] for pay in methods)
   payment_methods.mobile = any(pay['descrshort'] == PAY_METHODS['mobile'] for pay in methods)
   payment_methods.swipes = any(pay['descrshort'] == PAY_METHODS['swipes'] for pay in methods)
+  return payment_methods
+
+def parse_payment_methods_enum(methods):
+  """Returns a PaymentMethoddsEnumType according to which payment methods are available at an
+  eatery.
+
+  Args:
+      methods (json): a valid json segment for payments from Cornell Dining
+  """
+  payment_methods = []
+  for method in methods:
+    description = method['descrshort']
+    if (description == PAY_METHODS['brbs']):
+      payment_methods.append(PaymentMethodsEnum.BRB)
+    if (description == PAY_METHODS['credit']):
+      payment_methods.append(PaymentMethodsEnum.CASH)
+      payment_methods.append(PaymentMethodsEnum.CREDIT)
+    if (description == PAY_METHODS['c-card']):
+      payment_methods.append(PaymentMethodsEnum.CORNELL_CARD)
+    if (description == PAY_METHODS['mobile']):
+      payment_methods.append(PaymentMethodsEnum.MOBILE)
+    if (description == PAY_METHODS['swipes']):
+      payment_methods.append(PaymentMethodsEnum.SWIPES)
   return payment_methods
 
 def parse_food_stations(station_list):

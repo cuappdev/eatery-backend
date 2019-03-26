@@ -11,7 +11,9 @@ from src.types import (
     CollegetownEateryType,
     CollegetownEventType,
     CollegetownHoursType,
-    PaymentMethodsType
+    PaymentMethodsEnum,
+    PaymentMethodsType,
+    RatingEnum
 )
 
 def parse_collegetown_eateries(collegetown_data, collegetown_eateries):
@@ -42,9 +44,11 @@ def parse_collegetown_eateries(collegetown_data, collegetown_eateries):
             swipes=False,
             mobile=False,
         ),
+        payment_methods_enums=[PaymentMethodsEnum.CASH, PaymentMethodsEnum.CREDIT],
         phone=eatery.get('phone', 'N/A'),
         price=eatery.get('price', ''),
         rating=eatery.get('rating', 'N/A'),
+        rating_enum=parse_rating(eatery),
         url=eatery.get('url', ''),
     )
     collegetown_eateries[new_eatery.id] = new_eatery
@@ -98,3 +102,15 @@ def parse_collegetown_events(event_list, event_date):
     )
     new_events.append(new_event)
   return new_events
+
+def parse_rating(eatery):
+  """Parses the rating of a Collegetown eatery.
+
+  Returns the corresponding rating name according to the RatingEnum.
+
+  Args:
+      eatery (dict): A valid json dictionary from Yelp that contains eatery information
+  """
+  rating = eatery.get('rating', 'N/A')
+  index = int(round(float(rating) * 2))
+  return RatingEnum.get(index)
