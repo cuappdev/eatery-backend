@@ -7,9 +7,14 @@ import pandas as pd
 
 from src.constants import (
 <<<<<<< HEAD
+<<<<<<< HEAD
   BRB_ONLY,
   DINING_HALL,
   EATERY_DATA_PATH,
+=======
+  BRB_ONLY,
+  DINING_HALL,
+>>>>>>> Differentiate wait time conversion multipliers by eatery type
   LOCATION_NAMES,
   SCHOOL_BREAKS,
 <<<<<<< HEAD
@@ -180,6 +185,8 @@ def parse_to_csv(file_name='data.csv', limit=-1):
               'start_time': '',
               'swipes': 0,
               'weekday': '',
+              'brb_only': False,
+              'dining_hall': False,
           }, index=[0])
         if 'end' in update_info and update_info['end'].iloc[0]['date'] == timestamp_str:
           print('hit time marker from last update on {}'.format(timestamp_str))
@@ -204,7 +211,10 @@ def parse_to_csv(file_name='data.csv', limit=-1):
           end_time = timestamp.strftime('%I:30 %p')
         for place in obj['UNITS']:
           location = place['UNIT_NAME']
+<<<<<<< HEAD
           # remove locations that are not eateries we care about
+=======
+>>>>>>> Differentiate wait time conversion multipliers by eatery type
           if location not in LOCATION_NAMES:
             continue
           data_list.append(pd.DataFrame(data={
@@ -252,10 +262,12 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
 >>>>>>> Replace in_session with session_type
               'end_time': end_time,
               'session_type': session_type,
-              'location': place['UNIT_NAME'],
+              'location': location,
               'start_time': start_time,
               'swipes': place['CROWD_COUNT'],
               'weekday': weekday,
+              'brb_only': False if LOCATION_NAMES[location]['type'] == DINING_HALL else True,
+              'dining_hall': True if LOCATION_NAMES[location]['type'] == DINING_HALL else False,
           }, index=[0]))
       except Exception as e:
         print(e)
@@ -268,6 +280,7 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
     df.to_csv(file_name, header=True, index=False)
     file_names = sort_csv(file_name)
     # add new marker to front of table to be used next time
+    print(update_info['new_marker'])
     df = pd.concat([update_info['new_marker'], df])
     df.to_csv(file_name, header=True, index=False)
     return file_names
@@ -277,9 +290,13 @@ def sort_csv(file_name, output_file1='tb-averages.csv', output_file2='daily-aver
   Sorts and runs average swipe/time calculations.
   Creates two csv files (updates files if already exists):
   tb-averages.csv - the timeblock swipe averages
+    session_type: type of class session (regular, winter, summer, finals, etc.)
     weekday: weekday of swipe event, string (ex: monday, tuesday, etc.)
+<<<<<<< HEAD
     in_session: whether or not school is on a break, boolean
 >>>>>>> Add documentation
+=======
+>>>>>>> Differentiate wait time conversion multipliers by eatery type
     location: eatery of swipe event, string (some locations have different names than dining.now's)
     start_time: left edge of timeblock, string (hh:mm AM/PM)
     end_time: right edge of timeblock, string (hh:mm AM/PM)
@@ -424,14 +441,15 @@ def sort_session_type(date, breaks):
   df = pd.read_csv(file_name)
 >>>>>>> Add data updating logic
   # make copies
-  df_daily = df.copy(deep=True).drop(columns=['start_time', 'end_time'])
+  df_daily = df.copy(deep=True).drop(columns=['start_time', 'end_time', 'dining_hall', 'brb_only'])
   df_timeblock = df.copy(deep=True)
-  # begin time block calculations
-  df_timeblock = df_timeblock.groupby(['date', 'weekday', 'start_time', 'end_time', 'location', 'session_type']).sum().reset_index()
-  df_timeblock = df_timeblock.groupby(['weekday', 'start_time', 'end_time', 'location', 'swipes', 'session_type']).count().reset_index()
+  # sum together rows with same date, session_type, weekday, location, start_time, and end_time
+  df_timeblock = df_timeblock.groupby(['date', 'session_type', 'weekday', 'location', 'start_time', 'end_time', 'dining_hall', 'brb_only']).sum().reset_index()
+  # count how many occurences of the same session_type, weekday, location, start_time, and end_time
+  df_timeblock = df_timeblock.groupby(['session_type', 'weekday', 'location', 'start_time', 'end_time', 'swipes', 'dining_hall', 'brb_only']).count().reset_index()
   df_timeblock = df_timeblock.rename(index=str, columns={'date': 'counter'})
   # sum together swipes and counters for rows with the same timeblock and location
-  df_timeblock = df_timeblock.groupby(['weekday', 'start_time', 'end_time', 'location', 'session_type']).sum().reset_index()
+  df_timeblock = df_timeblock.groupby(['session_type', 'weekday', 'location', 'start_time', 'end_time', 'dining_hall', 'brb_only']).sum().reset_index()
 
   # TODO: fixing counting errors
   # for location in df_timeblock['location'].unique():
@@ -443,13 +461,16 @@ def sort_session_type(date, breaks):
   #   # df_timeblock.where(df_timeblock['location'] == location)['counter'] = max_count
 
   df_timeblock['average'] = np.around(np.divide(df_timeblock['swipes'], df_timeblock['counter']), decimals=2)
-  df_timeblock['wait_time_low'] = np.floor(np.multiply(df_timeblock['average'], WAIT_TIME_CONVERSION))
-  df_timeblock['wait_time_high'] = np.ceil(np.multiply(df_timeblock['average'], WAIT_TIME_CONVERSION))
+  df_timeblock['wait_time_low'] = np.floor(np.multiply(df_timeblock['average'], WAIT_TIME_CONVERSION[BRB_ONLY], where=df_timeblock[BRB_ONLY]))
+  df_timeblock['wait_time_low'] = np.floor(np.multiply(df_timeblock['average'], WAIT_TIME_CONVERSION[DINING_HALL], where=df_timeblock[DINING_HALL]))
+  df_timeblock['wait_time_high'] = np.ceil(np.multiply(df_timeblock['average'], WAIT_TIME_CONVERSION[BRB_ONLY], where=df_timeblock[BRB_ONLY]))
+  df_timeblock['wait_time_high'] = np.ceil(np.multiply(df_timeblock['average'], WAIT_TIME_CONVERSION[DINING_HALL], where=df_timeblock[DINING_HALL]))
+  df_timeblock['wait_time_high'] = np.add(df_timeblock['wait_time_high'], 1)
   df_timeblock = df_timeblock.sort_values(by=['location', 'weekday'])
   df_timeblock.to_csv(output_file1, header=True, index=False)
 
-  # begin daily calculations
-  df_daily = df_daily.groupby(['date', 'weekday', 'location', 'session_type']).sum().reset_index()
+  # sum together rows with same date, session_type, weekday, and location
+  df_daily = df_daily.groupby(['date', 'session_type', 'weekday', 'location']).sum().reset_index()
   # count the number of times a location/date pair occur
   df_daily = df_daily.groupby(['weekday', 'location', 'swipes', 'session_type']).count().reset_index()
   df_daily = df_daily.rename(index=str, columns={'date': 'counter'})
@@ -474,7 +495,7 @@ def export_data(file):
     # remove locations that are not eateries we care about
     if location not in LOCATION_NAMES:
       continue
-    true_location = LOCATION_NAMES[location]
+    true_location = LOCATION_NAMES[location]['name']
     # look at information that pertains to today's criteria
     # df['weekday'] == weekdays[today.weekday()]
     new_df = df.loc[(df['location'] == location) & (df['weekday'] == 'monday') & (df['session_type'] == session_type)]
@@ -485,6 +506,8 @@ def export_data(file):
           end_time=row['end_time'],
           session_type=row['session_type'],
           start_time=row['start_time'],
+          wait_time_high=row['wait_time_high'],
+          wait_time_low=row['wait_time_low'],
       )
       if true_location not in data:
         data[true_location] = [new_timeblock]

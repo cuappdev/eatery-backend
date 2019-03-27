@@ -4,47 +4,49 @@ ACCOUNT_NAMES = {
     'cornell_card': 'CC1 Cornell Card',
     'laundry': 'LAU Sem Laundry'
 }
+BRB_ONLY = 'brb_only'
 CORNELL_DINING_URL = 'https://now.dining.cornell.edu/api/1.0/dining/eateries.json'
 CORNELL_INSTITUTION_ID = '73116ae4-22ad-4c71-8ffd-11ba015407b1'
+DINING_HALL = 'dining_hall'
 GET_URL = 'https://services.get.cbord.com/GETServices/services/json'
 GIT_CONTENT_URL = 'https://raw.githubusercontent.com/cuappdev'
 IGNORE_LOCATIONS = ['BS-No Bill Workstation', 'Admin Workstation (B)']
 IMAGES_URL = GIT_CONTENT_URL + '/assets/master/eatery/eatery-images/'
 LOCATION_NAMES = {
-  'Alice Cook House': 'Cook House Dining Room',
+  'Alice Cook House': {'name': 'Cook House Dining Room', 'type': DINING_HALL},
   'Attrium Cafe': 'Atrium Café',
-  'Bear Necessities': 'Bear Necessities Grill & C-Store',
-  'Big Red Barn': 'Big Red Barn',
-  'Bus Stop Bagels': 'Bus Stop Bagels',
-  'Cafe Jennie': 'Café Jennie',
-  'Carl Becker House': 'Becker House Dining Room',
-  'Carols Cafe': "Carol's Café",
-  'Duffield': "Mattin's Café",
-  "Franny's FT": "Franny's",
+  'Bear Necessities': {'name': 'Bear Necessities Grill & C-Store', 'type': BRB_ONLY},
+  'Big Red Barn': {'name': 'Big Red Barn', 'type': BRB_ONLY},
+  'Bus Stop Bagels': {'name': 'Bus Stop Bagels', 'type': BRB_ONLY},
+  'Cafe Jennie': {'name': 'Café Jennie', 'type': BRB_ONLY},
+  'Carl Becker House': {'name': 'Becker House Dining Room', 'type': DINING_HALL},
+  'Carols Cafe': {'name': "Carol's Café", 'type': BRB_ONLY},
+  'Duffield': {'name': "Mattin's Café", 'type': BRB_ONLY},
+  "Franny's FT": {'name': "Franny's", 'type': BRB_ONLY},
   "Goldies Cafe": "Goldie's Café",
-  "Goldie's Cafe": "Goldie's Café",
-  'Green Dragon': 'Green Dragon',
-  'Ivy Room': 'Ivy Room',
-  'Jansens at Bethe House': "Jansen's Dining Room at Bethe House",
+  "Goldie's Cafe": {'name': "Goldie's Café", 'type': BRB_ONLY},
+  'Green Dragon': {'name': 'Green Dragon', 'type': BRB_ONLY},
+  'Ivy Room': {'name': 'Ivy Room', 'type': BRB_ONLY},
+  'Jansens at Bethe House': {'name': "Jansen's Dining Room at Bethe House", 'type': DINING_HALL},
   'Jansens Market': "Jansen's Market",
-  "Jansen's Market": "Jansen's Market",
-  'Keeton House': 'Keeton House Dining Room',
-  'Kosher': '104West!',
-  'Marthas': "Martha's Express",
-  "McCormick's": "McCormick's at Moakley House",
-  'North Star Marketplace': 'North Star Dining Room',
-  'Okenshields': 'Okenshields',
-  'Olin Libe Cafe': 'Amit Bhatia Libe Café',
+  "Jansen's Market": {'name': "Jansen's Market", 'type': BRB_ONLY},
+  'Keeton House': {'name': 'Keeton House Dining Room', 'type': DINING_HALL},
+  'Kosher': {'name': '104West!', 'type': DINING_HALL},
+  'Marthas': {'name': "Martha's Express", 'type': BRB_ONLY},
+  "McCormick's": {'name': "McCormick's at Moakley House", 'type': BRB_ONLY},
+  'North Star Marketplace': {'name': 'North Star Dining Room', 'type': DINING_HALL},
+  'Okenshields': {'name': 'Okenshields', 'type': DINING_HALL},
+  'Olin Libe Cafe': {'name': 'Amit Bhatia Libe Café', 'type': BRB_ONLY},
   'Olin Libe Cafe2': 'Libe Café',
-  'RPME': 'Robert Purcell Marketplace Eatery',
-  'Risley': 'Risley Dining Room',
-  'Rose House': 'Rose House Dining Room',
-  'Rustys': "Rusty's",
-  'Sage': 'Atrium Café',
-  'Statler Macs': "Mac's Café",
-  'Statler Terrace': 'The Terrace',
-  'Straight Market': 'Straight from the Market',
-  'Trillium': 'Trillium'
+  'RPME': {'name': 'Robert Purcell Marketplace Eatery', 'type': DINING_HALL},
+  'Risley': {'name': 'Risley Dining Room', 'type': DINING_HALL},
+  'Rose House': {'name': 'Rose House Dining Room', 'type': DINING_HALL},
+  'Rustys': {'name': "Rusty's", 'type': BRB_ONLY},
+  'Sage': {'name': 'Atrium Café', 'type': BRB_ONLY},
+  'Statler Macs': {'name': "Mac's Café", 'type': BRB_ONLY},
+  'Statler Terrace': {'name': 'The Terrace', 'type': BRB_ONLY},
+  'Straight Market': {'name': 'Straight from the Market', 'type': BRB_ONLY},
+  'Trillium': {'name': 'Trillium', 'type': DINING_HALL},
 }
 NUM_DAYS_STORED_IN_DB = 8
 PAY_METHODS = {
@@ -71,7 +73,8 @@ SWIPE_PLANS = ['Bear Basic', 'Bear Choice', 'Bear Traditional']
 TRILLIUM_ID = 23
 UPDATE_DELAY = 86400  # 24 hours in seconds
 UPDATE_DELAY_TESTING = 60  # 1 minute in seconds
-WAIT_TIME_CONVERSION = .0333  # default multiplier for converting average swipes/count to wait time
+# default multiplier for converting average swipes/count to wait time
+WAIT_TIME_CONVERSION = { BRB_ONLY: .03, DINING_HALL: .02 }
 WEEKDAYS = {
     'monday': 0,
     'tuesday': 1,
