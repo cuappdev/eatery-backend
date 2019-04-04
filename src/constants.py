@@ -11,6 +11,32 @@ GET_URL = 'https://services.get.cbord.com/GETServices/services/json'
 GIT_CONTENT_URL = 'https://raw.githubusercontent.com/cuappdev'
 IGNORE_LOCATIONS = ['BS-No Bill Workstation', 'Admin Workstation (B)']
 IMAGES_URL = GIT_CONTENT_URL + '/assets/master/eatery/eatery-images/'
+LOCATION_NAMES = {
+    'Alice Cook House': 'Cook House Dining Room',
+    'Attrium Cafe': 'Atrium Café',
+    'Cafe Jennie': 'Café Jennie',
+    'Carl Becker House': 'Becker House Dining Room',
+    'Carols Cafe': "Carol's Café",
+    'Duffield': "Mattin's Café",
+    "Franny's FT": "Franny's",
+    "Goldies Cafe": "Goldie's Café",
+    'Jansens at Bethe House': "Jansen's Dining Room at Bethe House",
+    'Jansens Market': "Jansen's Market",
+    'Keeton House': 'Keeton House Dining Room',
+    'Kosher': '104West!',
+    'Marthas': "Martha's Express",
+    "McCormick's": "McCormick's at Moakley House",
+    'North Star Marketplace': 'North Star Dining Room',
+    'Olin Libe Cafe': 'Amit Bhatia Libe Café',
+    'RPME': 'Robert Purcell Marketplace Eatery',
+    'Risley': 'Risley Dining Room',
+    'Rose House': 'Rose House Dining Room',
+    'Rustys': "Rusty's",
+    'Sage': 'Atrium Café',
+    'Statler Macs': "Mac's Café",
+    'Statler Terrace': 'The Terrace',
+    'Straight Market': 'Straight from the Market',
+}
 NUM_DAYS_STORED_IN_DB = 8
 PAY_METHODS = {
     'brbs': 'Meal Plan - Debit',
