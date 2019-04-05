@@ -2,7 +2,6 @@ from os.path import isfile
 from datetime import date, datetime, timedelta
 import json
 import numpy as np
-from os.path import isfile
 import pandas as pd
 
 from src.constants import (
@@ -47,6 +46,7 @@ def parse_to_csv(file_name='data.csv', limit=-1):
   """
   Takes in a data.log file of swipe logs and converts them to a tabular format.
   Argument limit: used to limit number of logs to parse (for testing purposes).
+<<<<<<< HEAD
   Creates one csv file (updates file if already exists):
   data.csv - stores all swipe events
     date: date of swipe event, string (mm/dd/yyyy)
@@ -130,6 +130,8 @@ def parse_to_csv(file_name='data.csv', limit=-1):
   """
   Takes in a data.log file of swipe logs and converts them to a tabular format.
   Argument limit: used to limit number of logs to parse (for testing.
+=======
+>>>>>>> Add swipe density field
   Creates one csv file (updates file if already exists):
   data.csv - stores all swipe events
     date: date of swipe event, string (mm/dd/yyyy)
@@ -212,9 +214,13 @@ def parse_to_csv(file_name='data.csv', limit=-1):
         for place in obj['UNITS']:
           location = place['UNIT_NAME']
 <<<<<<< HEAD
+<<<<<<< HEAD
           # remove locations that are not eateries we care about
 =======
 >>>>>>> Differentiate wait time conversion multipliers by eatery type
+=======
+          # remove locations that are not eateries we care about
+>>>>>>> Add swipe density field
           if location not in LOCATION_NAMES:
             continue
           data_list.append(pd.DataFrame(data={
@@ -279,7 +285,7 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
     df = pd.concat(data_list)
     df.to_csv(file_name, header=True, index=False)
     file_names = sort_csv(file_name)
-    # add new marker to front of table to be used next time
+    # add new marker to front of table to be used next time for time tracking
     print(update_info['new_marker'])
     df = pd.concat([update_info['new_marker'], df])
     df.to_csv(file_name, header=True, index=False)
@@ -451,21 +457,12 @@ def sort_session_type(date, breaks):
   # sum together swipes and counters for rows with the same timeblock and location
   df_timeblock = df_timeblock.groupby(['session_type', 'weekday', 'location', 'start_time', 'end_time', 'dining_hall', 'brb_only']).sum().reset_index()
 
-  # TODO: fixing counting errors
-  # for location in df_timeblock['location'].unique():
-  #   max_count = df_timeblock.loc[df_timeblock['location'] == location].max()[-1]
-  #   print(location, max_count)
-  #   # print(df_timeblock.loc[df_timeblock['location'] == location]['counter'])
-  #   df_timeblock.loc[df_timeblock['location'] == location]['counter'] = max_count
-  #   print(df_timeblock.loc[df_timeblock['location'] == location]['counter'])
-  #   # df_timeblock.where(df_timeblock['location'] == location)['counter'] = max_count
-
   df_timeblock['average'] = np.around(np.divide(df_timeblock['swipes'], df_timeblock['counter']), decimals=2)
   df_timeblock['wait_time_low'] = np.floor(np.multiply(df_timeblock['average'], WAIT_TIME_CONVERSION[BRB_ONLY], where=df_timeblock[BRB_ONLY]))
   df_timeblock['wait_time_low'] = np.floor(np.multiply(df_timeblock['average'], WAIT_TIME_CONVERSION[DINING_HALL], where=df_timeblock[DINING_HALL]))
   df_timeblock['wait_time_high'] = np.ceil(np.multiply(df_timeblock['average'], WAIT_TIME_CONVERSION[BRB_ONLY], where=df_timeblock[BRB_ONLY]))
   df_timeblock['wait_time_high'] = np.ceil(np.multiply(df_timeblock['average'], WAIT_TIME_CONVERSION[DINING_HALL], where=df_timeblock[DINING_HALL]))
-  df_timeblock['wait_time_high'] = np.add(df_timeblock['wait_time_high'], 1)
+  df_timeblock['wait_time_high'] = np.add(df_timeblock['wait_time_high'], 2)
   df_timeblock = df_timeblock.sort_values(by=['location', 'weekday'])
   df_timeblock.to_csv(output_file1, header=True, index=False)
 
@@ -492,20 +489,17 @@ def export_data(file):
   today = date.today()
   session_type = sort_session_type(today, breaks)
   for location in df['location'].unique():
-    # remove locations that are not eateries we care about
-    if location not in LOCATION_NAMES:
-      continue
     true_location = LOCATION_NAMES[location]['name']
     # look at information that pertains to today's criteria
-    # df['weekday'] == weekdays[today.weekday()]
-    new_df = df.loc[(df['location'] == location) & (df['weekday'] == 'monday') & (df['session_type'] == session_type)]
+    new_df = df.loc[(df['location'] == location) & (df['weekday'] == weekdays[today.weekday()]) & (df['session_type'] == session_type)]
+    max_swipes = new_df['average'].max()
     json_data = json.loads(new_df.to_json(orient='table'))
     for row in json_data['data']:
       new_timeblock = SwipeDataType(
-          average_swipes=row['average'],
           end_time=row['end_time'],
           session_type=row['session_type'],
           start_time=row['start_time'],
+          swipe_density=round(row['average']/max_swipes, 3),
           wait_time_high=row['wait_time_high'],
           wait_time_low=row['wait_time_low'],
       )
