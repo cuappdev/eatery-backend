@@ -27,7 +27,7 @@ LOCATION_NAMES = {
     'Marthas': "Martha's Express",
     "McCormick's": "McCormick's at Moakley House",
     'North Star Marketplace': 'North Star Dining Room',
-    'Olin Libe Cafe': 'Amit Bhatia Libe Café',
+    'Olin Libe Cafe': 'Libe Café',
     'RPME': 'Robert Purcell Marketplace Eatery',
     'Risley': 'Risley Dining Room',
     'Rose House': 'Rose House Dining Room',
