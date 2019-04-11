@@ -11,6 +11,7 @@ from src.constants import (
     CORNELL_INSTITUTION_ID,
     GET_URL,
     IGNORE_LOCATIONS,
+    LOCATION_NAMES,
     SWIPE_PLANS,
 )
 from src.types import (
@@ -136,17 +137,17 @@ class Query(ObjectType):
 
     account_info['history'] = []
 
-    for t in transactions:
-      if ACCOUNT_NAMES['brbs'] not in t['accountName'] or t['locationName'] in IGNORE_LOCATIONS:
+    for txn in transactions:
+      if ACCOUNT_NAMES['brbs'] not in txn['accountName'] or txn['locationName'] in IGNORE_LOCATIONS:
         continue
-      dt_utc = parser.parse(t['actualDate']).astimezone(pytz.timezone('UTC'))
-      dt_est = dt_utc.astimezone(pytz.timezone('US/Eastern'))
+      txn_timestamp = parser.parse(txn['actualDate']).astimezone(pytz.timezone('US/Eastern'))
+      location = txn['locationName'].rsplit(' ', 1)[0]
+      # removes the register numbers at the end of the string by taking the substring up until
+      # the last space (right before the number)
       new_transaction = {
-          'amount': t['amount'],
-          'name': t['locationName'][:t['locationName'].rfind(' ')],
-          # removes the register numbers at the end of the string by taking the substring up until
-          # the last space (right before the number)
-          'timestamp': dt_est.strftime("%D at %I:%M %p")
+          'amount': txn['amount'],
+          'name': LOCATION_NAMES.get(location, location),
+          'timestamp': txn_timestamp.strftime("%A, %b %d at %I:%M %p")
       }
       account_info['history'].append(TransactionType(**new_transaction))
 
