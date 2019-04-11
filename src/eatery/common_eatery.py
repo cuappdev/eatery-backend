@@ -154,7 +154,7 @@ def parse_food_items(item_list):
     )
   return new_food_items
 
-def resolve_id(eatery, collegetown=False, ):
+def resolve_id(eatery, collegetown=False):
   """Returns a new id (int) for an external eatery
   If the eatery does not have a provided id, we need to create one.
   Since all provided eatery ID values are positive, we decrement starting at 0.
@@ -162,10 +162,10 @@ def resolve_id(eatery, collegetown=False, ):
   if not collegetown and 'id' in eatery:
     return eatery['id']
   elif eatery['name'] in static_eateries:
-    return static_eateries['id']
-
-  static_eateries[eatery['name']] = -1 * len(static_eateries)
-  return -1 * len(static_eateries)
+    return static_eateries[eatery['name']]
+  new_id = -1 * len(static_eateries)
+  static_eateries[eatery['name']] = new_id
+  return new_id
 
 def get_image_url(slug):
   """Generates a URL for an image.
