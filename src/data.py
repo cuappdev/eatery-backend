@@ -31,8 +31,8 @@ def start_update():
   try:
     global all_swipe_data
     print('[{}] Updating swipe data'.format(datetime.now()))
-    file_names = parse_to_csv(file_name='data.csv')
-    all_swipe_data = export_data(file_names['timeblock'])
+    data_file = parse_to_csv(file_name='data.csv')
+    all_swipe_data = export_data(data_file)
     print('[{}] Updating campus'.format(datetime.now()))
     # Get data for on-campus, Cornell-owned dining Options
     dining_query = requests.get(CORNELL_DINING_URL)
