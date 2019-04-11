@@ -4,6 +4,7 @@ from .eatery_type import (
     CampusEateryType,
     CollegetownEateryType,
     CoordinatesType,
+    RatingEnum
 )
 from .food_station_type import FoodItemType, FoodStationType
 from .operating_hours_type import (
@@ -12,4 +13,4 @@ from .operating_hours_type import (
     EventType,
     OperatingHoursType,
 )
-from .payment_methods_type import PaymentMethodsType
+from .payment_methods_type import PaymentMethodsEnum, PaymentMethodsType

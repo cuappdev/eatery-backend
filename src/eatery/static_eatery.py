@@ -12,6 +12,7 @@ from src.eatery.common_eatery import (
     parse_eatery_type,
     parse_events,
     parse_payment_methods,
+    parse_payment_methods_enum,
     resolve_id,
     today
 )
@@ -48,6 +49,7 @@ def parse_static_eateries(static_json, campus_eateries):
             eatery.get('datesClosed', [])
         ),
         payment_methods=parse_payment_methods(eatery.get('payMethods', [])),
+        payment_methods_enums=parse_payment_methods_enum(eatery.get('payMethods', [])),
         phone=eatery.get('contactPhone', 'N/A'),
         slug=eatery.get('slug', '')
     )
