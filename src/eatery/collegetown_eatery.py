@@ -3,6 +3,7 @@ from datetime import timedelta
 from src.constants import NUM_DAYS_STORED_IN_DB
 from src.eatery.common_eatery import (
     format_time,
+    get_image_url,
     parse_coordinates,
     resolve_id,
     today
@@ -33,7 +34,7 @@ def parse_collegetown_eateries(collegetown_data, collegetown_eateries):
         coordinates=parse_coordinates(eatery),
         eatery_type='Collegetown Restaurant',
         id=new_id,
-        image_url=eatery.get('image_url', ''),
+        image_url=get_image_url(eatery.get('alias', '')),
         name=eatery.get('name', ''),
         operating_hours=parse_collegetown_hours(eatery),
         payment_methods=PaymentMethodsType(
