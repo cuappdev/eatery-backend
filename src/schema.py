@@ -144,9 +144,10 @@ class Query(ObjectType):
       location = txn['locationName'].rsplit(' ', 1)[0]
       # removes the register numbers at the end of the string by taking the substring up until
       # the last space (right before the number)
+      name = LOCATION_NAMES.get(location, {'name': location})['name']
       new_transaction = {
           'amount': txn['amount'],
-          'name': LOCATION_NAMES.get(location, location),
+          'name': name if name != 'Amit Bhatia Libe Café' else 'Libe Café',
           'timestamp': txn_timestamp.strftime("%A, %b %d at %I:%M %p")
       }
       account_info['history'].append(TransactionType(**new_transaction))

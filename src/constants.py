@@ -18,7 +18,7 @@ ISOLATE_DATE = ['session_type', 'weekday', 'location', 'start_time', 'end_time',
 ISOLATE_COUNTER_SWIPES = ['session_type', 'weekday', 'location', 'start_time', 'end_time', 'dining_hall', 'brb_only']
 LOCATION_NAMES = {
   'Alice Cook House': {'name': 'Cook House Dining Room', 'type': DINING_HALL},
-  'Attrium Cafe': 'Atrium Café',
+  'Attrium Cafe': {'name': 'Atrium Café'},  # for GET history
   'Bear Necessities': {'name': 'Bear Necessities Grill & C-Store', 'type': BRB_ONLY},
   'Big Red Barn': {'name': 'Big Red Barn', 'type': BRB_ONLY},
   'Bus Stop Bagels': {'name': 'Bus Stop Bagels', 'type': BRB_ONLY},
@@ -27,12 +27,12 @@ LOCATION_NAMES = {
   'Carols Cafe': {'name': "Carol's Café", 'type': BRB_ONLY},
   'Duffield': {'name': "Mattin's Café", 'type': BRB_ONLY},
   "Franny's FT": {'name': "Franny's", 'type': BRB_ONLY},
-  "Goldies Cafe": "Goldie's Café",
+  "Goldies Cafe": {'name': "Goldie's Café"},  # for GET history
   "Goldie's Cafe": {'name': "Goldie's Café", 'type': BRB_ONLY},
   'Green Dragon': {'name': 'Green Dragon', 'type': BRB_ONLY},
   'Ivy Room': {'name': 'Ivy Room', 'type': BRB_ONLY},
   'Jansens at Bethe House': {'name': "Jansen's Dining Room at Bethe House", 'type': DINING_HALL},
-  'Jansens Market': "Jansen's Market",
+  'Jansens Market': {'name': "Jansen's Market"},  # for GET history
   "Jansen's Market": {'name': "Jansen's Market", 'type': BRB_ONLY},
   'Keeton House': {'name': 'Keeton House Dining Room', 'type': DINING_HALL},
   'Kosher': {'name': '104West!', 'type': DINING_HALL},
@@ -41,7 +41,6 @@ LOCATION_NAMES = {
   'North Star Marketplace': {'name': 'North Star Dining Room', 'type': DINING_HALL},
   'Okenshields': {'name': 'Okenshields', 'type': DINING_HALL},
   'Olin Libe Cafe': {'name': 'Amit Bhatia Libe Café', 'type': BRB_ONLY},
-  'Olin Libe Cafe2': 'Libe Café',
   'RPME': {'name': 'Robert Purcell Marketplace Eatery', 'type': DINING_HALL},
   'Risley': {'name': 'Risley Dining Room', 'type': DINING_HALL},
   'Rose House': {'name': 'Rose House Dining Room', 'type': DINING_HALL},
