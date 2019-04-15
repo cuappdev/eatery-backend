@@ -10,10 +10,13 @@ from src.constants import (
   BRB_ONLY,
   DINING_HALL,
   EATERY_DATA_PATH,
+<<<<<<< HEAD
 =======
   BRB_ONLY,
   DINING_HALL,
 >>>>>>> Differentiate wait time conversion multipliers by eatery type
+=======
+>>>>>>> Add docker volume file paths
   LOCATION_NAMES,
   SCHOOL_BREAKS,
 <<<<<<< HEAD
@@ -150,16 +153,17 @@ def parse_to_csv(file_name='data.csv', limit=-1):
   """
   global breaks
   global weekdays
+  MAIN_CSV = '{}{}'.format(EATERY_DATA_PATH, file_name)
   try:
-    with open('src/data.log', 'r') as swipe_data:
+    with open('{}{}'.format(EATERY_DATA_PATH, 'data.log'), 'r') as swipe_data:
       i = 0
       line_counter = 0
       data_list = []
       update_info = {}
 
       # check if data csv file already exists
-      if isfile('./{}'.format(file_name)):
-        df = pd.read_csv(file_name)
+      if isfile(MAIN_CSV):
+        df = pd.read_csv(MAIN_CSV)
         marker_row = df.head(1)
         update_info['end'] = marker_row
         print(marker_row.iloc[0]['date'])
@@ -267,6 +271,7 @@ def parse_to_csv(file_name='data.csv', limit=-1):
       df = pd.concat(data_list)
       df.to_csv(MAIN_CSV, header=True, index=False)
       data_file = sort_by_timeblock(MAIN_CSV)
+<<<<<<< HEAD
       # add new marker to front of table to be used next time for time tracking
       df = pd.concat([update_info['new_marker'], df])
       df.to_csv(MAIN_CSV, header=True, index=False)
@@ -306,16 +311,17 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
       df = pd.concat(data_list)
       df.to_csv(file_name, header=True, index=False)
       data_file = sort_by_timeblock(file_name)
+=======
+>>>>>>> Add docker volume file paths
       # add new marker to front of table to be used next time for time tracking
-      print(update_info['new_marker'])
       df = pd.concat([update_info['new_marker'], df])
-      df.to_csv(file_name, header=True, index=False)
+      df.to_csv(MAIN_CSV, header=True, index=False)
       return data_file
   except Exception as e:
     print('Failed at parse_to_csv')
     print('Data update failed:', e)
 
-def sort_by_timeblock(file_name, output_file='tb-averages.csv'):
+def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
   """
   Sorts and runs average swipe/time calculations.
   Saves to a csv file (updates files if already exists):
@@ -341,8 +347,12 @@ def sort_by_timeblock(file_name, output_file='tb-averages.csv'):
 =======
   """
   try:
+<<<<<<< HEAD
     df = pd.read_csv(file_name)
 >>>>>>> Add exception handling and aggregating break data
+=======
+    df = pd.read_csv(input_file_path)
+>>>>>>> Add docker volume file paths
     # make copy
     # df_timeblock = df.copy(deep=True)
     # sum together the swipes of rows with same timeblock/eatery makeup
@@ -354,6 +364,7 @@ def sort_by_timeblock(file_name, output_file='tb-averages.csv'):
     df = df.groupby(ISOLATE_COUNTER_SWIPES).sum().reset_index()
     df = calculate_wait_times(df)
     df = df.sort_values(by=['session_type', 'location', 'weekday'])
+<<<<<<< HEAD
 <<<<<<< HEAD
     output_path = '{}{}'.format(EATERY_DATA_PATH, output_file)
     df.to_csv(output_path, header=True, index=False)
@@ -373,11 +384,18 @@ def sort_by_day(input_file_path, output_file = 'daily-averages.csv'):
 =======
     df.to_csv(output_file, header=True, index=False)
     return output_file
+=======
+    output_path = '{}{}'.format(EATERY_DATA_PATH, output_file)
+    df.to_csv(output_path, header=True, index=False)
+    return output_path
+>>>>>>> Add docker volume file paths
   except Exception as e:
     print('Failed at sort_by_timeblock')
     print('Data update failed:', e)
+    return None
 
-def sort_by_day(file_name, output_file = 'daily-averages.csv'):
+
+def sort_by_day(input_file_path, output_file = 'daily-averages.csv'):
   """
   Sorts and runs average swipe/time calculations.
   Saves to a csv file (updates files if already exists):
@@ -393,6 +411,9 @@ def sort_by_day(file_name, output_file = 'daily-averages.csv'):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Add docker volume file paths
   try:
     df = pd.read_csv(input_file_path)
     df = df.drop(columns=['start_time', 'end_time', 'dining_hall', 'brb_only'])
@@ -410,6 +431,7 @@ def sort_by_day(file_name, output_file = 'daily-averages.csv'):
     print('Faled at sort_by_day')
     print('Data update failed:', e)
 
+<<<<<<< HEAD
 
 def export_data(file_path):
   """
@@ -525,8 +547,10 @@ def sort_session_type(date, breaks):
   df['average'] = np.around(np.divide(df['swipes'], df['counter']), decimals=2)
   df = df.sort_values(by=['location', 'weekday'])
   df.to_csv(output_file, header=True, index=False)
+=======
+>>>>>>> Add docker volume file paths
 
-def export_data(file):
+def export_data(file_path):
   """
   Transforms our tabular data into custom objects to be placed in Eatery objects
   """
@@ -562,7 +586,7 @@ def export_data(file):
 =======
 =======
   try:
-    df = pd.read_csv(file)
+    df = pd.read_csv(file_path)
     data = {}
     today = date.today()
     session_type = 'spring'#sort_session_type(today, breaks)

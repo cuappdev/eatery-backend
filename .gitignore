@@ -24,7 +24,4 @@ MANIFEST
 venv/
 
 # Swipe Data
-server.pem
-instructions.txt
-data.log
-*.csv
+eatery-data/

@@ -8,6 +8,7 @@ BRB_ONLY = 'brb_only'
 CORNELL_DINING_URL = 'https://now.dining.cornell.edu/api/1.0/dining/eateries.json'
 CORNELL_INSTITUTION_ID = '73116ae4-22ad-4c71-8ffd-11ba015407b1'
 DINING_HALL = 'dining_hall'
+EATERY_DATA_PATH = './eatery-data/'
 GET_URL = 'https://services.get.cbord.com/GETServices/services/json'
 GIT_CONTENT_URL = 'https://raw.githubusercontent.com/cuappdev'
 IGNORE_LOCATIONS = ['BS-No Bill Workstation', 'Admin Workstation (B)']
@@ -77,7 +78,7 @@ TRILLIUM_ID = 23
 UPDATE_DELAY = 86400  # 24 hours in seconds
 UPDATE_DELAY_TESTING = 60  # 1 minute in seconds
 # default multiplier for converting average swipes/count to wait time
-WAIT_TIME_CONVERSION = { BRB_ONLY: .03, DINING_HALL: .02 }
+WAIT_TIME_CONVERSION = { BRB_ONLY: .06, DINING_HALL: .05 }
 WEEKDAYS = {
     'monday': 0,
     'tuesday': 1,
