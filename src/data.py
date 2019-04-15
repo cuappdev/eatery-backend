@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import datetime
 from threading import Timer
 
 import requests
@@ -11,9 +11,7 @@ from src.eatery import (
 )
 from src.constants import (
     CORNELL_DINING_URL,
-    IMAGES_URL,
     STATIC_EATERIES_URL,
-    STATIC_MENUS_URL,
     UPDATE_DELAY
 )
 from src.schema import Data

@@ -1,4 +1,4 @@
-from graphene import Int, List, ObjectType, String
+from graphene import List, ObjectType, String
 
 from src.types.food_station_type import FoodStationType
 
