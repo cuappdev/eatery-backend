@@ -77,7 +77,7 @@ def parse_operating_hours(eatery, dining_items):
   for hours in hours_list:
     new_date = hours.get('date', '')
     hours_events = hours['events']
-    #merge the dining items from the json (for non-dining hall eateries) with the menu for an event
+    # merge the dining items from the json (for non-dining hall eateries) with the menu for an event
     for event in hours_events:
       if not event['menu'] and dining_items:
         event['menu'] = dining_items
