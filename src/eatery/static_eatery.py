@@ -110,7 +110,7 @@ def parse_static_op_hours(hours_list, dining_items, dates_closed):
 
 def string_to_date_range(dates):
   """
-  date: string representing a range of dates mm/dd/yy-mm/dd/yy
+  dates: string representing a range of dates mm/dd/yy-mm/dd/yy
   """
   start_str, end_str = dates.split('-')
   start_date = datetime.strptime(start_str, '%m/%d/%y').date()

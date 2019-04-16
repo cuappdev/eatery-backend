@@ -144,7 +144,7 @@ class Query(ObjectType):
       location = txn['locationName'].rsplit(' ', 1)[0]
       # removes the register numbers at the end of the string by taking the substring up until
       # the last space (right before the number)
-      name = LOCATION_NAMES.get(location, {'name': location})['name']
+      name = LOCATION_NAMES['location']['name'] if location in LOCATION_NAMES else location
       new_transaction = {
           'amount': txn['amount'],
           'name': name if name != 'Amit Bhatia Libe Café' else 'Libe Café',

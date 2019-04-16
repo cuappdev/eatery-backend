@@ -17,9 +17,9 @@ from src.constants import (
 from src.schema import Data
 from src.swipes import export_data, parse_to_csv
 
+all_swipe_data = {}
 campus_eateries = {}
 collegetown_eateries = {}
-all_swipe_data = {}
 
 def start_update():
   """Starts the data retrieval process.
@@ -44,10 +44,10 @@ def start_update():
     parse_static_eateries(static_json, campus_eateries, all_swipe_data)
     Data.update_data(campus_eateries)
     # Get data for Collegetown eateries
-    # # print('[{}] Updating collegetown'.format(datetime.now()))
-    # # yelp_query = collegetown_search()
-    # # parse_collegetown_eateries(yelp_query, collegetown_eateries)
-    # # Data.update_collegetown_data(collegetown_eateries)
+    print('[{}] Updating collegetown'.format(datetime.now()))
+    yelp_query = collegetown_search()
+    parse_collegetown_eateries(yelp_query, collegetown_eateries)
+    Data.update_collegetown_data(collegetown_eateries)
     print('[{}] All data updated, waiting for requests'.format(datetime.now()))
   except Exception as e:
     print('Data update failed:', e)

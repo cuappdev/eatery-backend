@@ -14,9 +14,38 @@ GIT_CONTENT_URL = 'https://raw.githubusercontent.com/cuappdev'
 IGNORE_LOCATIONS = ['BS-No Bill Workstation', 'Admin Workstation (B)']
 IMAGES_URL = GIT_CONTENT_URL + '/assets/master/eatery/eatery-images/'
 TRILLIUM = 'trillium'
-ISOLATE_SWIPES = ['date', 'session_type', 'weekday', 'location', 'start_time', 'end_time', DINING_HALL, BRB_ONLY, TRILLIUM]
-ISOLATE_DATE = ['session_type', 'weekday', 'location', 'start_time', 'end_time', 'swipes', DINING_HALL, BRB_ONLY, TRILLIUM]
-ISOLATE_COUNTER_SWIPES = ['session_type', 'weekday', 'location', 'start_time', 'end_time', DINING_HALL, BRB_ONLY, TRILLIUM]
+ISOLATE_SWIPES = [
+    'date',
+    'session_type',
+    'weekday',
+    'location',
+    'start_time',
+    'end_time',
+    DINING_HALL,
+    BRB_ONLY,
+    TRILLIUM
+]
+ISOLATE_DATE = [
+    'session_type',
+    'weekday',
+    'location',
+    'start_time',
+    'end_time',
+    'swipes',
+    DINING_HALL,
+    BRB_ONLY,
+    TRILLIUM
+]
+ISOLATE_COUNTER_SWIPES = [
+    'session_type',
+    'weekday',
+    'location',
+    'start_time',
+    'end_time',
+    DINING_HALL,
+    BRB_ONLY,
+    TRILLIUM
+]
 LOCATION_NAMES = {
   'Alice Cook House': {'name': 'Cook House Dining Room', 'type': DINING_HALL},
   'Attrium Cafe': {'name': 'Atrium Café'},  # for GET history
@@ -73,12 +102,13 @@ SCHOOL_BREAKS = {
 STATIC_EATERIES_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/externalEateries.json'
 STATIC_CTOWN_HOURS_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/externalHours.json'
 STATIC_MENUS_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/hardcodedMenus.json'
+SWIPE_DENSITY_ROUND = 3
 SWIPE_PLANS = ['Bear Basic', 'Bear Choice', 'Bear Traditional']
 TRILLIUM_ID = 23
 UPDATE_DELAY = 86400  # 24 hours in seconds
 UPDATE_DELAY_TESTING = 60  # 1 minute in seconds
 # default multiplier for converting average swipes/count to wait time
-WAIT_TIME_CONVERSION = { BRB_ONLY: .06, DINING_HALL: .05, TRILLIUM: .03 }
+WAIT_TIME_CONVERSION = {BRB_ONLY: .06, DINING_HALL: .05, TRILLIUM: .03}
 WEEKDAYS = {
     'monday': 0,
     'tuesday': 1,
