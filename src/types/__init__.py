@@ -14,4 +14,4 @@ from .operating_hours_type import (
     OperatingHoursType,
 )
 from .payment_methods_type import PaymentMethodsEnum, PaymentMethodsType
-from .swipe_info_type import SwipeDataType
+from .swipe_data_type import SwipeDataType

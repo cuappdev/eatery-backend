@@ -13,9 +13,10 @@ GET_URL = 'https://services.get.cbord.com/GETServices/services/json'
 GIT_CONTENT_URL = 'https://raw.githubusercontent.com/cuappdev'
 IGNORE_LOCATIONS = ['BS-No Bill Workstation', 'Admin Workstation (B)']
 IMAGES_URL = GIT_CONTENT_URL + '/assets/master/eatery/eatery-images/'
-ISOLATE_SWIPES = ['date', 'session_type', 'weekday', 'location', 'start_time', 'end_time', 'dining_hall', 'brb_only']
-ISOLATE_DATE = ['session_type', 'weekday', 'location', 'start_time', 'end_time', 'swipes', 'dining_hall', 'brb_only']
-ISOLATE_COUNTER_SWIPES = ['session_type', 'weekday', 'location', 'start_time', 'end_time', 'dining_hall', 'brb_only']
+TRILLIUM = 'trillium'
+ISOLATE_SWIPES = ['date', 'session_type', 'weekday', 'location', 'start_time', 'end_time', DINING_HALL, BRB_ONLY, TRILLIUM]
+ISOLATE_DATE = ['session_type', 'weekday', 'location', 'start_time', 'end_time', 'swipes', DINING_HALL, BRB_ONLY, TRILLIUM]
+ISOLATE_COUNTER_SWIPES = ['session_type', 'weekday', 'location', 'start_time', 'end_time', DINING_HALL, BRB_ONLY, TRILLIUM]
 LOCATION_NAMES = {
   'Alice Cook House': {'name': 'Cook House Dining Room', 'type': DINING_HALL},
   'Attrium Cafe': {'name': 'Atrium Café'},  # for GET history
@@ -49,7 +50,7 @@ LOCATION_NAMES = {
   'Statler Macs': {'name': "Mac's Café", 'type': BRB_ONLY},
   'Statler Terrace': {'name': 'The Terrace', 'type': BRB_ONLY},
   'Straight Market': {'name': 'Straight from the Market', 'type': BRB_ONLY},
-  'Trillium': {'name': 'Trillium', 'type': DINING_HALL},
+  'Trillium': {'name': 'Trillium', 'type': TRILLIUM},
 }
 NUM_DAYS_STORED_IN_DB = 8
 PAY_METHODS = {
@@ -77,7 +78,7 @@ TRILLIUM_ID = 23
 UPDATE_DELAY = 86400  # 24 hours in seconds
 UPDATE_DELAY_TESTING = 60  # 1 minute in seconds
 # default multiplier for converting average swipes/count to wait time
-WAIT_TIME_CONVERSION = { BRB_ONLY: .06, DINING_HALL: .05 }
+WAIT_TIME_CONVERSION = { BRB_ONLY: .06, DINING_HALL: .05, TRILLIUM: .03 }
 WEEKDAYS = {
     'monday': 0,
     'tuesday': 1,
