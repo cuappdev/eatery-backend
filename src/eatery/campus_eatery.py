@@ -16,6 +16,7 @@ from src.eatery.common_eatery import (
     parse_eatery_type,
     parse_events,
     parse_payment_methods,
+    parse_payment_methods_enum,
     resolve_id
 )
 
@@ -46,6 +47,7 @@ def parse_eatery(data_json, campus_eateries):
         name_short=eatery.get('nameshort', ''),
         operating_hours=parse_operating_hours(eatery, dining_items),
         payment_methods=parse_payment_methods(eatery['payMethods']),
+        payment_methods_enums=parse_payment_methods_enum(eatery.get('payMethods', [])),
         phone=phone,
         slug=eatery.get('slug', '')
     )
@@ -75,7 +77,7 @@ def parse_operating_hours(eatery, dining_items):
   for hours in hours_list:
     new_date = hours.get('date', '')
     hours_events = hours['events']
-    #merge the dining items from the json (for non-dining hall eateries) with the menu for an event
+    # merge the dining items from the json (for non-dining hall eateries) with the menu for an event
     for event in hours_events:
       if not event['menu'] and dining_items:
         event['menu'] = dining_items

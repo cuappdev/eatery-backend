@@ -1,4 +1,4 @@
-from graphene import Boolean, Int, List, ObjectType, String
+from graphene import Boolean, List, ObjectType, String
 
 class FoodItemType(ObjectType):
   item = String(required=True)
