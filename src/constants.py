@@ -46,6 +46,7 @@ PAY_METHODS = {
     'swipes': 'Meal Plan - Swipe'
 }
 STATIC_EATERIES_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/externalEateries.json'
+STATIC_CTOWN_HOURS_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/externalHours.json'
 STATIC_MENUS_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/hardcodedMenus.json'
 SWIPE_PLANS = ['Bear Basic', 'Bear Choice', 'Bear Traditional']
 TRILLIUM_ID = 23
