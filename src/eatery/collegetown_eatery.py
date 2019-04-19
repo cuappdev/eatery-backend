@@ -1,6 +1,11 @@
+import requests
+
 from datetime import timedelta
 
-from src.constants import NUM_DAYS_STORED_IN_DB
+from src.constants import (
+    NUM_DAYS_STORED_IN_DB,
+    STATIC_CTOWN_HOURS_URL
+)
 from src.eatery.common_eatery import (
     format_time,
     get_image_url,
@@ -65,6 +70,15 @@ def parse_collegetown_hours(eatery):
   """
   hours_list = eatery.get('hours', [{}])[0].get('open', [])
   # gets open hours from first dictionary in hours, empty dict-list provided to mimic hours format
+
+  eatery_alias = eatery.get('alias', '')
+  # these hours are not on Yelp and need to be queried from another source
+  static_eateries = requests.get(STATIC_CTOWN_HOURS_URL).json()
+  for static_eatery in static_eateries['eateries']:
+    if static_eatery['alias'] == eatery_alias:
+      hours_list = static_eatery.get('hours', [{}])[0].get('open', [])
+      break
+
   new_operating_hours = []
 
   for i in range(NUM_DAYS_STORED_IN_DB):
@@ -88,6 +102,7 @@ def parse_collegetown_events(event_list, event_date):
       event_date (string): a string representation of the date
   """
   new_events = []
+
   for event in event_list:
     start, end = format_time(
         event.get('start', ''),
