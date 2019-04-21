@@ -27,21 +27,23 @@ for label, dates in SCHOOL_BREAKS.items():
   breaks[label] = string_to_date_range(dates)
 
 def parse_to_csv(file_name='data.csv'):
-  """
-  Takes in a data.log file of swipe logs and converts them to a tabular format.
-  Argument limit: used to limit number of logs to parse (for testing purposes).
-  Creates one csv file (updates file if already exists):
-  data.csv - stores all swipe events
-    date: date of swipe event, string (mm/dd/yyyy)
-    weekday: weekday of swipe event, string (ex: monday, tuesday, etc.)
-    in_session: whether or not school is on a break, boolean
-    location: eatery of swipe event, string (some locations have different names than dining.now's)
-    start_time: left edge of timeblock, string (hh:mm AM/PM)
-    end_time: right edge of timeblock, string (hh:mm AM/PM)
-    swipes: number of swipes, int
-    brb_only: indicates if this location is a brb only eatery (used for calcs), boolean
-    dining_hall: indicates if a location is a dining hall (used for calcs), boolean
-    trillium: indicates if a location is Trillium (used for calcs), boolean
+  """Takes in a data.log file of swipe logs and converts them to a tabular format.
+  Creates one csv file or updates file if one already exists:
+
+  Keyword arguments:
+  file_name -- the file name to use for the output csv file (default 'data.csv')
+
+  Table columns:
+  date -- date of the swipe event, string (mm/dd/yyyy)
+  weekday -- weekday of swipe event, string (ex: 'monday', 'tuesday', etc.)
+  in_session -- whether or not school is on a break, boolean
+  location -- eatery of swipe event, string
+  start_time -- left edge of timeblock, string (hh:mm AM/PM)
+  end_time -- right edge of timeblock, string (hh:mm AM/PM)
+  swipes -- number of swipes, int
+  brb_only -- indicates if this location is a brb only eatery (used for calcs), boolean
+  dining_hall -- indicates if a location is a dining hall (used for calcs), boolean
+  trillium -- indicates if a location is Trillium (used for calcs), boolean
   """
   global breaks
   global weekdays
@@ -108,6 +110,7 @@ def parse_to_csv(file_name='data.csv'):
         date = timestamp.date()
         session_type = sort_session_type(date, breaks)
         weekday = weekdays[timestamp.weekday()]
+
         # sort time into a time block
         if timestamp.minute > 30:
           delta = timedelta(minutes=30)
@@ -159,21 +162,25 @@ def parse_to_csv(file_name='data.csv'):
     print('Data update failed:', e)
 
 def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
-  """
-  Sorts and runs average swipe/time calculations.
-  Saves to a csv file (updates files if already exists):
-  tb-averages.csv - the timeblock swipe averages
-    session_type: type of class session (regular, winter, summer, finals, etc.)
-    weekday: weekday of swipe event, string (ex: monday, tuesday, etc.)
-    location: eatery of swipe event, string (some locations have different names than dining.now's)
-    start_time: left edge of timeblock, string (hh:mm AM/PM)
-    end_time: right edge of timeblock, string (hh:mm AM/PM)
-    swipes: number of swipes, int
-    counter: number of events within this timeblock (used to calculate average), int
-    average: average number of swipes in this timeblock, float (2 decimals)
-    brb_only: indicates if this location is a brb only eatery (used for calcs), boolean
-    dining_hall: indicates if a location is a dining hall (used for calcs), boolean
-    trillium: indicates if a location is Trillium (used for calcs), boolean
+  """Sorts and runs average swipe/time calculations.
+  Saves to a csv file or updates files if one already exists
+
+  Keyword arguments:
+  input_file_path -- the file path to our input csv file with all swipe logs, string
+  output_file -- the file name for the output csv file (default 'timeblock-averages.csv')
+
+  Table columns:
+  session_type -- type of class session (regular, winter, summer, finals, etc.)
+  weekday -- weekday of swipe event, string (ex: monday, tuesday, etc.)
+  location -- eatery of swipe event, string (some locations have different names than dining.now's)
+  start_time -- left edge of timeblock, string (hh:mm AM/PM)
+  end_time -- right edge of timeblock, string (hh:mm AM/PM)
+  swipes -- number of swipes, int
+  counter -- number of events within this timeblock (used to calculate average), int
+  average -- average number of swipes in this timeblock, float (2 decimals)
+  brb_only -- indicates if this location is a brb only eatery (used for calcs), boolean
+  dining_hall -- indicates if a location is a dining hall (used for calcs), boolean
+  trillium -- indicates if a location is Trillium (used for calcs), boolean
   """
   try:
     df = pd.read_csv(input_file_path)
@@ -195,16 +202,21 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
 
 
 def sort_by_day(input_file_path, output_file='daily-averages.csv'):
-  """
-  Sorts and runs average swipe/time calculations.
-  Saves to a csv file.  Currently not used in main code, but allows for future use of data
-  daily-averages.csv - the daily swipe averages
-    weekday: weekday of swipe event, string (ex: monday, tuesday, etc.)
-    in_session: whether or not school is on a break, boolean
-    location: eatery of swipe event, string (some locations have different names than dining.now's)
-    swipes: number of swipes, int
-    counter: number of events within this timeblock (used to calculate average), int
-    average: average number of swipes in this timeblock, float (2 decimals)
+  """Sorts and runs average swipe/time calculations.
+  Saves to a csv file or updates files if one already exists
+  Currently not used in main code, but allows for future use of data
+
+  Keyword arguments:
+  input_file_path -- the file path to our input csv file with all swipe logs, string
+  output_file -- the file name for the output csv file (default 'daily-averages.csv')
+
+  Table columns:
+  weekday -- weekday of swipe event, string (ex: monday, tuesday, etc.)
+  in_session -- whether or not school is on a break, boolean
+  location -- eatery of swipe event, string (some locations have different names than dining.now's)
+  swipes -- number of swipes, int
+  counter -- number of events within this timeblock (used to calculate average), int
+  average -- average number of swipes in this timeblock, float (2 decimals)
   """
   try:
     df = pd.read_csv(input_file_path)
@@ -225,8 +237,10 @@ def sort_by_day(input_file_path, output_file='daily-averages.csv'):
 
 
 def export_data(file_path):
-  """
-  Transforms our tabular data into custom objects to be placed in Eatery objects
+  """Transforms our tabular data into custom objects to be placed in Eatery objects
+
+  Keyword arguments:
+  file_path -- the file path to our input csv file with all wait time data, string
   """
   global breaks
   global weekdays
@@ -236,12 +250,14 @@ def export_data(file_path):
     data = {}
     today = date.today()
     session_type = sort_session_type(today, breaks)
-
     for location in df['location'].unique():
       eatery_name = LOCATION_NAMES[location]['name']
-
       # look at information that pertains to today's criteria
       new_df = df.loc[(df['location'] == location) & (df['weekday'] == weekdays[today.weekday()])]
+
+      if new_df.empty:
+        print('{} has no data for {}'.format(eatery_name, weekdays[today.weekday()]))
+        continue
 
       # df contains current session
       if new_df['session_type'].str.contains(session_type, regex=False).any():
@@ -278,7 +294,10 @@ def export_data(file_path):
 
 def aggregate_breaks(base_df):
   """Returns the dataframe with wait time calculations done on the combination of all break data.
-  The input dataframe (df) is already sorted to only contain a single location and day of the week.
+
+  Keyword arguments:
+  base_df -- the input dataframe which only contains one location and one day of the week
+
   NOTE: This method is currently not working as intended so it is not present in the live code.
   """
   df = base_df.copy(deep=True).drop(columns=['wait_time_low', 'wait_time_high'])
@@ -288,7 +307,11 @@ def aggregate_breaks(base_df):
 
 def calculate_wait_times(df):
   """Returns a df with calculated wait times given the swipe and counter columns
-  The input dataframe (df) should already have columns 'swipes' and 'counter'.
+
+  Keyword arguments:
+  df -- the input dataframe, already contains columns 'swipes' and 'counter'
+
+  The input dataframe (df) should already have columns 'swipes' and 'counter'
   """
   df['average'] = np.around(np.divide(df['swipes'], df['counter']), decimals=2)
   for type, multiplier in WAIT_TIME_CONVERSION.items():
@@ -301,11 +324,15 @@ def calculate_wait_times(df):
   return df
 
 def wait_time_multiply(df, type, multiplier):
+  """Returns a new columns"""
   return np.multiply(df['average'], multiplier, where=df[type])
 
 def sort_session_type(date, breaks):
-  """
-  sorts the given date to the proper session_type
+  """Sorts the given date to the proper session_type
+
+  Keyword arguments:
+  date -- the current date we want to sort, datetime.date object
+  breaks -- a dictionary containing all of the school breaks and their corresponding ranges
   """
   for label, dates in breaks.items():
     if dates[0] <= date <= dates[1]:
