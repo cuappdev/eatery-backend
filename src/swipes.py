@@ -1,4 +1,5 @@
 from datetime import date, datetime, timedelta
+from file_read_backwards import FileReadBackwards
 import json
 from os.path import isfile
 import numpy as np
@@ -48,9 +49,9 @@ def parse_to_csv(file_name='data.csv'):
   global breaks
   global weekdays
   main_csv = '{}{}'.format(EATERY_DATA_PATH, file_name)
+
   try:
-    with open('{}{}'.format(EATERY_DATA_PATH, 'data.log'), 'r') as swipe_data:
-      line_index = 0
+    with FileReadBackwards('{}{}'.format(EATERY_DATA_PATH, 'data.log')) as swipe_data:
       data_list = []
       update_info = {}
 
@@ -67,16 +68,14 @@ def parse_to_csv(file_name='data.csv'):
           print('failed in marker row creation')
 
       # read most recent data first
-      for line in list(reversed(swipe_data.readlines())):
-        # skip over empty log lines (odd lines going forward, even lines going reversed)
-        if line_index % 2 == 0 or line == '\n':
-          line_index += 1
+      for line in swipe_data:
+        # skip over empty log lines
+        if line == '':
           continue
 
         obj = json.loads(line)
         timestamp_str = obj['TIMESTAMP']
         if timestamp_str == 'Invalid date' or not obj['UNITS']:  # obj['UNITS'] contains locations
-          line_index += 1
           continue
 
         if 'new_marker' not in update_info:
@@ -141,8 +140,6 @@ def parse_to_csv(file_name='data.csv'):
               DINING_HALL: True if LOCATION_NAMES[location]['type'] == DINING_HALL else False,
               TRILLIUM: True if LOCATION_NAMES[location]['type'] == TRILLIUM else False,
               }, index=[0]))
-
-        line_index += 1
 
       print('done parsing data.log')
 
