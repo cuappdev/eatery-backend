@@ -14,18 +14,8 @@ GIT_CONTENT_URL = 'https://raw.githubusercontent.com/cuappdev'
 IGNORE_LOCATIONS = ['BS-No Bill Workstation', 'Admin Workstation (B)']
 IMAGES_URL = GIT_CONTENT_URL + '/assets/master/eatery/eatery-images/'
 TRILLIUM = 'trillium'
-ISOLATE_SWIPES = [
+TABLE_COLUMNS = [
     'date',
-    'session_type',
-    'weekday',
-    'location',
-    'start_time',
-    'end_time',
-    DINING_HALL,
-    BRB_ONLY,
-    TRILLIUM
-]
-ISOLATE_DATE = [
     'session_type',
     'weekday',
     'location',
@@ -36,50 +26,40 @@ ISOLATE_DATE = [
     BRB_ONLY,
     TRILLIUM
 ]
-ISOLATE_COUNTER_SWIPES = [
-    'session_type',
-    'weekday',
-    'location',
-    'start_time',
-    'end_time',
-    DINING_HALL,
-    BRB_ONLY,
-    TRILLIUM
-]
 LOCATION_NAMES = {
-  'Alice Cook House': {'name': 'Cook House Dining Room', 'type': DINING_HALL},
-  'Attrium Cafe': {'name': 'Atrium Café'},  # for GET history
-  'Bear Necessities': {'name': 'Bear Necessities Grill & C-Store', 'type': BRB_ONLY},
-  'Big Red Barn': {'name': 'Big Red Barn', 'type': BRB_ONLY},
-  'Bus Stop Bagels': {'name': 'Bus Stop Bagels', 'type': BRB_ONLY},
-  'Cafe Jennie': {'name': 'Café Jennie', 'type': BRB_ONLY},
-  'Carl Becker House': {'name': 'Becker House Dining Room', 'type': DINING_HALL},
-  'Carols Cafe': {'name': "Carol's Café", 'type': BRB_ONLY},
-  'Duffield': {'name': "Mattin's Café", 'type': BRB_ONLY},
-  "Franny's FT": {'name': "Franny's", 'type': BRB_ONLY},
-  "Goldies Cafe": {'name': "Goldie's Café"},  # for GET history
-  "Goldie's Cafe": {'name': "Goldie's Café", 'type': BRB_ONLY},
-  'Green Dragon': {'name': 'Green Dragon', 'type': BRB_ONLY},
-  'Ivy Room': {'name': 'Ivy Room', 'type': BRB_ONLY},
-  'Jansens at Bethe House': {'name': "Jansen's Dining Room at Bethe House", 'type': DINING_HALL},
-  'Jansens Market': {'name': "Jansen's Market"},  # for GET history
-  "Jansen's Market": {'name': "Jansen's Market", 'type': BRB_ONLY},
-  'Keeton House': {'name': 'Keeton House Dining Room', 'type': DINING_HALL},
-  'Kosher': {'name': '104West!', 'type': DINING_HALL},
-  'Marthas': {'name': "Martha's Express", 'type': BRB_ONLY},
-  "McCormick's": {'name': "McCormick's at Moakley House", 'type': BRB_ONLY},
-  'North Star Marketplace': {'name': 'North Star Dining Room', 'type': DINING_HALL},
-  'Okenshields': {'name': 'Okenshields', 'type': DINING_HALL},
-  'Olin Libe Cafe': {'name': 'Amit Bhatia Libe Café', 'type': BRB_ONLY},
-  'RPME': {'name': 'Robert Purcell Marketplace Eatery', 'type': DINING_HALL},
-  'Risley': {'name': 'Risley Dining Room', 'type': DINING_HALL},
-  'Rose House': {'name': 'Rose House Dining Room', 'type': DINING_HALL},
-  'Rustys': {'name': "Rusty's", 'type': BRB_ONLY},
-  'Sage': {'name': 'Atrium Café', 'type': BRB_ONLY},
-  'Statler Macs': {'name': "Mac's Café", 'type': BRB_ONLY},
-  'Statler Terrace': {'name': 'The Terrace', 'type': BRB_ONLY},
-  'Straight Market': {'name': 'Straight from the Market', 'type': BRB_ONLY},
-  'Trillium': {'name': 'Trillium', 'type': TRILLIUM},
+    'Alice Cook House': {'name': 'Cook House Dining Room', 'type': DINING_HALL},
+    'Attrium Cafe': {'name': 'Atrium Café'},  # for GET history
+    'Bear Necessities': {'name': 'Bear Necessities Grill & C-Store', 'type': BRB_ONLY},
+    'Big Red Barn': {'name': 'Big Red Barn', 'type': BRB_ONLY},
+    'Bus Stop Bagels': {'name': 'Bus Stop Bagels', 'type': BRB_ONLY},
+    'Cafe Jennie': {'name': 'Café Jennie', 'type': BRB_ONLY},
+    'Carl Becker House': {'name': 'Becker House Dining Room', 'type': DINING_HALL},
+    'Carols Cafe': {'name': "Carol's Café", 'type': BRB_ONLY},
+    'Duffield': {'name': "Mattin's Café", 'type': BRB_ONLY},
+    "Franny's FT": {'name': "Franny's", 'type': BRB_ONLY},
+    "Goldies Cafe": {'name': "Goldie's Café"},  # for GET history
+    "Goldie's Cafe": {'name': "Goldie's Café", 'type': BRB_ONLY},
+    'Green Dragon': {'name': 'Green Dragon', 'type': BRB_ONLY},
+    'Ivy Room': {'name': 'Ivy Room', 'type': BRB_ONLY},
+    'Jansens at Bethe House': {'name': "Jansen's Dining Room at Bethe House", 'type': DINING_HALL},
+    'Jansens Market': {'name': "Jansen's Market"},  # for GET history
+    "Jansen's Market": {'name': "Jansen's Market", 'type': BRB_ONLY},
+    'Keeton House': {'name': 'Keeton House Dining Room', 'type': DINING_HALL},
+    'Kosher': {'name': '104West!', 'type': DINING_HALL},
+    'Marthas': {'name': "Martha's Express", 'type': BRB_ONLY},
+    "McCormick's": {'name': "McCormick's at Moakley House", 'type': BRB_ONLY},
+    'North Star Marketplace': {'name': 'North Star Dining Room', 'type': DINING_HALL},
+    'Okenshields': {'name': 'Okenshields', 'type': DINING_HALL},
+    'Olin Libe Cafe': {'name': 'Amit Bhatia Libe Café', 'type': BRB_ONLY},
+    'RPME': {'name': 'Robert Purcell Marketplace Eatery', 'type': DINING_HALL},
+    'Risley': {'name': 'Risley Dining Room', 'type': DINING_HALL},
+    'Rose House': {'name': 'Rose House Dining Room', 'type': DINING_HALL},
+    'Rustys': {'name': "Rusty's", 'type': BRB_ONLY},
+    'Sage': {'name': 'Atrium Café', 'type': BRB_ONLY},
+    'Statler Macs': {'name': "Mac's Café", 'type': BRB_ONLY},
+    'Statler Terrace': {'name': 'The Terrace', 'type': BRB_ONLY},
+    'Straight Market': {'name': 'Straight from the Market', 'type': BRB_ONLY},
+    'Trillium': {'name': 'Trillium', 'type': TRILLIUM},
 }
 NUM_DAYS_STORED_IN_DB = 8
 PAY_METHODS = {

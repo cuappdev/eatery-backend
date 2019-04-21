@@ -10,11 +10,9 @@ from src.constants import (
   DINING_HALL,
   EATERY_DATA_PATH,
   LOCATION_NAMES,
-  ISOLATE_COUNTER_SWIPES,
-  ISOLATE_DATE,
-  ISOLATE_SWIPES,
   SCHOOL_BREAKS,
   SWIPE_DENSITY_ROUND,
+  TABLE_COLUMNS,
   TRILLIUM,
   WAIT_TIME_CONVERSION,
   WEEKDAYS,
@@ -70,7 +68,7 @@ def parse_to_csv(file_name='data.csv'):
       # read most recent data first
       for line in swipe_data:
         # skip over empty log lines
-        if line == '':
+        if not line:
           continue
 
         obj = json.loads(line)
@@ -98,12 +96,11 @@ def parse_to_csv(file_name='data.csv'):
           print('hit time marker from last update on {}'.format(timestamp_str))
           break
 
-        try:
-          try:
-            timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %I:%M:00 %p')
-          except:
-            timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %I:%M:01 %p')
-        except:
+        if timestamp_str[-4] == '0':
+          timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %I:%M:00 %p')
+        elif timestamp_str[-4] == '1':
+          timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %I:%M:01 %p')
+        else:
           continue
 
         date = timestamp.date()
@@ -180,18 +177,24 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
   trillium -- indicates if a location is Trillium (used for calcs), boolean
   """
   try:
+    all_but_swipes = list(TABLE_COLUMNS)
+    all_but_swipes.remove('swipes')
+    all_but_date = list(TABLE_COLUMNS)
+    all_but_date.remove('date')
+    all_but_date_and_swipes = list(all_but_date)
+    all_but_date_and_swipes.remove('swipes')
     df = pd.read_csv(input_file_path)
     # sum together the swipes of rows with same timeblock/eatery makeup
-    df = df.groupby(ISOLATE_SWIPES).sum().reset_index()
+    swipes_grouped = df.groupby(all_but_swipes).sum().reset_index()
     # count how many days of the same timeblock/eatery combo we have --> used for counter column
-    df = df.groupby(ISOLATE_DATE).count().reset_index()
-    df = df.rename(index=str, columns={'date': 'counter'})
+    dates_grouped = swipes_grouped.groupby(all_but_date).count().reset_index()
+    counter_rename = dates_grouped.rename(index=str, columns={'date': 'counter'})
     # sum together swipes and counters for rows with the same timeblock and location
-    df = df.groupby(ISOLATE_COUNTER_SWIPES).sum().reset_index()
-    df = calculate_wait_times(df)
-    df = df.sort_values(by=['location', 'weekday'])
+    final_grouping = counter_rename.groupby(all_but_date_and_swipes).sum().reset_index()
+    calculate_wait_times(final_grouping)
+    final_grouping.sort_values(by=['location', 'weekday'])
     output_path = '{}{}'.format(EATERY_DATA_PATH, output_file)
-    df.to_csv(output_path, header=True, index=False)
+    final_grouping.to_csv(output_path, header=True, index=False)
     return output_path
   except Exception as e:
     print('Failed at sort_by_timeblock')
@@ -219,15 +222,15 @@ def sort_by_day(input_file_path, output_file='daily-averages.csv'):
     df = pd.read_csv(input_file_path)
     df = df.drop(columns=['start_time', 'end_time', BRB_ONLY, DINING_HALL, TRILLIUM])
     # sum together the swipes of rows with same day/eatery makeup
-    df = df.groupby(['date', 'session_type', 'weekday', 'location']).sum().reset_index()
+    swipes_grouped = df.groupby(['date', 'session_type', 'weekday', 'location']).sum().reset_index()
     # count the number of times a location/date pair occur
-    df = df.groupby(['weekday', 'location', 'swipes', 'session_type']).count().reset_index()
-    df = df.rename(index=str, columns={'date': 'counter'})
+    location_grouped = swipes_grouped.groupby(['weekday', 'location', 'swipes', 'session_type']).count().reset_index()
+    counter_rename = location_grouped.rename(index=str, columns={'date': 'counter'})
     # sum swipes and counters for rows with the same weekday and location
-    df = df.groupby(['weekday', 'location', 'session_type']).sum().reset_index()
-    df['average'] = np.around(np.divide(df['swipes'], df['counter']), decimals=2)
-    df = df.sort_values(by=['location', 'weekday'])
-    df.to_csv('{}{}'.format(EATERY_DATA_PATH, output_file), header=True, index=False)
+    final_grouping = counter_rename.groupby(['weekday', 'location', 'session_type']).sum().reset_index()
+    final_grouping['average'] = np.around(np.divide(final_grouping['swipes'], final_grouping['counter']), decimals=2)
+    final_grouping.sort_values(by=['location', 'weekday'])
+    final_grouping.to_csv('{}{}'.format(EATERY_DATA_PATH, output_file), header=True, index=False)
   except Exception as e:
     print('Faled at sort_by_day')
     print('Data update failed:', e)
@@ -250,22 +253,21 @@ def export_data(file_path):
     for location in df['location'].unique():
       eatery_name = LOCATION_NAMES[location]['name']
       # look at information that pertains to today's criteria
-      new_df = df.loc[(df['location'] == location) & (df['weekday'] == weekdays[today.weekday()])]
+      today_df = df.loc[(df['location'] == location) & (df['weekday'] == weekdays[today.weekday()])]
 
-      if new_df.empty:
-        print('{} has no data for {}'.format(eatery_name, weekdays[today.weekday()]))
+      if today_df.empty:
+        print('{} has no swipe data for {}'.format(eatery_name, weekdays[today.weekday()]))
         continue
 
       # df contains current session
-      if new_df['session_type'].str.contains(session_type, regex=False).any():
-        new_df = new_df.loc[(new_df['session_type'] == session_type)]
+      if today_df['session_type'].str.contains(session_type, regex=False).any():
+        today_df = today_df.loc[(today_df['session_type'] == session_type)]
       else:  # not all breaks will be in data to start, default to regular for time being
         print('defaulting to regular session_type')
-        new_df = new_df.loc[(new_df['session_type'] == 'regular')]
-        # new_df = aggregate_breaks(new_df)
+        today_df = today_df.loc[(today_df['session_type'] == 'regular')]
 
-      max_swipes = new_df['average'].max()
-      json_data = json.loads(new_df.to_json(orient='table'))
+      max_swipes = today_df['average'].max()
+      json_data = json.loads(today_df.to_json(orient='table'))
 
       for row in json_data['data']:
         new_timeblock = SwipeDataType(  # represents the data for a single timeblock of swipe data
@@ -297,9 +299,12 @@ def aggregate_breaks(base_df):
 
   NOTE: This method is currently not working as intended so it is not present in the live code.
   """
+  all_but_date_and_swipes = list(TABLE_COLUMNS)
+  all_but_date_and_swipes.remove('swipes')
+  all_but_date_and_swipes.remove('date')
   df = base_df.copy(deep=True).drop(columns=['wait_time_low', 'wait_time_high'])
   df = df.loc[(df['session_type'] != 'regular')]
-  df = df.groupby(ISOLATE_COUNTER_SWIPES).sum().reset_index()
+  df = df.groupby(all_but_date_and_swipes).sum().reset_index()
   return calculate_wait_times(df)
 
 def calculate_wait_times(df):
@@ -321,7 +326,7 @@ def calculate_wait_times(df):
   return df
 
 def wait_time_multiply(df, type, multiplier):
-  """Returns a new columns"""
+  """Returns a new column which is the 'average' column times a cetain multiplier"""
   return np.multiply(df['average'], multiplier, where=df[type])
 
 def sort_session_type(date, breaks):
