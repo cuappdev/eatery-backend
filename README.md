@@ -19,21 +19,21 @@ pip install -r requirements.txt
 It's recommended to use [`autoenv`](https://github.com/kennethreitz/autoenv).
 The required environment variables for this API are the following:
 
-````bash
-export FLASK_ENV=development
-````
+```bash
+FLASK_ENV=development
+```
 
 To use `autoenv` with this repository, run the following and set the variables appropriately.
 
-````bash
+```bash
 cp env.template .env
-````
+```
 
 ## Running the App
 
-````bash
+```bash
 sh start_server.sh
-````
+```
 
 ## GraphQL Interface
 
