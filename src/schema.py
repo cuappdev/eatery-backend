@@ -37,7 +37,6 @@ class Data(object):
 class Query(ObjectType):
   account_info = Field(
       AccountInfoType,
-      date=Date(),
       session_id=String(name='id'),
   )
   campus_eateries = List(
@@ -144,9 +143,17 @@ class Query(ObjectType):
       location = txn['locationName'].rsplit(' ', 1)[0]
       # removes the register numbers at the end of the string by taking the substring up until
       # the last space (right before the number)
+
+      if location == 'Olin Libe Cafe':
+        name = 'Libe Café'
+      elif location in LOCATION_NAMES:
+        name = LOCATION_NAMES[location]['name']
+      else:
+        name = location
+
       new_transaction = {
           'amount': txn['amount'],
-          'name': LOCATION_NAMES.get(location, location),
+          'name': name,
           'timestamp': txn_timestamp.strftime("%A, %b %d at %I:%M %p")
       }
       account_info['history'].append(TransactionType(**new_transaction))

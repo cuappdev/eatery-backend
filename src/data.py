@@ -15,7 +15,9 @@ from src.constants import (
     UPDATE_DELAY
 )
 from src.schema import Data
+from src.swipes import export_data, parse_to_csv
 
+all_swipe_data = {}
 campus_eateries = {}
 collegetown_eateries = {}
 
@@ -27,15 +29,19 @@ def start_update():
   from Yelp.
   """
   try:
+    global all_swipe_data
+    print('[{}] Updating swipe data'.format(datetime.now()))
+    data_path = parse_to_csv(file_name='data.csv')
+    all_swipe_data = export_data(data_path)
     print('[{}] Updating campus'.format(datetime.now()))
     # Get data for on-campus, Cornell-owned dining Options
     dining_query = requests.get(CORNELL_DINING_URL)
     data_json = dining_query.json()
-    parse_eatery(data_json, campus_eateries)
+    parse_eatery(data_json, campus_eateries, all_swipe_data)
     merge_hours(campus_eateries)
     # Get data for on-campus, 3rd-party dining options
     static_json = requests.get(STATIC_EATERIES_URL).json()
-    parse_static_eateries(static_json, campus_eateries)
+    parse_static_eateries(static_json, campus_eateries, all_swipe_data)
     Data.update_data(campus_eateries)
     # Get data for Collegetown eateries
     print('[{}] Updating collegetown'.format(datetime.now()))

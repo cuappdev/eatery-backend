@@ -6,7 +6,7 @@ from src.constants import (
 )
 from src.types import (
     CampusEateryType,
-    OperatingHoursType
+    OperatingHoursType,
 )
 from src.eatery.common_eatery import (
     get_image_url,
@@ -20,7 +20,7 @@ from src.eatery.common_eatery import (
     resolve_id
 )
 
-def parse_eatery(data_json, campus_eateries):
+def parse_eatery(data_json, campus_eateries, all_swipe_data):
   """Parses a Cornell Dining json dictionary.
 
   Fills the campus_eateries dictionary with objects of type CampusEateryType.
@@ -49,7 +49,8 @@ def parse_eatery(data_json, campus_eateries):
         payment_methods=parse_payment_methods(eatery['payMethods']),
         payment_methods_enums=parse_payment_methods_enum(eatery.get('payMethods', [])),
         phone=phone,
-        slug=eatery.get('slug', '')
+        slug=eatery.get('slug', ''),
+        swipe_data=all_swipe_data.get(eatery.get('name', ''), [])
     )
     campus_eateries[new_eatery.id] = new_eatery
 
