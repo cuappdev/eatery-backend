@@ -40,9 +40,7 @@ def parse_to_csv(file_name='data.csv'):
   start_time -- left edge of timeblock, string (hh:mm AM/PM)
   end_time -- right edge of timeblock, string (hh:mm AM/PM)
   swipes -- number of swipes, int
-  brb_only -- indicates if this location is a brb only eatery (used for calcs), boolean
-  dining_hall -- indicates if a location is a dining hall (used for calcs), boolean
-  trillium -- indicates if a location is Trillium (used for calcs), boolean
+  multiplier -- coefficient for converting average swipes/time into a wait time estimate, float
   """
   global breaks
   global weekdays
@@ -58,11 +56,10 @@ def parse_to_csv(file_name='data.csv'):
         try:
           df = pd.read_csv(main_csv)
           marker_row = df.head(1)
-          print(marker_row.iloc[0]['date'])
           df.drop(marker_row.index, inplace=True)  # remove previous time marker
           update_info['end'] = marker_row
           update_info['old_data'] = df
-        except Exception as e:
+        except:
           print('failed in marker row creation')
 
       # read most recent data first
@@ -86,9 +83,7 @@ def parse_to_csv(file_name='data.csv'):
               'start_time': '',
               'swipes': 0,
               'weekday': '',
-              BRB_ONLY: False,
-              DINING_HALL: False,
-              TRILLIUM: False,
+              'multiplier': 0,
           }, index=[0])
           print('new marker made')
 
@@ -96,6 +91,9 @@ def parse_to_csv(file_name='data.csv'):
           print('hit time marker from last update on {}'.format(timestamp_str))
           break
 
+        # timestamps strings typically end on a '00' representing fractions of a second but
+        # occasionally end with a '01' as a rounding error on Cornell's side.
+        # datetime.strptime crashes if the format does not perfectly match hence the checking
         if timestamp_str[-4] == '0':
           timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %I:%M:00 %p')
         elif timestamp_str[-4] == '1':
@@ -125,18 +123,20 @@ def parse_to_csv(file_name='data.csv'):
           # remove locations that are not eateries we care about
           if location not in LOCATION_NAMES:
             continue
-          data_list.append(pd.DataFrame(data={
-              'date': timestamp.strftime('%m/%d/%Y'),
-              'end_time': end_time,
-              'session_type': session_type,
-              'location': location,
-              'start_time': start_time,
-              'swipes': place['CROWD_COUNT'],
-              'weekday': weekday,
-              BRB_ONLY: True if LOCATION_NAMES[location]['type'] == BRB_ONLY else False,
-              DINING_HALL: True if LOCATION_NAMES[location]['type'] == DINING_HALL else False,
-              TRILLIUM: True if LOCATION_NAMES[location]['type'] == TRILLIUM else False,
-              }, index=[0]))
+          data_list.append(
+            pd.DataFrame(
+              data={
+                  'date': timestamp.strftime('%m/%d/%Y'),
+                  'end_time': end_time,
+                  'session_type': session_type,
+                  'location': location,
+                  'start_time': start_time,
+                  'swipes': place['CROWD_COUNT'],
+                  'weekday': weekday,
+                  'multiplier': WAIT_TIME_CONVERSION[LOCATION_NAMES[location]['type']],
+              }, index=[0]
+            )
+          )
 
       print('done parsing data.log')
 
@@ -172,9 +172,7 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
   swipes -- number of swipes, int
   counter -- number of events within this timeblock (used to calculate average), int
   average -- average number of swipes in this timeblock, float (2 decimals)
-  brb_only -- indicates if this location is a brb only eatery (used for calcs), boolean
-  dining_hall -- indicates if a location is a dining hall (used for calcs), boolean
-  trillium -- indicates if a location is Trillium (used for calcs), boolean
+  multiplier -- coefficient for converting average swipes/time into a wait time estimate, float
   """
   try:
     all_but_swipes = list(TABLE_COLUMNS)
@@ -232,7 +230,7 @@ def sort_by_day(input_file_path, output_file='daily-averages.csv'):
     final_grouping.sort_values(by=['location', 'weekday'])
     final_grouping.to_csv('{}{}'.format(EATERY_DATA_PATH, output_file), header=True, index=False)
   except Exception as e:
-    print('Faled at sort_by_day')
+    print('Failed at sort_by_day')
     print('Data update failed:', e)
 
 
@@ -316,11 +314,8 @@ def calculate_wait_times(df):
   The input dataframe (df) should already have columns 'swipes' and 'counter'
   """
   df['average'] = np.around(np.divide(df['swipes'], df['counter']), decimals=2)
-  for type, multiplier in WAIT_TIME_CONVERSION.items():
-    df['wait_time_low'] = wait_time_multiply(df, type, multiplier)
-    df['wait_time_high'] = wait_time_multiply(df, type, multiplier)
-  df['wait_time_low'] = np.floor(df['wait_time_low'])
-  df['wait_time_high'] = np.ceil(df['wait_time_high'])
+  df['wait_time_low'] = np.floor(np.multiply(df['average'], df['multiplier']))
+  df['wait_time_high'] = np.ceil(np.multiply(df['average'], df['multiplier']))
   df['wait_time_high'] = np.add(df['wait_time_high'], 2)  # expands bounds
   print('wait time calculations done')
   return df

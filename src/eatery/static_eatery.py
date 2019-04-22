@@ -115,4 +115,4 @@ def string_to_date_range(dates):
   start_str, end_str = dates.split('-')
   start_date = datetime.strptime(start_str, '%m/%d/%y').date()
   end_date = datetime.strptime(end_str, '%m/%d/%y').date()
-  return [start_date, end_date]
+  return (start_date, end_date)
