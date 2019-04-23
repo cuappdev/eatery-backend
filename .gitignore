@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 
 # Distribution / packaging
-.Python
 build/
 develop-eggs/
 dist/
@@ -21,3 +20,6 @@ MANIFEST
 # Environments
 .env
 venv/
+
+# Swipe Data
+eatery-data/

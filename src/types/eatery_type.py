@@ -2,6 +2,7 @@ from graphene import Enum, Field, Float, Int, List, ObjectType, String
 
 from src.types.operating_hours_type import OperatingHoursType, CollegetownHoursType
 from src.types.payment_methods_type import PaymentMethodsEnum, PaymentMethodsType
+from src.types.swipe_data_type import SwipeDataType
 
 class CampusAreaType(ObjectType):
   description_short = String(required=True)
@@ -39,6 +40,7 @@ class CampusEateryType(EateryBaseType):
   name_short = String(required=True)
   operating_hours = List(OperatingHoursType, required=True)
   slug = String(required=True)
+  swipe_data = List(SwipeDataType, required=True)
 
 class CollegetownEateryType(EateryBaseType):
   address = String(required=True)

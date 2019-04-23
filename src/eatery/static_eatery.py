@@ -14,14 +14,14 @@ from src.eatery.common_eatery import (
     parse_payment_methods,
     parse_payment_methods_enum,
     resolve_id,
-    today
+    today,
 )
 from src.types import (
     CampusEateryType,
-    OperatingHoursType
+    OperatingHoursType,
 )
 
-def parse_static_eateries(static_json, campus_eateries):
+def parse_static_eateries(static_json, campus_eateries, all_swipe_data):
   """Parses a static dining json dictionary.
 
   Similar to the parse_eatery function except for static source. Uses parse_static_op_hours to
@@ -51,7 +51,8 @@ def parse_static_eateries(static_json, campus_eateries):
         payment_methods=parse_payment_methods(eatery.get('payMethods', [])),
         payment_methods_enums=parse_payment_methods_enum(eatery.get('payMethods', [])),
         phone=eatery.get('contactPhone', 'N/A'),
-        slug=eatery.get('slug', '')
+        slug=eatery.get('slug', ''),
+        swipe_data=all_swipe_data.get(eatery.get('name', ''), [])
     )
     campus_eateries[new_eatery.id] = new_eatery
 
@@ -90,9 +91,7 @@ def parse_static_op_hours(hours_list, dining_items, dates_closed):
         if new_date == closed_date:
           break
       else:
-        start_str, end_str = dates.split('-')
-        start_date = datetime.strptime(start_str, '%m/%d/%y').date()
-        end_date = datetime.strptime(end_str, '%m/%d/%y').date()
+        start_date, end_date = string_to_date_range(dates)
         if start_date <= new_date <= end_date:
           break
     else:
@@ -108,3 +107,12 @@ def parse_static_op_hours(hours_list, dining_items, dates_closed):
           )
       )
   return new_operating_hours
+
+def string_to_date_range(dates):
+  """
+  dates: string representing a range of dates mm/dd/yy-mm/dd/yy
+  """
+  start_str, end_str = dates.split('-')
+  start_date = datetime.strptime(start_str, '%m/%d/%y').date()
+  end_date = datetime.strptime(end_str, '%m/%d/%y').date()
+  return (start_date, end_date)
