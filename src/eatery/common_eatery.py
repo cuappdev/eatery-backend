@@ -178,8 +178,8 @@ def parse_expanded_item_options(item_options):
   option_categories = []
   for option in item_options:
     item_option = DescriptiveFoodItemOptionType(
-      label = option['label'],
-      options = option['options']
+      label=option['label'],
+      options=option['options']
     )
     option_categories.append(item_option)
   return option_categories

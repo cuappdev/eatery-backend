@@ -13,8 +13,8 @@ class DescriptiveFoodItemType(FoodItemType):
   def equals(self, food_item):
     if len(self.options) == len(food_item.options):
       return False
-    return (super(FoodItemType, self).equals(self, food_item) and self.price == food_item.price \
-            and all([self.items[i].equals(food_item.options[i]) for i in range(options)]))
+    return (super(FoodItemType, self).equals(self, food_item) and self.price == food_item.price
+            and all([self.options[i].equals(food_item.options[i]) for i in range(self.options)]))
 
 class DescriptiveFoodStationType(FoodStationType):
   items = List(DescriptiveFoodItemType, required=True)
