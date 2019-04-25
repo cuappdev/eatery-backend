@@ -70,6 +70,7 @@ SCHOOL_BREAKS = {
 STATIC_EATERIES_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/externalEateries.json'
 STATIC_CTOWN_HOURS_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/externalHours.json'
 STATIC_MENUS_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/hardcodedMenus.json'
+STATIC_EXPANDED_ITEMS_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/expandedItems.json'
 SWIPE_DENSITY_ROUND = 3
 SWIPE_PLANS = ['Bear Basic', 'Bear Choice', 'Bear Traditional']
 TABLE_COLUMNS = [

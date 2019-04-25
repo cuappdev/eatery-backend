@@ -6,6 +6,12 @@ from .eatery_type import (
     CoordinatesType,
     RatingEnum
 )
+from .expanded_menu_type import (
+    FoodCategoryType,
+    DescriptiveFoodItemOptionType,
+    DescriptiveFoodItemType,
+    DescriptiveFoodStationType
+)
 from .food_station_type import FoodItemType, FoodStationType
 from .operating_hours_type import (
     CollegetownEventType,
