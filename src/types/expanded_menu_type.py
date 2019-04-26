@@ -7,12 +7,13 @@ class DescriptiveFoodItemOptionType(ObjectType):
   options = List(String, required=True)
 
 class DescriptiveFoodItemType(FoodItemType):
-  options = List(DescriptiveFoodItemOptionType, required=False)
+  choices = List(DescriptiveFoodItemOptionType, required=False)
   price = String(required=True)
 
   def equals(self, food_item):
-    if len(self.options) == len(food_item.options):
+    if len(self.options) != len(food_item.options):
       return False
+    # Check equals using the FoodItemType and with new fields
     return (super(FoodItemType, self).equals(self, food_item) and self.price == food_item.price
             and all([self.options[i].equals(food_item.options[i]) for i in range(self.options)]))
 

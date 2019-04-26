@@ -8,6 +8,7 @@ BRB_ONLY = 'brb_only'
 CORNELL_DINING_URL = 'https://now.dining.cornell.edu/api/1.0/dining/eateries.json'
 CORNELL_INSTITUTION_ID = '73116ae4-22ad-4c71-8ffd-11ba015407b1'
 DINING_HALL = 'dining_hall'
+DINING_STACK_URL = 'https://raw.githubusercontent.com/cuappdev/DiningStack/master/DiningStack/'
 EATERY_DATA_PATH = './eatery-data/'
 GET_URL = 'https://services.get.cbord.com/GETServices/services/json'
 GIT_CONTENT_URL = 'https://raw.githubusercontent.com/cuappdev'
@@ -67,10 +68,10 @@ SCHOOL_BREAKS = {
   'finals_spring': '5/8/19-5/18/19',
   'summer': '5/19/19-8/28/19'
 }
-STATIC_EATERIES_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/externalEateries.json'
-STATIC_CTOWN_HOURS_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/externalHours.json'
-STATIC_MENUS_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/hardcodedMenus.json'
-STATIC_EXPANDED_ITEMS_URL = GIT_CONTENT_URL + '/DiningStack/master/DiningStack/expandedItems.json'
+STATIC_EATERIES_URL = DINING_STACK_URL + 'externalEateries.json'
+STATIC_CTOWN_HOURS_URL = DINING_STACK_URL + 'externalHours.json'
+STATIC_MENUS_URL = DINING_STACK_URL + 'hardcodedMenus.json'
+STATIC_EXPANDED_ITEMS_URL = DINING_STACK_URL + 'expandedItems.json'
 SWIPE_DENSITY_ROUND = 3
 SWIPE_PLANS = ['Bear Basic', 'Bear Choice', 'Bear Traditional']
 TABLE_COLUMNS = [

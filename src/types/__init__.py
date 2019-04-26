@@ -7,10 +7,10 @@ from .eatery_type import (
     RatingEnum
 )
 from .expanded_menu_type import (
-    FoodCategoryType,
     DescriptiveFoodItemOptionType,
     DescriptiveFoodItemType,
-    DescriptiveFoodStationType
+    DescriptiveFoodStationType,
+    FoodCategoryType
 )
 from .food_station_type import FoodItemType, FoodStationType
 from .operating_hours_type import (

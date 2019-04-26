@@ -1,6 +1,6 @@
-import requests
-
 from datetime import date, datetime, timedelta
+
+import requests
 
 from src.constants import (
     IMAGES_URL,
@@ -116,12 +116,11 @@ def parse_expanded_menu(eatery):
   Args:
     eatery (dict): A valid json segment from Cornell Dining that contains eatery information
   """
-  eatery_slug = eatery['slug']
   menus = requests.get(STATIC_EXPANDED_ITEMS_URL).json()
   categories = []
 
   for menu in menus['eateries']:
-    if menu['slug'] == eatery_slug:
+    if menu['slug'] == eatery['slug']:
       for category in menu['categories']:
         food_category = FoodCategoryType(
           category=category['category'],
@@ -160,14 +159,15 @@ def parse_expanded_items(eatery_items):
   for item in eatery_items:
     food_item = DescriptiveFoodItemType(
       item=item['item'],
+      # should check if items are healthy in the future
       healthy=False,
-      options=parse_expanded_item_options(item['choices']),
+      choices=parse_expanded_choices(item['choices']),
       price=item['price']
     )
     items.append(food_item)
   return items
 
-def parse_expanded_item_options(item_options):
+def parse_expanded_choices(item_choices):
   """Parses the options for an item.
 
   Returns a list of DescriptiveFoodItemOptionTypes for an item.
@@ -175,14 +175,14 @@ def parse_expanded_item_options(item_options):
   Args:
     item_options (dict): A valid json segment from the hard-coded menu items
   """
-  option_categories = []
-  for option in item_options:
-    item_option = DescriptiveFoodItemOptionType(
-      label=option['label'],
-      options=option['options']
+  choice_categories = []
+  for choice in item_choices:
+    item_choice = DescriptiveFoodItemOptionType(
+      label=choice['label'],
+      options=choice['options']
     )
-    option_categories.append(item_option)
-  return option_categories
+    choice_categories.append(item_choice)
+  return choice_categories
 
 def parse_payment_methods(methods):
   """Returns a PaymentMethodsType according to which payment methods are available at an eatery.
