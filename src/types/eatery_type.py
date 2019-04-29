@@ -1,5 +1,6 @@
 from graphene import Enum, Field, Float, Int, List, ObjectType, String
 
+from src.types.expanded_menu_type import FoodCategoryType
 from src.types.operating_hours_type import OperatingHoursType, CollegetownHoursType
 from src.types.payment_methods_type import PaymentMethodsEnum, PaymentMethodsType
 from src.types.swipe_data_type import SwipeDataType
@@ -36,6 +37,7 @@ class EateryBaseType(ObjectType):
 class CampusEateryType(EateryBaseType):
   about = String(required=True)
   campus_area = Field(CampusAreaType, required=True)
+  expanded_menu = List(FoodCategoryType, required=True)
   location = String(required=True)
   name_short = String(required=True)
   operating_hours = List(OperatingHoursType, required=True)
