@@ -11,14 +11,15 @@ from src.eatery.common_eatery import (
     parse_dining_items,
     parse_eatery_type,
     parse_events,
+    parse_expanded_menu,
     parse_payment_methods,
     parse_payment_methods_enum,
     resolve_id,
-    today,
+    today
 )
 from src.types import (
     CampusEateryType,
-    OperatingHoursType,
+    OperatingHoursType
 )
 
 def parse_static_eateries(static_json, campus_eateries, all_swipe_data):
@@ -38,6 +39,7 @@ def parse_static_eateries(static_json, campus_eateries, all_swipe_data):
         campus_area=parse_campus_area(eatery),
         coordinates=parse_coordinates(eatery),
         eatery_type=parse_eatery_type(eatery),
+        expanded_menu=parse_expanded_menu(eatery),
         id=eatery.get('id', resolve_id(eatery)),
         image_url=get_image_url(eatery.get('slug')),
         location=eatery.get('location', ''),

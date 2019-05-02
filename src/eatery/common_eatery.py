@@ -1,13 +1,20 @@
 from datetime import date, datetime, timedelta
 
+import requests
+
 from src.constants import (
     IMAGES_URL,
-    PAY_METHODS
+    PAY_METHODS,
+    STATIC_EXPANDED_ITEMS_URL
 )
 from src.types import (
     CampusAreaType,
     CoordinatesType,
+    DescriptiveFoodItemOptionType,
+    DescriptiveFoodItemType,
+    DescriptiveFoodStationType,
     EventType,
+    FoodCategoryType,
     FoodItemType,
     FoodStationType,
     PaymentMethodsEnum,
@@ -100,6 +107,82 @@ def parse_events(event_list, event_date):
     )
     new_events.append(new_event)
   return new_events
+
+def parse_expanded_menu(eatery):
+  """Parses the expanded menu of an eatery.
+
+  Returns a list of FoodCategoryTypes available in the external expandedItems resource
+
+  Args:
+    eatery (dict): A valid json segment from Cornell Dining that contains eatery information
+  """
+  menus = requests.get(STATIC_EXPANDED_ITEMS_URL).json()
+  categories = []
+
+  for menu in menus['eateries']:
+    if menu['slug'] == eatery['slug']:
+      for category in menu['categories']:
+        food_category = FoodCategoryType(
+          category=category['category'],
+          stations=parse_expanded_stations(category['stations'])
+        )
+        categories.append(food_category)
+
+  return categories
+
+def parse_expanded_stations(eatery_stations):
+  """Parses the expanded stations of an eatery.
+
+  Returns a list of DescriptiveFoodStationTypes available to a certain category of an eatery.
+
+  Args:
+    eatery_stations (dict): A valid json segment from the hard-coded menu items
+  """
+  stations = []
+  for station in eatery_stations:
+    expanded_station = DescriptiveFoodStationType(
+      category=station['station'],
+      items=parse_expanded_items(station['diningItems'])
+    )
+    stations.append(expanded_station)
+  return stations
+
+def parse_expanded_items(eatery_items):
+  """Parses the expanded items for each station.
+
+  Returns a list of DescriptiveFoodItemTypes for an eatery's station.
+
+  Args:
+    eatery_items (dict): A valid json segment from the hard-coded menu items
+  """
+  items = []
+  for item in eatery_items:
+    food_item = DescriptiveFoodItemType(
+      item=item['item'],
+      # should check if items are healthy in the future
+      healthy=False,
+      choices=parse_expanded_choices(item['choices']),
+      price=item['price']
+    )
+    items.append(food_item)
+  return items
+
+def parse_expanded_choices(item_choices):
+  """Parses the options for an item.
+
+  Returns a list of DescriptiveFoodItemOptionTypes for an item.
+
+  Args:
+    item_options (dict): A valid json segment from the hard-coded menu items
+  """
+  choice_categories = []
+  for choice in item_choices:
+    item_choice = DescriptiveFoodItemOptionType(
+      label=choice['label'],
+      options=choice['options']
+    )
+    choice_categories.append(item_choice)
+  return choice_categories
 
 def parse_payment_methods(methods):
   """Returns a PaymentMethodsType according to which payment methods are available at an eatery.
