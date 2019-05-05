@@ -11,13 +11,21 @@ DINING_HALL = 'dining_hall'
 DINING_STACK_URL = 'https://raw.githubusercontent.com/cuappdev/DiningStack/master/DiningStack/'
 EATERY_DATA_PATH = './eatery-data/'
 GET_URL = 'https://services.get.cbord.com/GETServices/services/json'
+GET_LOCATIONS = {
+    'Attrium Cafe': 'Atrium Café',
+    'Bear Necessities Grill & C-Store': 'Bear Necessities',
+    'Goldies Cafe': "Goldie's Café",
+    'Jansens Market': "Jansen's Market",
+    'Olin Libe Cafe': 'Libe Café',
+    'Physical Science 1stFlr': 'PSB Snack',
+    'Straight From The': 'Straight from the Market'
+}
 GIT_CONTENT_URL = 'https://raw.githubusercontent.com/cuappdev'
-IGNORE_LOCATIONS = ['BS-No Bill Workstation', 'Admin Workstation (B)']
+IGNORE_LOCATIONS = ['BS-No Bill Workstation', 'Admin Workstation (B)', 'GET Location']
 IMAGES_URL = GIT_CONTENT_URL + '/assets/master/eatery/eatery-images/'
 TRILLIUM = 'trillium'
 LOCATION_NAMES = {
     'Alice Cook House': {'name': 'Cook House Dining Room', 'type': DINING_HALL},
-    'Attrium Cafe': {'name': 'Atrium Café'},  # for GET history
     'Bear Necessities': {'name': 'Bear Necessities Grill & C-Store', 'type': BRB_ONLY},
     'Big Red Barn': {'name': 'Big Red Barn', 'type': BRB_ONLY},
     'Bus Stop Bagels': {'name': 'Bus Stop Bagels', 'type': BRB_ONLY},
@@ -26,12 +34,10 @@ LOCATION_NAMES = {
     'Carols Cafe': {'name': "Carol's Café", 'type': BRB_ONLY},
     'Duffield': {'name': "Mattin's Café", 'type': BRB_ONLY},
     "Franny's FT": {'name': "Franny's", 'type': BRB_ONLY},
-    "Goldies Cafe": {'name': "Goldie's Café"},  # for GET history
     "Goldie's Cafe": {'name': "Goldie's Café", 'type': BRB_ONLY},
     'Green Dragon': {'name': 'Green Dragon', 'type': BRB_ONLY},
     'Ivy Room': {'name': 'Ivy Room', 'type': BRB_ONLY},
     'Jansens at Bethe House': {'name': "Jansen's Dining Room at Bethe House", 'type': DINING_HALL},
-    'Jansens Market': {'name': "Jansen's Market"},  # for GET history
     "Jansen's Market": {'name': "Jansen's Market", 'type': BRB_ONLY},
     'Keeton House': {'name': 'Keeton House Dining Room', 'type': DINING_HALL},
     'Kosher': {'name': '104West!', 'type': DINING_HALL},

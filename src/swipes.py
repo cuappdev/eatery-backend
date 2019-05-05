@@ -37,8 +37,8 @@ def parse_to_csv(file_name='data.csv'):
   weekday -- weekday of swipe event, string (ex: 'monday', 'tuesday', etc.)
   in_session -- whether or not school is on a break, boolean
   location -- eatery of swipe event, string
-  start_time -- left edge of timeblock, string (hh:mm AM/PM)
-  end_time -- right edge of timeblock, string (hh:mm AM/PM)
+  start_time -- left edge of timeblock, string (hh:mm)
+  end_time -- right edge of timeblock, string (hh:mm)
   swipes -- number of swipes, int
   multiplier -- coefficient for converting average swipes/time into a wait time estimate, float
   """
@@ -108,15 +108,15 @@ def parse_to_csv(file_name='data.csv'):
         # sort time into a time block
         if timestamp.minute > 30:
           delta = timedelta(minutes=30)
-          start_time = timestamp.strftime('%I:30 %p')
-          end_time = (timestamp + delta).strftime('%I:00 %p')
+          start_time = timestamp.strftime('%H:30')
+          end_time = (timestamp + delta).strftime('%H:00')
         elif timestamp.minute == 0:
           delta = timedelta(minutes=1)
-          start_time = (timestamp - delta).strftime('%I:30 %p')
-          end_time = timestamp.strftime('%I:00 %p')
+          start_time = (timestamp - delta).strftime('%H:30')
+          end_time = timestamp.strftime('%H:00')
         elif timestamp.minute <= 30:
-          start_time = timestamp.strftime('%I:00 %p')
-          end_time = timestamp.strftime('%I:30 %p')
+          start_time = timestamp.strftime('%H:00')
+          end_time = timestamp.strftime('%H:30')
 
         for place in obj['UNITS']:
           location = place['UNIT_NAME']
@@ -167,8 +167,8 @@ def sort_by_timeblock(input_file_path, output_file='timeblock-averages.csv'):
   session_type -- type of class session (regular, winter, summer, finals, etc.)
   weekday -- weekday of swipe event, string (ex: monday, tuesday, etc.)
   location -- eatery of swipe event, string (some locations have different names than dining.now's)
-  start_time -- left edge of timeblock, string (hh:mm AM/PM)
-  end_time -- right edge of timeblock, string (hh:mm AM/PM)
+  start_time -- left edge of timeblock, string (hh:mm)
+  end_time -- right edge of timeblock, string (hh:mm)
   swipes -- number of swipes, int
   counter -- number of events within this timeblock (used to calculate average), int
   average -- average number of swipes in this timeblock, float (2 decimals)
