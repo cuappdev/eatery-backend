@@ -9,6 +9,7 @@ import requests
 from src.constants import (
     ACCOUNT_NAMES,
     CORNELL_INSTITUTION_ID,
+    GET_LOCATIONS,
     GET_URL,
     IGNORE_LOCATIONS,
     LOCATION_NAMES,
@@ -144,10 +145,12 @@ class Query(ObjectType):
       # removes the register numbers at the end of the string by taking the substring up until
       # the last space (right before the number)
 
-      if location == 'Olin Libe Cafe':
-        name = 'Libe Café'
+      if location in GET_LOCATIONS:
+        name = GET_LOCATIONS[location]
       elif location in LOCATION_NAMES:
         name = LOCATION_NAMES[location]['name']
+      elif 'Vending' in location:
+        name = 'Vending Machine'
       else:
         name = location
 
