@@ -26,6 +26,6 @@ requests==2.20.1
 Rx==1.6.1
 six==1.11.0
 typing==3.6.6
-urllib3==1.24.1
+urllib3==1.24.2
 Werkzeug==0.14.1
 yelpapi==2.3.0
