@@ -1,2 +1,2 @@
-FLASK_ENV=development
-YELP_API_KEY=API_KEY
+export FLASK_ENV=development
+export YELP_API_KEY=API_KEY
