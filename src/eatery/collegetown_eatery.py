@@ -1,6 +1,6 @@
 import requests
 
-from datetime import timedelta
+from datetime import date, timedelta
 
 from src.constants import (
     NUM_DAYS_STORED_IN_DB,
@@ -10,8 +10,7 @@ from src.eatery.common_eatery import (
     format_time,
     get_image_url,
     parse_coordinates,
-    resolve_id,
-    today
+    resolve_id
 )
 from src.types import (
     CollegetownEateryType,
@@ -21,6 +20,8 @@ from src.types import (
     PaymentMethodsType,
     RatingEnum
 )
+
+today = date.today()
 
 def parse_collegetown_eateries(collegetown_data, collegetown_eateries):
   """Parses Collegetown json dictionary.
