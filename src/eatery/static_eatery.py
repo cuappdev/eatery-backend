@@ -87,14 +87,14 @@ def parse_static_op_hours(hours_list, dining_items, dates_closed):
   new_operating_hours = []
   for i in range(NUM_DAYS_STORED_IN_DB):
     new_date = today + timedelta(days=i)
-    for dates in dates_closed:
-      if '-' not in dates:
-        closed_date = datetime.strptime(dates, '%m/%d/%y').date()
-        if new_date == closed_date:
-          break
-      else:
+    for dates in dates_closed:  # check if dates_closed contains new_date
+      if '-' in dates:  # indicates this string is a date range of form "mm/dd/yy-mm/dd/yy"
         start_date, end_date = string_to_date_range(dates)
         if start_date <= new_date <= end_date:
+          break
+      else:  # date string is a singular date
+        closed_date = datetime.strptime(dates, '%m/%d/%y').date()
+        if new_date == closed_date:
           break
     else:
       # new_date is not present in dates_closed, we can add this date to the db

@@ -69,7 +69,10 @@ def parse_to_csv(file_name='data.csv'):
           continue
 
         obj = json.loads(line)
-        timestamp_str = obj['TIMESTAMP']
+        timestamp_str = obj.get('TIMESTAMP', None)
+        if not timestamp_str:
+          # we have received {"msg":"Unauthorized"} as a log twice instead of real data
+          continue
         if timestamp_str == 'Invalid date' or not obj['UNITS']:  # obj['UNITS'] contains locations
           continue
 
@@ -131,7 +134,7 @@ def parse_to_csv(file_name='data.csv'):
                   'session_type': session_type,
                   'location': location,
                   'start_time': start_time,
-                  'swipes': place['CROWD_COUNT'],
+                  'swipes': place.get('CROWD_COUNT', 0),
                   'weekday': weekday,
                   'multiplier': WAIT_TIME_CONVERSION[LOCATION_NAMES[location]['type']],
               }, index=[0]
