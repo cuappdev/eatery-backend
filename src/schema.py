@@ -103,7 +103,7 @@ class Query(ObjectType):
     account_info['brbs'] = '0.00'
     account_info['city_bucks'] = '0.00'
     account_info['laundry'] = '0.00'
-    account_info['swipes'] = ''
+    account_info['swipes'] = '0'
     for acct in accounts:
       if acct['accountDisplayName'] == ACCOUNT_NAMES['citybucks']:
         account_info['city_bucks'] = str("{0:.2f}".format(round(acct['balance'], 2)))
@@ -113,6 +113,10 @@ class Query(ObjectType):
         account_info['brbs'] = str("{0:.2f}".format(round(acct['balance'], 2)))
       elif any(meal_swipe_name in acct['accountDisplayName'] for meal_swipe_name in SWIPE_PLANS):
         account_info['swipes'] = str(acct['balance'])
+
+    # Check if the meal plan has more than 50 swipes, this is larger than the largest plan.
+    if (int(account_info['swipes']) > 50):
+      account_info['swipes'] = 'Unlimited'
 
     # Query 3: Get list of transactions
     transactions = requests.post(

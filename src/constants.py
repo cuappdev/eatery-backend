@@ -79,7 +79,7 @@ STATIC_CTOWN_HOURS_URL = DINING_STACK_URL + 'externalHours.json'
 STATIC_MENUS_URL = DINING_STACK_URL + 'hardcodedMenus.json'
 STATIC_EXPANDED_ITEMS_URL = DINING_STACK_URL + 'expandedItems.json'
 SWIPE_DENSITY_ROUND = 3
-SWIPE_PLANS = ['Bear Basic', 'Bear Choice', 'Bear Traditional']
+SWIPE_PLANS = ['Bear Basic', 'Bear Choice', 'Bear Traditional', 'Flex 10/500', 'Off', 'Unlimited']
 TABLE_COLUMNS = [
     'date',
     'session_type',
