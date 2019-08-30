@@ -16,18 +16,13 @@ pip install -r requirements.txt
 ```
 
 ## Environment Variables
-It's recommended to use [`autoenv`](https://github.com/kennethreitz/autoenv).
+It's recommended to use [`direnv`](https://direnv.net).
 The required environment variables for this API are the following:
 
-```bash
-FLASK_ENV=development
-YELP_API_KEY=API_KEY
-```
-
-To use `autoenv` with this repository, run the following and set the variables appropriately.
+To use `direnv` with this repository, run the following and set the variables appropriately.
 
 ```bash
-cp env.template .env
+cp envrc.template .envrc
 ```
 
 ## Running the App
