@@ -9,6 +9,7 @@ CORNELL_DINING_URL = 'https://now.dining.cornell.edu/api/1.0/dining/eateries.jso
 CORNELL_INSTITUTION_ID = '73116ae4-22ad-4c71-8ffd-11ba015407b1'
 DINING_HALL = 'dining_hall'
 DINING_STACK_URL = 'https://raw.githubusercontent.com/cuappdev/DiningStack/master/DiningStack/'
+STATIC_SOURCES_URL = 'https://raw.githubusercontent.com/cuappdev/eatery-backend/master/eatery-backend/static_sources/'
 EATERY_DATA_PATH = './eatery-data/'
 GET_URL = 'https://services.get.cbord.com/GETServices/services/json'
 GET_LOCATIONS = {
