@@ -159,7 +159,7 @@ class Query(ObjectType):
         name = location
 
       new_transaction = {
-          'amount': txn['amount'],
+          'amount': "{:.2f}".format(float(txn['amount'])),
           'name': name,
           'timestamp': txn_timestamp.strftime("%A, %b %d at %I:%M %p")
       }
