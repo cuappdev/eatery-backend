@@ -1,8 +1,9 @@
-from graphene import List, ObjectType, String
+from graphene import Boolean, List, ObjectType, String
 
 class TransactionType(ObjectType):
   amount = String(required=True)
   name = String(required=True)
+  positive = Boolean(required=True)
   timestamp = String(required=True)
 
 class AccountInfoType(ObjectType):

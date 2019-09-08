@@ -158,9 +158,13 @@ class Query(ObjectType):
       else:
         name = location
 
+      # Transaction Type 3 denotes payments that increase balance
+      positive = txn['transactionType'] == 3
+
       new_transaction = {
           'amount': "{:.2f}".format(float(txn['amount'])),
           'name': name,
+          'positive': positive,
           'timestamp': txn_timestamp.strftime("%A, %b %d at %I:%M %p")
       }
       account_info['history'].append(TransactionType(**new_transaction))
