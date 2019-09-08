@@ -13,6 +13,7 @@ from src.constants import (
     GET_URL,
     IGNORE_LOCATIONS,
     LOCATION_NAMES,
+    POSITIVE_TRANSACTION_TYPE,
     SWIPE_PLANS,
 )
 from src.types import (
@@ -158,8 +159,7 @@ class Query(ObjectType):
       else:
         name = location
 
-      # Transaction Type 3 denotes payments that increase balance
-      positive = txn['transactionType'] == 3
+      positive = txn['transactionType'] == POSITIVE_TRANSACTION_TYPE
 
       new_transaction = {
           'amount': "{:.2f}".format(float(txn['amount'])),
