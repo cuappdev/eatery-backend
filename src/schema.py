@@ -13,6 +13,7 @@ from src.constants import (
     GET_URL,
     IGNORE_LOCATIONS,
     LOCATION_NAMES,
+    POSITIVE_TRANSACTION_TYPE,
     SWIPE_PLANS,
 )
 from src.types import (
@@ -158,9 +159,12 @@ class Query(ObjectType):
       else:
         name = location
 
+      positive = txn['transactionType'] == POSITIVE_TRANSACTION_TYPE
+
       new_transaction = {
           'amount': "{:.2f}".format(float(txn['amount'])),
           'name': name,
+          'positive': positive,
           'timestamp': txn_timestamp.strftime("%A, %b %d at %I:%M %p")
       }
       account_info['history'].append(TransactionType(**new_transaction))

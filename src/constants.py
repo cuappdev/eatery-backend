@@ -64,6 +64,7 @@ PAY_METHODS = {
     'mobile': 'Mobile Payments',
     'swipes': 'Meal Plan - Swipe'
 }
+POSITIVE_TRANSACTION_TYPE = 3
 SCHOOL_BREAKS = {
   'fall': '10/6/18-10/9/18',
   'thanksgiving': '11/21/18-11/25/18',
