@@ -116,8 +116,11 @@ class Query(ObjectType):
         account_info['swipes'] = str(acct['balance'])
 
     # Check if the meal plan has more than 50 swipes, this is larger than the largest plan.
-    if (int(account_info['swipes']) > 50):
-      account_info['swipes'] = 'Unlimited'
+    try:
+      if (int(account_info['swipes']) > 50):
+        account_info['swipes'] = 'Unlimited'
+    except:
+      account_info['swipes'] = 'None'
 
     # Query 3: Get list of transactions
     transactions = requests.post(
