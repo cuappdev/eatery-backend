@@ -115,12 +115,11 @@ class Query(ObjectType):
       elif any(meal_swipe_name in acct['accountDisplayName'] for meal_swipe_name in SWIPE_PLANS):
         account_info['swipes'] = str(acct['balance'])
 
-    # Check if the meal plan has more than 50 swipes, this is larger than the largest plan.
-    try:
+    # Check if the balance provided by Cornell Dining is a regular digit
+    if (account_info['swipes'].isdigit()):
+      # Check if the meal plan has more than 50 swipes, this is larger than the largest plan.
       if (int(account_info['swipes']) > 50):
         account_info['swipes'] = 'Unlimited'
-    except:
-      account_info['swipes'] = 'None'
 
     # Query 3: Get list of transactions
     transactions = requests.post(
