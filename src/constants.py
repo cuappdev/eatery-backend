@@ -8,9 +8,7 @@ BRB_ONLY = "brb_only"
 CORNELL_DINING_URL = "https://now.dining.cornell.edu/api/1.0/dining/eateries.json"
 CORNELL_INSTITUTION_ID = "73116ae4-22ad-4c71-8ffd-11ba015407b1"
 DINING_HALL = "dining_hall"
-STATIC_SOURCES_URL = "https://raw.githubusercontent.com/cuappdev/eatery-backend/master/static_sources/"
 EATERY_DATA_PATH = "./eatery-data/"
-GET_URL = "https://services.get.cbord.com/GETServices/services/json"
 GET_LOCATIONS = {
     "Attrium Cafe": "Atrium Café",
     "Bear Necessities Grill & C-Store": "Bear Necessities",
@@ -20,6 +18,7 @@ GET_LOCATIONS = {
     "Physical Science 1stFlr": "PSB Snack",
     "Straight From The": "Straight from the Market",
 }
+GET_URL = "https://services.get.cbord.com/GETServices/services/json"
 GIT_CONTENT_URL = "https://raw.githubusercontent.com/cuappdev"
 IGNORE_LOCATIONS = ["BS-No Bill Workstation", "Admin Workstation (B)", "GET Location"]
 IMAGES_URL = GIT_CONTENT_URL + "/assets/master/eatery/eatery-images/"
@@ -75,10 +74,11 @@ SCHOOL_BREAKS = {
     "finals_spring": "5/8/19-5/18/19",
     "summer": "5/19/19-8/28/19",
 }
-STATIC_EATERIES_URL = STATIC_SOURCES_URL + "externalEateries.json"
+STATIC_SOURCES_URL = "https://raw.githubusercontent.com/cuappdev/eatery-backend/master/static_sources/"
 STATIC_CTOWN_HOURS_URL = STATIC_SOURCES_URL + "externalHours.json"
-STATIC_MENUS_URL = STATIC_SOURCES_URL + "hardcodedMenus.json"
+STATIC_EATERIES_URL = STATIC_SOURCES_URL + "externalEateries.json"
 STATIC_EXPANDED_ITEMS_URL = STATIC_SOURCES_URL + "expandedItems.json"
+STATIC_MENUS_URL = STATIC_SOURCES_URL + "hardcodedMenus.json"
 SWIPE_DENSITY_ROUND = 3
 SWIPE_PLANS = ["Bear Basic", "Bear Choice", "Bear Traditional", "Flex 10/500", "Off", "Unlimited"]
 TABLE_COLUMNS = ["date", "session_type", "weekday", "location", "start_time", "end_time", "swipes", "multiplier"]

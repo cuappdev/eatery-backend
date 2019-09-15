@@ -1,5 +1,4 @@
 import requests
-
 from datetime import timedelta
 
 from src.constants import NUM_DAYS_STORED_IN_DB, STATIC_CTOWN_HOURS_URL
@@ -17,12 +16,12 @@ from src.types import (
 def parse_collegetown_eateries(collegetown_data, collegetown_eateries):
     """Parses Collegetown json dictionary.
 
-  Fills the collegetown_eateries dictionary with objects of type CollegetownEateryType.
+    Fills the collegetown_eateries dictionary with objects of type CollegetownEateryType.
 
-  Args:
-      collegetown_data (dict): A valid json dictionary from Yelp that contains eatery information
-      collegetown_eateries (dict): a dictionary to fill with collegetown eateries
-  """
+    Args:
+        collegetown_data (dict): A valid json dictionary from Yelp that contains eatery information
+        collegetown_eateries (dict): a dictionary to fill with collegetown eateries
+    """
     for eatery in collegetown_data:
         new_id = resolve_id(eatery, collegetown=True)
         new_eatery = CollegetownEateryType(
@@ -50,12 +49,12 @@ def parse_collegetown_eateries(collegetown_data, collegetown_eateries):
 def parse_collegetown_hours(eatery):
     """Parses the hours of a Collegetown eatery.
 
-  Returns a list of CollegetownHoursType. Calls parse_collegetown_events to fill the events field
-  of CollegetownHoursType.
+    Returns a list of CollegetownHoursType. Calls parse_collegetown_events to fill the events field
+    of CollegetownHoursType.
 
-  Args:
-      eatery (dict): A valid json dictionary from Yelp that contains eatery information
-  """
+    Args:
+        eatery (dict): A valid json dictionary from Yelp that contains eatery information
+    """
     hours_list = eatery.get("hours", [{}])[0].get("open", [])
     # gets open hours from first dictionary in hours, empty dict-list provided to mimic hours format
 
@@ -83,12 +82,12 @@ def parse_collegetown_hours(eatery):
 def parse_collegetown_events(event_list, event_date):
     """Parses the events in a Collegetown eatery.
 
-  Returns a list of CollegetownEventType.
+    Returns a list of CollegetownEventType.
 
-  Args:
-      event_list (list): Contains a list of times an eatery is open
-      event_date (string): a string representation of the date
-  """
+    Args:
+        event_list (list): Contains a list of times an eatery is open
+        event_date (string): a string representation of the date
+    """
     new_events = []
 
     for event in event_list:
@@ -107,11 +106,11 @@ def parse_collegetown_events(event_list, event_date):
 def parse_rating(eatery):
     """Parses the rating of a Collegetown eatery.
 
-  Returns the corresponding rating name according to the RatingEnum.
+    Returns the corresponding rating name according to the RatingEnum.
 
-  Args:
-      eatery (dict): A valid json dictionary from Yelp that contains eatery information
-  """
+    Args:
+        eatery (dict): A valid json dictionary from Yelp that contains eatery information
+    """
     rating = eatery.get("rating", "N/A")
     index = int(round(float(rating) * 2))
     return RatingEnum.get(index)
