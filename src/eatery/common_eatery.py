@@ -209,16 +209,16 @@ def parse_payment_methods_enum(methods):
   payment_methods = []
   for method in methods:
     description = method['descrshort']
-    if (description == PAY_METHODS['brbs']):
+    if description == PAY_METHODS['brbs']:
       payment_methods.append(PaymentMethodsEnum.BRB)
-    if (description == PAY_METHODS['credit']):
+    if description == PAY_METHODS['credit']:
       payment_methods.append(PaymentMethodsEnum.CASH)
       payment_methods.append(PaymentMethodsEnum.CREDIT)
-    if (description == PAY_METHODS['c-card']):
+    if description == PAY_METHODS['c-card']:
       payment_methods.append(PaymentMethodsEnum.CORNELL_CARD)
-    if (description == PAY_METHODS['mobile']):
+    if description == PAY_METHODS['mobile']:
       payment_methods.append(PaymentMethodsEnum.MOBILE)
-    if (description == PAY_METHODS['swipes']):
+    if description == PAY_METHODS['swipes']:
       payment_methods.append(PaymentMethodsEnum.SWIPES)
   return payment_methods
 
