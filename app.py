@@ -7,7 +7,6 @@ from src.schema import Query
 
 app = Flask(__name__)
 schema = Schema(query=Query)
-start_update()
 
 app.add_url_rule(
     '/',
