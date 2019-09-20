@@ -1,6 +1,5 @@
 from datetime import datetime
 from dateutil import parser
-
 from graphene import Field, Int, List, ObjectType, String
 import pytz
 import requests

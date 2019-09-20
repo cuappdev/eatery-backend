@@ -2,7 +2,6 @@ from flask import Flask
 from flask_graphql import GraphQLView
 from graphene import Schema
 
-from src.data import start_update
 from src.schema import Query
 
 app = Flask(__name__)

@@ -1,6 +1,5 @@
 from os import environ
 from time import sleep
-
 from yelpapi import YelpAPI
 
 from src.constants import YELP_LATITUDE, YELP_LONGITUDE, YELP_QUERY_DELAY, YELP_RADIUS, YELP_RESTAURANT_LIMIT

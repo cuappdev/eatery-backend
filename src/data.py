@@ -1,11 +1,10 @@
 from datetime import datetime
+import requests
 from threading import Timer
 
-import requests
-
 from src.collegetown import collegetown_search
-from src.eatery import parse_eatery, parse_collegetown_eateries, parse_static_eateries
 from src.constants import CORNELL_DINING_URL, STATIC_EATERIES_URL, UPDATE_DELAY
+from src.eatery import parse_collegetown_eateries, parse_eatery, parse_static_eateries
 from src.schema import Data
 from src.swipes import export_data, parse_to_csv
 
@@ -17,10 +16,10 @@ collegetown_eateries = {}
 def start_update():
     """Starts the data retrieval process.
 
-  Begins the process of getting data for the campus_eateries dictionary,
-  from Cornell Dining and the static source, and collegetown_eateries dictionary,
-  from Yelp.
-  """
+    Begins the process of getting data for the campus_eateries dictionary,
+    from Cornell Dining and the static source, and collegetown_eateries dictionary,
+    from Yelp.
+    """
     try:
         global all_swipe_data
         print("[{}] Updating swipe data".format(datetime.now()))
@@ -51,14 +50,14 @@ def start_update():
 def merge_hours(eateries):
     """Merges invalid events with valid events
 
-  Combines events with no menu and a start_time equal to the end_time of a previous event into
-  one event. This removes the effectively removes the events with no menus and only preserves
-  the end time of the invalid event.
+    Combines events with no menu and a start_time equal to the end_time of a previous event into
+    one event. This removes the effectively removes the events with no menus and only preserves
+    the end time of the invalid event.
 
-  Args:
-      eateries (dict): A dictionary containing information provided from Cornell Dining and filled
-      with CampusEateryTypes
-  """
+    Args:
+        eateries (dict): A dictionary containing information provided from Cornell Dining and filled
+        with CampusEateryTypes
+    """
     for eatery in eateries.values():
         for operating_hour in eatery.operating_hours:
             if len(operating_hour.events) <= 1:  # ignore hours that don't have multiple events

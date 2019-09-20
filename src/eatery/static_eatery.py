@@ -20,14 +20,14 @@ from src.types import CampusEateryType, OperatingHoursType
 def parse_static_eateries(static_json, campus_eateries, all_swipe_data):
     """Parses a static dining json dictionary.
 
-  Similar to the parse_eatery function except for static source. Uses parse_static_op_hours to
-  populate the operating_hours field in a CampusEateryType.
+    Similar to the parse_eatery function except for static source. Uses parse_static_op_hours to
+    populate the operating_hours field in a CampusEateryType.
 
-  Args:
-      static_json (dict): A valid dictionary in the format of the dynamic Cornell Dining json for
-        static eateries
-      campus_eateries (dict): A dictionary to fill with static eateries
-  """
+    Args:
+        static_json (dict): A valid dictionary in the format of the dynamic Cornell Dining json for
+            static eateries
+        campus_eateries (dict): A dictionary to fill with static eateries
+    """
     for eatery in static_json["eateries"]:
         new_eatery = CampusEateryType(
             about=eatery.get("about", ""),
@@ -55,16 +55,16 @@ def parse_static_eateries(static_json, campus_eateries, all_swipe_data):
 def parse_static_op_hours(hours_list, dining_items, dates_closed):
     """Parses the hours of a static eatery.
 
-  Returns a list with an OperatingHoursType, similar to parse_operating_hours, but includes
-  checking for dates the eatery is closed.
+    Returns a list with an OperatingHoursType, similar to parse_operating_hours, but includes
+    checking for dates the eatery is closed.
 
-  Args:
-      hours_list (list): A list containing the days a static eatery is open
-      dining_items (list): A list that holds a dictionary for the items an eatery serves and a flag
-       for healthy options
-      dates_closed (list): A list containg all the dates that an eatery is closed outside of its
-        weekly schedule
-  """
+    Args:
+        hours_list (list): A list containing the days a static eatery is open
+        dining_items (list): A list that holds a dictionary for the items an eatery serves and a flag
+        for healthy options
+        dates_closed (list): A list containg all the dates that an eatery is closed outside of its
+            weekly schedule
+    """
     weekdays = {}
     for hours in hours_list:
         if "-" in hours["weekday"]:
@@ -104,8 +104,8 @@ def parse_static_op_hours(hours_list, dining_items, dates_closed):
 
 def string_to_date_range(dates):
     """
-  dates: string representing a range of dates mm/dd/yy-mm/dd/yy
-  """
+    dates: string representing a range of dates mm/dd/yy-mm/dd/yy
+    """
     start_str, end_str = dates.split("-")
     start_date = datetime.strptime(start_str, "%m/%d/%y").date()
     end_date = datetime.strptime(end_str, "%m/%d/%y").date()

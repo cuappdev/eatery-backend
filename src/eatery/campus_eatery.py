@@ -19,12 +19,12 @@ from src.eatery.common_eatery import (
 def parse_eatery(data_json, campus_eateries, all_swipe_data):
     """Parses a Cornell Dining json dictionary.
 
-  Fills the campus_eateries dictionary with objects of type CampusEateryType.
+    Fills the campus_eateries dictionary with objects of type CampusEateryType.
 
-  Args:
-      data_json (dict): a valid dictionary from the Cornell Dining json
-      campus_eateries (dict): a dictionary to fill with campus eateries
-  """
+    Args:
+        data_json (dict): a valid dictionary from the Cornell Dining json
+        campus_eateries (dict): a dictionary to fill with campus eateries
+    """
     for eatery in data_json["data"]["eateries"]:
         eatery_id = eatery.get("id", resolve_id(eatery))
         dining_items = get_trillium_menu() if eatery_id == TRILLIUM_ID else parse_dining_items(eatery)
@@ -55,9 +55,9 @@ def parse_eatery(data_json, campus_eateries, all_swipe_data):
 def get_trillium_menu():
     """Gets the Trillium menu.
 
-  Returns the Trillium dining items (using parse_dining_items) from the static json source
-  for menus.
-  """
+    Returns the Trillium dining items (using parse_dining_items) from the static json source
+    for menus.
+    """
     static_json = requests.get(STATIC_MENUS_URL).json()
     return parse_dining_items(static_json["Trillium"][0])
 
@@ -65,13 +65,13 @@ def get_trillium_menu():
 def parse_operating_hours(eatery, dining_items):
     """Returns a list of OperatingHoursTypes for each dining event for an eatery.
 
-  Calls parse_events to populate the events field for OperatingHoursType.
+    Calls parse_events to populate the events field for OperatingHoursType.
 
-  Args:
-      eatery (dict): A valid json segment from Cornell Dining that contains eatery information
-      dining_items (list): A list that holds a dictionary for the items an eatery serves and a flag
-       for healthy options
-  """
+    Args:
+        eatery (dict): A valid json segment from Cornell Dining that contains eatery information
+        dining_items (list): A list that holds a dictionary for the items an eatery serves and a flag
+        for healthy options
+    """
     new_operating_hours = []
     hours_list = eatery["operatingHours"]
     for hours in hours_list:

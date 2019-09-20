@@ -1,8 +1,8 @@
 from datetime import date, datetime, timedelta
 from file_read_backwards import FileReadBackwards
 import json
-from os.path import isfile
 import numpy as np
+from os.path import isfile
 import pandas as pd
 
 from src.constants import (
@@ -28,21 +28,22 @@ for label, dates in SCHOOL_BREAKS.items():
 
 def parse_to_csv(file_name="data.csv"):
     """Takes in a data.log file of swipe logs and converts them to a tabular format.
-  Creates one csv file or updates file if one already exists:
 
-  Keyword arguments:
-  file_name -- the file name to use for the output csv file (default 'data.csv')
+    Creates one csv file or updates file if one already exists
 
-  Table columns:
-  date -- date of the swipe event, string (mm/dd/yyyy)
-  weekday -- weekday of swipe event, string (ex: 'monday', 'tuesday', etc.)
-  in_session -- whether or not school is on a break, boolean
-  location -- eatery of swipe event, string
-  start_time -- left edge of timeblock, string (hh:mm)
-  end_time -- right edge of timeblock, string (hh:mm)
-  swipes -- number of swipes, int
-  multiplier -- coefficient for converting average swipes/time into a wait time estimate, float
-  """
+    Keyword arguments:
+    file_name -- the file name to use for the output csv file (default 'data.csv')
+
+    Table columns:
+    date -- date of the swipe event, string (mm/dd/yyyy)
+    weekday -- weekday of swipe event, string (ex: 'monday', 'tuesday', etc.)
+    in_session -- whether or not school is on a break, boolean
+    location -- eatery of swipe event, string
+    start_time -- left edge of timeblock, string (hh:mm)
+    end_time -- right edge of timeblock, string (hh:mm)
+    swipes -- number of swipes, int
+    multiplier -- coefficient for converting average swipes/time into a wait time estimate, float
+    """
     global breaks
     global weekdays
     main_csv = "{}{}".format(EATERY_DATA_PATH, file_name)
@@ -166,23 +167,24 @@ def parse_to_csv(file_name="data.csv"):
 
 def sort_by_timeblock(input_file_path, output_file="timeblock-averages.csv"):
     """Sorts and runs average swipe/time calculations.
-  Saves to a csv file or updates files if one already exists
 
-  Keyword arguments:
-  input_file_path -- the file path to our input csv file with all swipe logs, string
-  output_file -- the file name for the output csv file (default 'timeblock-averages.csv')
+    Saves to a csv file or updates files if one already exists
 
-  Table columns:
-  session_type -- type of class session (regular, winter, summer, finals, etc.)
-  weekday -- weekday of swipe event, string (ex: monday, tuesday, etc.)
-  location -- eatery of swipe event, string (some locations have different names than dining.now's)
-  start_time -- left edge of timeblock, string (hh:mm)
-  end_time -- right edge of timeblock, string (hh:mm)
-  swipes -- number of swipes, int
-  counter -- number of events within this timeblock (used to calculate average), int
-  average -- average number of swipes in this timeblock, float (2 decimals)
-  multiplier -- coefficient for converting average swipes/time into a wait time estimate, float
-  """
+    Keyword arguments:
+    input_file_path -- the file path to our input csv file with all swipe logs, string
+    output_file -- the file name for the output csv file (default 'timeblock-averages.csv')
+
+    Table columns:
+    session_type -- type of class session (regular, winter, summer, finals, etc.)
+    weekday -- weekday of swipe event, string (ex: monday, tuesday, etc.)
+    location -- eatery of swipe event, string (some locations have different names than dining.now's)
+    start_time -- left edge of timeblock, string (hh:mm)
+    end_time -- right edge of timeblock, string (hh:mm)
+    swipes -- number of swipes, int
+    counter -- number of events within this timeblock (used to calculate average), int
+    average -- average number of swipes in this timeblock, float (2 decimals)
+    multiplier -- coefficient for converting average swipes/time into a wait time estimate, float
+    """
     try:
         all_but_swipes = list(TABLE_COLUMNS)
         all_but_swipes.remove("swipes")
@@ -210,21 +212,22 @@ def sort_by_timeblock(input_file_path, output_file="timeblock-averages.csv"):
 
 def sort_by_day(input_file_path, output_file="daily-averages.csv"):
     """Sorts and runs average swipe/time calculations.
-  Saves to a csv file or updates files if one already exists
-  Currently not used in main code, but allows for future use of data
 
-  Keyword arguments:
-  input_file_path -- the file path to our input csv file with all swipe logs, string
-  output_file -- the file name for the output csv file (default 'daily-averages.csv')
+    Saves to a csv file or updates files if one already exists
+    Currently not used in main code, but allows for future use of data
 
-  Table columns:
-  weekday -- weekday of swipe event, string (ex: monday, tuesday, etc.)
-  in_session -- whether or not school is on a break, boolean
-  location -- eatery of swipe event, string (some locations have different names than dining.now's)
-  swipes -- number of swipes, int
-  counter -- number of events within this timeblock (used to calculate average), int
-  average -- average number of swipes in this timeblock, float (2 decimals)
-  """
+    Keyword arguments:
+    input_file_path -- the file path to our input csv file with all swipe logs, string
+    output_file -- the file name for the output csv file (default 'daily-averages.csv')
+
+    Table columns:
+    weekday -- weekday of swipe event, string (ex: monday, tuesday, etc.)
+    in_session -- whether or not school is on a break, boolean
+    location -- eatery of swipe event, string (some locations have different names than dining.now's)
+    swipes -- number of swipes, int
+    counter -- number of events within this timeblock (used to calculate average), int
+    average -- average number of swipes in this timeblock, float (2 decimals)
+    """
     try:
         df = pd.read_csv(input_file_path)
         df = df.drop(columns=["start_time", "end_time", BRB_ONLY, DINING_HALL, TRILLIUM])
@@ -250,9 +253,9 @@ def sort_by_day(input_file_path, output_file="daily-averages.csv"):
 def export_data(file_path):
     """Transforms our tabular data into custom objects to be placed in Eatery objects
 
-  Keyword arguments:
-  file_path -- the file path to our input csv file with all wait time data, string
-  """
+    Keyword arguments:
+    file_path -- the file path to our input csv file with all wait time data, string
+    """
     global breaks
     global weekdays
 
@@ -306,11 +309,11 @@ def export_data(file_path):
 def aggregate_breaks(base_df):
     """Returns the dataframe with wait time calculations done on the combination of all break data.
 
-  Keyword arguments:
-  base_df -- the input dataframe which only contains one location and one day of the week
+    Keyword arguments:
+    base_df -- the input dataframe which only contains one location and one day of the week
 
-  NOTE: This method is currently not working as intended so it is not present in the live code.
-  """
+    NOTE: This method is currently not working as intended so it is not present in the live code.
+    """
     all_but_date_and_swipes = list(TABLE_COLUMNS)
     all_but_date_and_swipes.remove("swipes")
     all_but_date_and_swipes.remove("date")
@@ -323,11 +326,11 @@ def aggregate_breaks(base_df):
 def calculate_wait_times(df):
     """Returns a df with calculated wait times given the swipe and counter columns
 
-  Keyword arguments:
-  df -- the input dataframe, already contains columns 'swipes' and 'counter'
+    Keyword arguments:
+    df -- the input dataframe, already contains columns 'swipes' and 'counter'
 
-  The input dataframe (df) should already have columns 'swipes' and 'counter'
-  """
+    The input dataframe (df) should already have columns 'swipes' and 'counter'
+    """
     df["average"] = np.around(np.divide(df["swipes"], df["counter"]), decimals=2)
     df["wait_time_low"] = np.floor(np.multiply(df["average"], df["multiplier"]))
     df["wait_time_high"] = np.ceil(np.multiply(df["average"], df["multiplier"]))
@@ -344,10 +347,10 @@ def wait_time_multiply(df, type, multiplier):
 def sort_session_type(date, breaks):
     """Sorts the given date to the proper session_type
 
-  Keyword arguments:
-  date -- the current date we want to sort, datetime.date object
-  breaks -- a dictionary containing all of the school breaks and their corresponding ranges
-  """
+    Keyword arguments:
+    date -- the current date we want to sort, datetime.date object
+    breaks -- a dictionary containing all of the school breaks and their corresponding ranges
+    """
     for label, dates in breaks.items():
         if dates[0] <= date <= dates[1]:
             return label
