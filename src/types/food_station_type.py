@@ -2,6 +2,12 @@ from graphene import Boolean, List, ObjectType, String
 
 
 class FoodItemType(ObjectType):
+    """ FoodItemType
+
+    item (String) -- Name of menu item
+    healthy (Boolean) -- Boolean indicating if the menu marked healthy on Yelp
+    """
+
     item = String(required=True)
     healthy = Boolean(required=True)
 
@@ -10,6 +16,12 @@ class FoodItemType(ObjectType):
 
 
 class FoodStationType(ObjectType):
+    """ FoodStationType
+
+    category (String) -- Category of food items (e.g. Hot Fresh Pizza, Specialty Sandwiches)
+    items (List[FoodItemType]) -- Details of menu items
+    """
+
     category = String(required=True)
     items = List(FoodItemType, required=True)
 
