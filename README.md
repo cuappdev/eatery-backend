@@ -4,6 +4,7 @@ An open-sourced backend for the Eatery application, available on Android and iOS
 Technologies involved include:
 1. Flask
 2. GraphQL
+3. SQLAlchemy
 
 ## Virtualenv
 
