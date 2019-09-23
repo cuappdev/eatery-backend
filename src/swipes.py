@@ -116,15 +116,15 @@ def parse_to_csv(file_name="data.csv"):
                 # sort time into a time block
                 if timestamp.minute > 30:
                     delta = timedelta(minutes=30)
-                    start_time = timestamp.strftime("%H:30")
-                    end_time = (timestamp + delta).strftime("%H:00")
+                    start_time = timestamp.strftime("%Y-%m-%d:%H:30%p")
+                    end_time = (timestamp + delta).strftime("%Y-%m-%d:%H:00%p")
                 elif timestamp.minute == 0:
                     delta = timedelta(minutes=1)
-                    start_time = (timestamp - delta).strftime("%H:30")
-                    end_time = timestamp.strftime("%H:00")
+                    start_time = (timestamp - delta).strftime("%Y-%m-%d:%H:30%p")
+                    end_time = timestamp.strftime("%Y-%m-%d:%H:00%p")
                 elif timestamp.minute <= 30:
-                    start_time = timestamp.strftime("%H:00")
-                    end_time = timestamp.strftime("%H:30")
+                    start_time = timestamp.strftime("%Y-%m-%d:%H:00%p")
+                    end_time = timestamp.strftime("%Y-%m-%d:%H:30%p")
 
                 for place in obj["UNITS"]:
                     location = place["UNIT_NAME"]
