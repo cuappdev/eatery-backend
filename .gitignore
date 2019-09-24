@@ -19,6 +19,7 @@ MANIFEST
 
 # Environments
 .env
+.envrc
 venv/
 
 # Swipe Data

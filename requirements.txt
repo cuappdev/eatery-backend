@@ -1,5 +1,6 @@
 aniso8601==4.0.1
 beautifulsoup4==4.6.3
+black==19.3b0
 bs4==0.0.1
 certifi==2018.10.15
 chardet==3.0.4
@@ -19,6 +20,7 @@ lxml==4.2.5
 MarkupSafe==1.1.0
 numpy==1.16.2
 pandas==0.23.4
+pre-commit==1.18.3
 promise==2.2.1
 python-dateutil==2.7.5
 pytz==2018.7
@@ -27,5 +29,5 @@ Rx==1.6.1
 six==1.11.0
 typing==3.6.6
 urllib3==1.24.2
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 yelpapi==2.3.0
