@@ -70,7 +70,10 @@ def parse_to_csv(file_name="data.csv"):
                 if not line:
                     continue
 
-                obj = json.loads(line)
+                try:
+                    obj = json.loads(line)
+                except:
+                    continue
                 timestamp_str = obj.get("TIMESTAMP", None)
                 if not timestamp_str:
                     # we have received {"msg":"Unauthorized"} as a log twice instead of real data
