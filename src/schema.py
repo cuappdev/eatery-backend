@@ -58,19 +58,25 @@ class Query(ObjectType):
         account_info = {}
 
         # Query 1: Get user id
-        user_id = requests.post(
-            GET_URL + "/user", json={"version": "1", "method": "retrieve", "params": {"sessionId": session_id}}
-        ).json()["response"]["id"]
+        try:
+            user_id = requests.post(
+                GET_URL + "/user", json={"version": "1", "method": "retrieve", "params": {"sessionId": session_id}}
+            ).json()["response"]["id"]
+        except: 
+            user_id = {}
 
         # Query 2: Get finance info
-        accounts = requests.post(
-            GET_URL + "/commerce",
-            json={
-                "version": "1",
-                "method": "retrieveAccountsByUser",
-                "params": {"sessionId": session_id, "userId": user_id},
-            },
-        ).json()["response"]["accounts"]
+        try:
+            accounts = requests.post(
+                GET_URL + "/commerce",
+                json={
+                    "version": "1",
+                    "method": "retrieveAccountsByUser",
+                    "params": {"sessionId": session_id, "userId": user_id},
+                },
+            ).json()["response"]["accounts"]
+        except:
+            accounts = {}
 
         # intialize default values
         account_info["brbs"] = "0.00"
@@ -94,24 +100,27 @@ class Query(ObjectType):
                 account_info["swipes"] = "Unlimited"
 
         # Query 3: Get list of transactions
-        transactions = requests.post(
-            GET_URL + "/commerce",
-            json={
-                "method": "retrieveTransactionHistory",
-                "params": {
-                    "paymentSystemType": 0,
-                    "queryCriteria": {
-                        "accountId": None,
-                        "endDate": str(datetime.now().date()),
-                        "institutionId": CORNELL_INSTITUTION_ID,
-                        "maxReturn": 100,
-                        "startingReturnRow": None,
-                        "userId": user_id,
+        try:
+            transactions = requests.post(
+                GET_URL + "/commerce",
+                json={
+                    "method": "retrieveTransactionHistory",
+                    "params": {
+                        "paymentSystemType": 0,
+                        "queryCriteria": {
+                            "accountId": None,
+                            "endDate": str(datetime.now().date()),
+                            "institutionId": CORNELL_INSTITUTION_ID,
+                            "maxReturn": 100,
+                            "startingReturnRow": None,
+                            "userId": user_id,
+                        },
+                        "version": "1",
                     },
-                    "version": "1",
                 },
-            },
-        ).json()["response"]["transactions"]
+            ).json()["response"]["transactions"]
+        except:
+            transactions = {}
 
         account_info["history"] = []
 
