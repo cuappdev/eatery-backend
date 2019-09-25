@@ -62,7 +62,7 @@ class Query(ObjectType):
             user_id = requests.post(
                 GET_URL + "/user", json={"version": "1", "method": "retrieve", "params": {"sessionId": session_id}}
             ).json()["response"]["id"]
-        except: 
+        except:
             user_id = {}
 
         # Query 2: Get finance info
