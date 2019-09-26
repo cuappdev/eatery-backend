@@ -119,15 +119,15 @@ def parse_to_csv(file_name="data.csv"):
                 # sort time into a time block
                 if timestamp.minute > 30:
                     delta = timedelta(minutes=30)
-                    start_time = timestamp.strftime("%Y-%m-%d:%H:30%p")
-                    end_time = (timestamp + delta).strftime("%Y-%m-%d:%H:00%p")
+                    start_time = timestamp.strftime("%I:30 %p")
+                    end_time = (timestamp + delta).strftime("%I:00 %p")
                 elif timestamp.minute == 0:
                     delta = timedelta(minutes=1)
-                    start_time = (timestamp - delta).strftime("%Y-%m-%d:%H:30%p")
-                    end_time = timestamp.strftime("%Y-%m-%d:%H:00%p")
+                    start_time = (timestamp - delta).strftime("%I:30 %p")
+                    end_time = timestamp.strftime("%I:00 %p")
                 elif timestamp.minute <= 30:
-                    start_time = timestamp.strftime("%Y-%m-%d:%H:00%p")
-                    end_time = timestamp.strftime("%Y-%m-%d:%H:30%p")
+                    start_time = timestamp.strftime("%I:00 %p")
+                    end_time = timestamp.strftime("%I:30 %p")
 
                 for place in obj["UNITS"]:
                     location = place["UNIT_NAME"]
@@ -286,11 +286,17 @@ def export_data(file_path):
             max_swipes = today_df["average"].max()
             json_data = json.loads(today_df.to_json(orient="table"))
 
+            fmt_date = today.strftime("%Y-%m-%d:")
+
             for row in json_data["data"]:
+                # convert dates into a datetime object
+                start_time = datetime.strptime(row["start_time"], "%I:%M %p")
+                end_time = datetime.strptime(row["end_time"], "%I:%M %p")
+
                 new_timeblock = SwipeDataType(  # represents the data for a single timeblock of swipe data
-                    end_time=row["end_time"],
+                    end_time=fmt_date + end_time.strftime("%I:%M%p"),
                     session_type=session_type,
-                    start_time=row["start_time"],
+                    start_time=fmt_date + start_time.strftime("%I:%M%p"),
                     swipe_density=round(row["average"] / max_swipes, SWIPE_DENSITY_ROUND),
                     wait_time_high=row["wait_time_high"],
                     wait_time_low=row["wait_time_low"],
