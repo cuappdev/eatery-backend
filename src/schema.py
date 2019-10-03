@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from dateutil import parser
 from graphene import Field, Int, List, ObjectType, String
 import pytz
@@ -112,11 +112,13 @@ class Query(ObjectType):
                             "endDate": str(datetime.now().date()),
                             "institutionId": CORNELL_INSTITUTION_ID,
                             "maxReturn": 100,
+                            "startDate": str((datetime.now() - timedelta(weeks=32)).date()),
                             "startingReturnRow": None,
                             "userId": user_id,
                         },
-                        "version": "1",
+                        "sessionId": session_id,
                     },
+                    "version": "1",
                 },
             ).json()["response"]["transactions"]
         except:
