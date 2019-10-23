@@ -867,18 +867,7 @@
             "location": "Anabel Taylor Hall",
             "operatingHours": [
                 {
-                    "weekday": "monday-tuesday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "3:00pm",
-                            "end": "7:00pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "saturday",
+                    "weekday": "wednesday-friday",
                     "events": [
                         {
                             "descr": "General",
