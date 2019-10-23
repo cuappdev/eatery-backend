@@ -847,6 +847,113 @@
                     "healthy": false
                 }
             ]
+        },
+        {
+            "slug": "Anabels-Grocery",
+            "external": true,
+            "name": "Anabel's Grocery",
+            "nameshort": "Anabel's",
+            "about": "",
+            "cornellDining": false,
+            "contactPhone": "",
+            "coordinates": {
+                "latitude": 42.445061,
+                "longitude": -76.485826
+            },
+            "campusArea": {
+                "descr": "South Campus",
+                "descrshort": "South"
+            },
+            "location": "Anabel Taylor Hall",
+            "operatingHours": [
+                {
+                    "weekday": "monday-tuesday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "3:00pm",
+                            "end": "7:00pm",
+                            "menu": []
+                        }
+                    ]
+                },
+                {
+                    "weekday": "saturday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "3:00pm",
+                            "end": "7:00pm",
+                            "menu": []
+                        }
+                    ]
+                }
+            ],
+            "datesClosed": [],
+            "payMethods": [
+                {
+                    "descr": "Cash",
+                    "descrshort": "Cash"
+                },
+                {
+                    "descr": "Cornell Card",
+                    "descrshort": "Cornell Card"
+                },
+                {
+                    "descr": "Major Credit Cards (VISA, MasterCard, AMEX)",
+                    "descrshort": "Major Credit Cards"
+                }
+            ],
+            "diningItems": [
+                {
+                    "item": "Whole Grains",
+                    "healthy": true
+                },
+                {
+                    "item": "Spices",
+                    "healthy": false
+                },
+                {
+                    "item": "Legumes",
+                    "healthy": true
+                },
+                {
+                    "item": "Fresh and Frozen Produce",
+                    "healthy":  true
+                },
+                {
+                    "item": "Nuts",
+                    "healthy": true
+                },
+                {
+                    "item": "Dried Fruits",
+                    "healthy": true
+                },
+                {
+                    "item": "Tofu",
+                    "healthy": true
+                },
+                {
+                    "item": "Eggs",
+                    "healthy": false
+                },
+                {
+                    "item": "Milks",
+                    "healthy": true
+                },
+                {
+                    "item": "Kombucha on Tap",
+                    "healthy": true
+                },
+                {
+                    "item": "Bottled Drinks",
+                    "healthy": false
+                },
+                {
+                    "item": "Bulk Items",
+                    "healthy": false
+                }
+            ]
         }
     ]
 }
