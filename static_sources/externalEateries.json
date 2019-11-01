@@ -783,7 +783,7 @@
                     "events": [
                         {
                             "descr": "General",
-                            "start": "6:00pm",
+                            "start": "2:00pm",
                             "end": "12:00am",
                             "menu": []
                         }
@@ -908,7 +908,7 @@
                 },
                 {
                     "item": "Fresh and Frozen Produce",
-                    "healthy":  true
+                    "healthy": true
                 },
                 {
                     "item": "Nuts",
