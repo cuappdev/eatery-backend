@@ -52,7 +52,7 @@
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": ["11/28/19-11/30/19"],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -161,7 +161,7 @@
                 }
             ],
             "datesClosed": [
-                "10/11/19-10/15/19"
+                "11/27/19-11/30/19"
             ],
             "diningItems": [
                 {
