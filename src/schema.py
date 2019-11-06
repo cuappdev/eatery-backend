@@ -94,10 +94,12 @@ class Query(ObjectType):
             elif any(meal_swipe_name in acct["accountDisplayName"] for meal_swipe_name in SWIPE_PLANS):
                 # Since swipes will always be >= 0, we set our swipes to the lowest value from GET
                 if account_info["swipes"] < str(acct["balance"]):
-                    account_info["swipes"] = str(acct["balance"]) 
+                    account_info["swipes"] = str(acct["balance"])
 
         # Check if the balance provided by Cornell Dining is a regular digit
-        if account_info["swipes"].isdigit() or (account_info["swipes"].startswith('-') and account_info["swipes"][1:].isdigit()):
+        if account_info["swipes"].isdigit() or (
+            account_info["swipes"].startswith("-") and account_info["swipes"][1:].isdigit()
+        ):
             # Check if the meal plan has more than 50 swipes, this is larger than the largest plan.
             if int(account_info["swipes"]) > 50:
                 account_info["swipes"] = "Unlimited"
