@@ -1,8 +1,9 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declared_attr
+from src.db import Base
 
 
-class MenuItem(object):
+class MenuItem(Base):
     @declared_attr
     def category_id(cls):
         return Column(Integer, ForeignKey("menuCategories.id"), nullable=True)
