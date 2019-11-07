@@ -1,8 +1,9 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declared_attr
+from src.db import Base
 
 
-class ExpandedMenuChoice(object):
+class ExpandedMenuChoice(Base):
     @declared_attr
     def menu_item_id(cls):
         return Column(Integer, ForeignKey("expandedMenuItems.id"), nullable=False)

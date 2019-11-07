@@ -1,8 +1,9 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declared_attr
+from src.db import Base
 
 
-class CampusEateryHour(object):
+class CampusEateryHour(Base):
     @declared_attr
     def eatery_id(cls):
         return Column(Integer, ForeignKey("campusEateries.id"), nullable=False)
