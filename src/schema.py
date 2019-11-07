@@ -82,22 +82,30 @@ class Query(ObjectType):
         account_info["brbs"] = "0.00"
         account_info["city_bucks"] = "0.00"
         account_info["laundry"] = "0.00"
-        account_info["swipes"] = "0"
+        account_info["swipes"] = "-1"
+
         for acct in accounts:
             if acct["accountDisplayName"] == ACCOUNT_NAMES["citybucks"]:
                 account_info["city_bucks"] = str("{0:.2f}".format(round(acct["balance"], 2)))
             elif acct["accountDisplayName"] == ACCOUNT_NAMES["laundry"]:
                 account_info["laundry"] = str("{0:.2f}".format(round(acct["balance"], 2)))
-            elif ACCOUNT_NAMES["brbs"] in acct["accountDisplayName"]:
+            elif ACCOUNT_NAMES["brbs"] == acct["accountDisplayName"]:
                 account_info["brbs"] = str("{0:.2f}".format(round(acct["balance"], 2)))
             elif any(meal_swipe_name in acct["accountDisplayName"] for meal_swipe_name in SWIPE_PLANS):
-                account_info["swipes"] = str(acct["balance"])
+                # Since swipes will always be >= 0, we set our swipes to the lowest value from GET
+                if account_info["swipes"] < str(acct["balance"]):
+                    account_info["swipes"] = str(acct["balance"])
 
         # Check if the balance provided by Cornell Dining is a regular digit
-        if account_info["swipes"].isdigit():
+        if account_info["swipes"].isdigit() or (
+            account_info["swipes"].startswith("-") and account_info["swipes"][1:].isdigit()
+        ):
             # Check if the meal plan has more than 50 swipes, this is larger than the largest plan.
             if int(account_info["swipes"]) > 50:
                 account_info["swipes"] = "Unlimited"
+            elif account_info["swipes"] == "-1":
+                # Fill value with readable value for people not on unlimited
+                account_info["swipes"] = "None"
 
         # Query 3: Get list of transactions
         try:
