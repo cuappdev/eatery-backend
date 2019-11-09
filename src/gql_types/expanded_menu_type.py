@@ -1,6 +1,6 @@
 from graphene import List, ObjectType, String
 
-from src.types.food_station_type import FoodItemType, FoodStationType
+from .food_station_type import FoodItemType, FoodStationType
 
 
 class DescriptiveFoodItemOptionType(ObjectType):

@@ -1,6 +1,6 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declared_attr
-from src.db import Base
+from . import Base
 
 
 class ExpandedMenuItem(Base):
