@@ -24,3 +24,6 @@ venv/
 
 # Swipe Data
 eatery-data/
+
+# DB
+data.sqlite3

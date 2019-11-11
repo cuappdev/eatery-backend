@@ -65,14 +65,14 @@ PAY_METHODS = {
 }
 POSITIVE_TRANSACTION_TYPE = 3
 SCHOOL_BREAKS = {
-    "fall": "10/6/18-10/9/18",
-    "thanksgiving": "11/21/18-11/25/18",
-    "finals_winter": "12/5/18-12/15/18",
-    "winter": "12/16/18-1/21/19",
-    "february": "2/23/19-2/26/19",
-    "spring": "3/30/19-4/7/19",
-    "finals_spring": "5/8/19-5/18/19",
-    "summer": "5/19/19-8/28/19",
+    "fall": "10/12/19-10/15/19",
+    "thanksgiving": "11/27/19-12/01/19",
+    "finals_winter": "12/11/19-12/21/19",
+    "winter": "12/22/19-1/20/20",
+    "february": "2/22/20-2/25/20",
+    "spring": "3/28/20-4/5/20",
+    "finals_spring": "5/6/20-5/16/20",
+    "summer": "5/17/20-8/27/20",
 }
 STATIC_SOURCES_URL = "https://raw.githubusercontent.com/cuappdev/eatery-backend/master/static_sources/"
 STATIC_CTOWN_HOURS_URL = STATIC_SOURCES_URL + "externalHours.json"
