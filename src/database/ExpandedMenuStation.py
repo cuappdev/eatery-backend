@@ -1,6 +1,6 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declared_attr
-from . import Base
+from .config import Base
 
 
 class ExpandedMenuStation(Base):

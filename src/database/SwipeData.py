@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declared_attr
-from . import Base
+from .config import Base
 
 
 class SwipeData(Base):

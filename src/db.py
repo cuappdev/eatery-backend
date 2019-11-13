@@ -3,7 +3,7 @@ import requests
 
 from collegetown import collegetown_search
 from constants import CORNELL_DINING_URL
-from database import Base, Engine, Session
+from database import CampusEatery, Base, Engine, Session
 from eatery_db import (
     parse_campus_eateries,
     parse_campus_hours,
@@ -13,17 +13,27 @@ from eatery_db import (
 )
 
 
-def start_update():
-    try:
+def get_campus_eateries(data_json, refresh=False):
+    campus_eateries = CampusEatery.query.all()
+
+    if refresh:
         Base.metadata.drop_all(bind=Engine)
         Base.metadata.create_all(bind=Engine)
-
         print("[{}] Updating campus eateries".format(datetime.now()))
-        dining_query = requests.get(CORNELL_DINING_URL)
-        data_json = dining_query.json()
         campus_eateries = parse_campus_eateries(data_json)
         Session.add_all(campus_eateries)
         Session.commit()
+
+    return campus_eateries
+
+
+def start_update(refresh_campus=False):
+    try:
+        dining_query = requests.get(CORNELL_DINING_URL)
+        data_json = dining_query.json()
+
+        print("[{}] Fetching campus eateries".format(datetime.now()))
+        campus_eateries = get_campus_eateries(data_json, refresh=refresh_campus)
 
         print("[{}] Updating campus eatery hours and menus".format(datetime.now()))
         for eatery in campus_eateries:

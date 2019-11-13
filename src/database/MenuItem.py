@@ -1,6 +1,6 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declared_attr
-from . import Base
+from .config import Base
 
 
 class MenuItem(Base):

@@ -1,5 +1,5 @@
 from sqlalchemy import Boolean, Column, Float, Integer, String
-from . import Base
+from .config import Base
 
 
 class CollegetownEatery(Base):
