@@ -1,16 +1,17 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declared_attr
-from src.db import Base
+from .config import Base
 
 
-class CampusEateryHour(Base):
+class SwipeData(Base):
     @declared_attr
     def eatery_id(cls):
         return Column(Integer, ForeignKey("campusEateries.id"), nullable=False)
 
     id = Column(Integer, nullable=False, primary_key=True)
-    date = Column(String, nullable=False)
-    event_description = Column(String, nullable=False)
-    event_summary = Column(String, nullable=False)
     end_time = Column(String, nullable=False)
+    session_type = Column(String, nullable=False)
     start_time = Column(String, nullable=False)
+    swipe_density = Column(Float, nullable=False)
+    wait_time_high = Column(Integer, nullable=False)
+    wait_time_low = Column(Integer, nullable=False)

@@ -23,6 +23,7 @@ GIT_CONTENT_URL = "https://raw.githubusercontent.com/cuappdev"
 IGNORE_LOCATIONS = ["BS-No Bill Workstation", "Admin Workstation (B)", "GET Location"]
 IMAGES_URL = GIT_CONTENT_URL + "/assets/master/eatery/eatery-images/"
 TRILLIUM = "trillium"
+TRILLIUM_SLUG = "Trillium"
 LOCATION_NAMES = {
     "Alice Cook House": {"name": "Cook House Dining Room", "type": DINING_HALL},
     "Bear Necessities": {"name": "Bear Necessities Grill & C-Store", "type": BRB_ONLY},
@@ -82,7 +83,6 @@ STATIC_MENUS_URL = STATIC_SOURCES_URL + "hardcodedMenus.json"
 SWIPE_DENSITY_ROUND = 3
 SWIPE_PLANS = ["Bear Basic", "Bear Choice", "Bear Traditional", "Flex 10/500", "Off", "Unlimited"]
 TABLE_COLUMNS = ["date", "session_type", "weekday", "location", "start_time", "end_time", "swipes", "multiplier"]
-TRILLIUM_ID = 23
 UPDATE_DELAY = 86400  # 24 hours in seconds
 UPDATE_DELAY_TESTING = 60  # 1 minute in seconds
 # default multiplier for converting average swipes/count to wait time
