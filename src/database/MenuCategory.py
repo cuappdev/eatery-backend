@@ -1,6 +1,6 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declared_attr
-from src.db import Base
+from .config import Base
 
 
 class MenuCategory(Base):

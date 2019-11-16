@@ -1,9 +1,9 @@
 from graphene import Enum, Field, Float, Int, List, ObjectType, String
 
-from src.types.expanded_menu_type import FoodCategoryType
-from src.types.operating_hours_type import OperatingHoursType, CollegetownHoursType
-from src.types.payment_methods_type import PaymentMethodsEnum, PaymentMethodsType
-from src.types.swipe_data_type import SwipeDataType
+from .expanded_menu_type import FoodCategoryType
+from .operating_hours_type import OperatingHoursType, CollegetownHoursType
+from .payment_methods_type import PaymentMethodsEnum, PaymentMethodsType
+from .swipe_data_type import SwipeDataType
 
 
 class CampusAreaType(ObjectType):

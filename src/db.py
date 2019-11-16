@@ -1,20 +1,66 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.ext.declarative import declared_attr
+from datetime import datetime
+import requests
+
+from collegetown import collegetown_search
+from constants import CORNELL_DINING_URL
+from database import CampusEatery, Base, Engine, Session
+from eatery_db import (
+    parse_campus_eateries,
+    parse_campus_hours,
+    parse_collegetown_eateries,
+    parse_menu_categories,
+    parse_menu_items,
+)
 
 
-engine = create_engine("sqlite:///data.sqlite3", convert_unicode=True)
-db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+def get_campus_eateries(data_json, refresh=False):
+    campus_eateries = CampusEatery.query.all()
+
+    if refresh:
+        Base.metadata.drop_all(bind=Engine)
+        Base.metadata.create_all(bind=Engine)
+        print("[{}] Updating campus eateries".format(datetime.now()))
+        campus_eateries = parse_campus_eateries(data_json)
+        Session.add_all(campus_eateries)
+        Session.commit()
+
+    return campus_eateries
 
 
-class TableNameBase(object):
-    @declared_attr
-    def __tablename__(cls):
-        class_name = cls.__name__  # e.g. Hour
-        table_name = class_name[0].lower() + class_name[1:] + "s"  # e.g. hours
-        return table_name
+def start_update(refresh_campus=False):
+    try:
+        dining_query = requests.get(CORNELL_DINING_URL)
+        data_json = dining_query.json()
+
+        print("[{}] Fetching campus eateries".format(datetime.now()))
+        campus_eateries = get_campus_eateries(data_json, refresh=refresh_campus)
+
+        print("[{}] Updating campus eatery hours and menus".format(datetime.now()))
+        for eatery in campus_eateries:
+            hours_and_menus = parse_campus_hours(data_json, eatery)
+            eatery_hours = (x[0] for x in hours_and_menus)
+            Session.add_all(eatery_hours)
+            Session.commit()
+
+            for eatery_hour, menu_json in hours_and_menus:
+                categories_and_items = parse_menu_categories(menu_json, eatery_hour)
+                eatery_categories = (x[0] for x in categories_and_items)
+                Session.add_all(eatery_categories)
+                Session.commit()
+
+                for menu_category, items_json in categories_and_items:
+                    menu_items = parse_menu_items(items_json, menu_category)
+                    Session.add_all(menu_items)
+                    Session.commit()
+
+        print("[{}] Updating collegetown".format(datetime.now()))
+        yelp_query = collegetown_search()
+        collegetown_eateries = parse_collegetown_eateries(yelp_query)
+        Session.add_all(collegetown_eateries)
+        Session.commit()
+
+    except Exception as e:
+        print("Data update failed:", e)
 
 
-Base = declarative_base(cls=TableNameBase)
-Base.query = db_session.query_property()
+start_update()
