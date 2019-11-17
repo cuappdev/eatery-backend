@@ -1,6 +1,12 @@
-from .common_eatery import get_image_url, parse_coordinates
+from datetime import timedelta
 
-from database import CollegetownEatery
+from .common_eatery import format_time, get_image_url, parse_coordinates, today
+
+from constants import NUM_DAYS_STORED_IN_DB, STATIC_CTOWN_HOURS_URL
+
+from database import CollegetownEatery, CollegetownEateryHour
+
+import requests
 
 
 def parse_collegetown_eateries(collegetown_data):
@@ -39,3 +45,43 @@ def parse_collegetown_eateries(collegetown_data):
         collegetown_eateries.append(new_eatery)
 
     return collegetown_eateries
+
+
+def parse_collegetown_hours(data_json, eatery_model):
+    for eatery in data_json:
+        if eatery_model.url == eatery.get("url", ""):
+            hours_list = eatery.get("hours", [{}])[0].get("open", [])
+            # gets open hours from first dictionary in hours, empty dict-list provided to mimic hours format
+
+            eatery_alias = eatery.get("alias", "")
+            # these hours are not on Yelp and need to be queried from another source
+            static_eateries = requests.get(STATIC_CTOWN_HOURS_URL).json()
+            for static_eatery in static_eateries["eateries"]:
+                if static_eatery["alias"] == eatery_alias:
+                    hours_list = static_eatery.get("hours", [{}])[0].get("open", [])
+                    break
+
+            new_operating_hours = []
+
+            for i in range(NUM_DAYS_STORED_IN_DB):
+                new_date = today + timedelta(days=i)
+                new_events = [event for event in hours_list if event["day"] == new_date.weekday()]
+                for event in new_events:
+                    start, end = format_time(
+                        event.get("start", ""),
+                        event.get("end", ""),
+                        new_date.isoformat(),
+                        hr24=True,
+                        overnight=event.get("is_overnight", False),
+                    )
+                    new_operating_hours.append(
+                        CollegetownEateryHour(
+                            eatery_id=eatery_model.id,
+                            date=new_date.isoformat(),
+                            event_description="General",
+                            end_time=end,
+                            start_time=start,
+                        )
+                    )
+            return new_operating_hours
+    return []

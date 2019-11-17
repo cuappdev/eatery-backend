@@ -6,6 +6,7 @@ from .campus_eatery import (
     parse_menu_categories,
     parse_menu_items,
     parse_static_eateries,
+    parse_static_op_hours,
 )
 
-from .collegetown_eatery import parse_collegetown_eateries
+from .collegetown_eatery import parse_collegetown_eateries, parse_collegetown_hours

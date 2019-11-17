@@ -3,14 +3,16 @@ import requests
 
 from collegetown import collegetown_search
 from constants import CORNELL_DINING_URL, STATIC_EATERIES_URL, STATIC_EATERY_SLUGS
-from database import CampusEatery, Base, Engine, Session
+from database import CampusEatery, CollegetownEatery, CollegetownEateryHour, Base, Engine, Session
 from eatery_db import (
     parse_campus_eateries,
     parse_campus_hours,
     parse_collegetown_eateries,
+    parse_collegetown_hours,
     parse_menu_categories,
     parse_menu_items,
     parse_static_eateries,
+    parse_static_op_hours,
 )
 
 
@@ -60,19 +62,45 @@ def start_update(refresh_campus=False):
         static_eateries = campus_eateries
 
         if refresh_campus:
-            print("[{}] Updating static eateries".format(datetime.now()))
+            print("[{}] Updating static campus eateries".format(datetime.now()))
             static_eateries = parse_static_eateries(static_json)
             Session.add_all(static_eateries)
             Session.commit()
 
-        print("[{}] Updating collegetown".format(datetime.now()))
+        print("[{}] Updating static eatery hours and menus".format(datetime.now()))
+        for eatery in static_eateries:
+            hours_and_menus = parse_static_op_hours(static_json, eatery)
+            eatery_hours = (x[0] for x in hours_and_menus)
+            Session.add_all(eatery_hours)
+            Session.commit()
+
+            for eatery_hour, menu_json in hours_and_menus:
+                categories_and_items = parse_menu_categories(menu_json, eatery_hour)
+                eatery_categories = (x[0] for x in categories_and_items)
+                Session.add_all(eatery_categories)
+                Session.commit()
+
+                for menu_category, items_json in categories_and_items:
+                    menu_items = parse_menu_items(items_json, menu_category)
+                    Session.add_all(menu_items)
+                    Session.commit()
+
+        Base.metadata.drop_all(bind=Engine, tables=[CollegetownEatery.__table__, CollegetownEateryHour.__table__])
+        Base.metadata.create_all(bind=Engine, tables=[CollegetownEatery.__table__, CollegetownEateryHour.__table__])
+        print("[{}] Fetching Collegetown eateries".format(datetime.now()))
         yelp_query = collegetown_search()
         collegetown_eateries = parse_collegetown_eateries(yelp_query)
         Session.add_all(collegetown_eateries)
         Session.commit()
 
+        print("[{}] Updating Collegetown eateries and hours".format(datetime.now()))
+        for eatery in collegetown_eateries:
+            hours = parse_collegetown_hours(yelp_query, eatery)
+            Session.add_all(hours)
+            Session.commit()
+
     except Exception as e:
         print("Data update failed:", e)
 
 
-start_update()
+start_update(True)
