@@ -1,6 +1,6 @@
 from .common_eatery import get_image_url, parse_coordinates
 
-from database.CollegetownEatery import CollegetownEatery
+from database import CollegetownEatery
 
 
 def parse_collegetown_eateries(collegetown_data):
