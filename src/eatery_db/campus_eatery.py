@@ -20,6 +20,8 @@ def parse_campus_eateries(data_json):
 
     for eatery in data_json["data"]["eateries"]:
         brbs, cash, cornell_card, credit, mobile, swipes = parse_payments(eatery["payMethods"])
+        phone = eatery.get("contactPhone", "N/A")
+        phone = phone if phone else "N/A"
         latitude, longitude = parse_coordinates(eatery)
 
         new_eatery = CampusEatery(
@@ -38,7 +40,7 @@ def parse_campus_eateries(data_json):
             payment_method_credit=credit,
             payment_method_mobile=mobile,
             payment_method_swipes=swipes,
-            phone=eatery.get("contactPhone", "N/A"),
+            phone=phone,
             slug=eatery.get("slug", ""),
         )
 
