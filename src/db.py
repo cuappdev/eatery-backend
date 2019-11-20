@@ -2,7 +2,7 @@ from datetime import datetime
 import requests
 
 from collegetown import collegetown_search
-from constants import CORNELL_DINING_URL, STATIC_EATERIES_URL, STATIC_EATERY_SLUGS
+from constants import CORNELL_DINING_URL, STATIC_EATERIES_URL, STATIC_EATERY_SLUGS, STATIC_EXPANDED_ITEMS_URL
 from database import CampusEatery, CollegetownEatery, CollegetownEateryHour, Base, Engine, Session, SwipeData
 from eatery_db import (
     export_data,
@@ -10,6 +10,9 @@ from eatery_db import (
     parse_campus_hours,
     parse_collegetown_eateries,
     parse_collegetown_hours,
+    parse_expanded_menu,
+    parse_expanded_items,
+    parse_expanded_choices,
     parse_menu_categories,
     parse_menu_items,
     parse_static_eateries,
@@ -49,6 +52,24 @@ def start_update(refresh_campus=False, recalculate_swipe=False):
 
         print("[{}] Updating campus eatery hours and menus".format(datetime.now()))
         for eatery in campus_eateries:
+            # get the expanded menu if it exists
+            menus = requests.get(STATIC_EXPANDED_ITEMS_URL).json()
+            station_and_items = parse_expanded_menu(menus, eatery)
+            eatery_categories = (x[0] for x in station_and_items)
+            Session.add_all(eatery_categories)
+            Session.commit()
+
+            for station, item_json in station_and_items:
+                items_and_choices = parse_expanded_items(item_json, station)
+                items = (x[0] for x in items_and_choices)
+                Session.add_all(items)
+                Session.commit()
+
+                for item, choices_json in items_and_choices:
+                    choices = parse_expanded_choices(choices_json, item)
+                    Session.add_all(choices)
+                    Session.commit()
+
             # if this is not a refresh, then static eateries are part of campus_eateries
             if eatery.slug not in STATIC_EATERY_SLUGS:
                 hours_and_menus = parse_campus_hours(campus_json, eatery)

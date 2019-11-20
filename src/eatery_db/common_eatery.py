@@ -1,5 +1,6 @@
 from constants import IMAGES_URL
 from datetime import date, datetime, timedelta
+from database import ExpandedMenuStation, ExpandedMenuItem, ExpandedMenuChoice
 
 today = date.today()
 
@@ -58,6 +59,68 @@ def parse_coordinates(eatery):
         latitude = eatery["coordinates"]["latitude"]
         longitude = eatery["coordinates"]["longitude"]
     return latitude, longitude
+
+
+def parse_expanded_menu(menus, eatery_model):
+    """Parses the expanded menu of an eatery.
+
+    Returns a tuple of ExpandedMenuStation type available in the external expandedItems resource and the corresponding
+    json for items
+
+    Args:
+        menu (dict): A valid json segment from the static expanded menu resource.
+        eatery_model (CampusEatery): A valid campus eatery to which to link the menu object.
+    """
+    categories_and_items = []
+
+    for menu in menus["eateries"]:
+        if eatery_model.slug == menu["slug"]:
+            for category in menu["categories"]:
+                for station in category["stations"]:
+                    menu_category = ExpandedMenuStation(
+                        campus_eatery_id=eatery_model.id,
+                        menu_category=category["category"],
+                        station_category=station["station"],
+                    )
+                    categories_and_items.append((menu_category, station["diningItems"]))
+    return categories_and_items
+
+
+def parse_expanded_items(items, station_model):
+    """Parses the expanded items for each station.
+
+    Returns a tuple of ExpandedMenuItem type available at a station and the corresponding choices available for the
+    choices
+
+    Args:
+        items (dict): A valid json segment from the hard-coded menu items
+        station_model(ExpandedMenuChoice): A valid ExpandedMenuChoice item to which to bind the items.
+    """
+    items_and_choices = []
+    for item in items:
+        food_item = ExpandedMenuItem(
+            station_category_id=station_model.id, healthy=False, item=item["item"], price=item["price"]
+        )
+        items_and_choices.append((food_item, item["choices"]))
+    return items_and_choices
+
+
+def parse_expanded_choices(item_choices, item_model):
+    """Parses the options for an item.
+
+    Returns the ExpandedMenuChoices for a given item
+
+    Args:
+        choices (dict): A valid json segment from the hard-coded menu items
+        item_model (ExpandedMenuItem): A menu item to which to link the choices.
+    """
+    choices = []
+    for choice in item_choices:
+        item_choice = ExpandedMenuChoice(
+            menu_item_id=item_model.id, label=choice["label"], options=str(choice["options"])
+        )
+        choices.append(item_choice)
+    return choices
 
 
 def string_to_date_range(dates):
