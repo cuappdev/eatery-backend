@@ -24,7 +24,7 @@ def parse_collegetown_eateries(collegetown_data):
 
         new_eatery = CollegetownEatery(
             address=eatery["location"]["address1"],
-            categories=str([cuisine["title"] for cuisine in eatery.get("categories", [])]),
+            categories=str([cuisine["title"] for cuisine in eatery.get("categories", [])])[1:-1],
             eatery_type="Collegetown Restaurant",
             image_url=get_image_url(eatery.get("alias", "")),
             latitude=latitude,

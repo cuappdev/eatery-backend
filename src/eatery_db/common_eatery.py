@@ -117,7 +117,7 @@ def parse_expanded_choices(item_choices, item_model):
     choices = []
     for choice in item_choices:
         item_choice = ExpandedMenuChoice(
-            menu_item_id=item_model.id, label=choice["label"], options=str(choice["options"])
+            menu_item_id=item_model.id, label=choice["label"], options=str(choice["options"])[1:-1]
         )
         choices.append(item_choice)
     return choices
