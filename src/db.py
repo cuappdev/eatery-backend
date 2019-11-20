@@ -3,8 +3,9 @@ import requests
 
 from collegetown import collegetown_search
 from constants import CORNELL_DINING_URL, STATIC_EATERIES_URL, STATIC_EATERY_SLUGS
-from database import CampusEatery, CollegetownEatery, CollegetownEateryHour, Base, Engine, Session
+from database import CampusEatery, CollegetownEatery, CollegetownEateryHour, Base, Engine, Session, SwipeData
 from eatery_db import (
+    export_data,
     parse_campus_eateries,
     parse_campus_hours,
     parse_collegetown_eateries,
@@ -13,6 +14,7 @@ from eatery_db import (
     parse_menu_items,
     parse_static_eateries,
     parse_static_op_hours,
+    parse_to_csv,
 )
 
 
@@ -30,11 +32,20 @@ def get_campus_eateries(data_json, refresh=False):
     return campus_eateries
 
 
-def start_update(refresh_campus=False):
+def start_update(refresh_campus=False, recalculate_swipe=False):
     try:
         print("[{}] Fetching campus eateries".format(datetime.now()))
         campus_json = requests.get(CORNELL_DINING_URL).json()
         campus_eateries = get_campus_eateries(campus_json, refresh=refresh_campus)
+
+        if recalculate_swipe:
+            print("[{}] Updating swipe data".format(datetime.now()))
+            data_path = parse_to_csv(file_name="data.csv")
+            Base.metadata.drop_all(bind=Engine, tables=[SwipeData.__table__])
+            Base.metadata.create_all(bind=Engine, tables=[SwipeData.__table__])
+            all_swipe_data = export_data(data_path, campus_eateries)
+            Session.add_all(all_swipe_data)
+            Session.commit()
 
         print("[{}] Updating campus eatery hours and menus".format(datetime.now()))
         for eatery in campus_eateries:
@@ -55,6 +66,7 @@ def start_update(refresh_campus=False):
                         menu_items = parse_menu_items(items_json, menu_category)
                         Session.add_all(menu_items)
                         Session.commit()
+
                 campus_eateries.remove(eatery)
 
         print("[{}] Fetching static campus eateries".format(datetime.now()))
@@ -103,4 +115,4 @@ def start_update(refresh_campus=False):
         print("Data update failed:", e)
 
 
-start_update(True)
+start_update(True, True)

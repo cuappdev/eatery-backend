@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import requests
 
-from .common_eatery import format_time, get_image_url, parse_coordinates, today
+from .common_eatery import format_time, get_image_url, parse_coordinates, string_to_date_range, today
 
 from constants import NUM_DAYS_STORED_IN_DB, PAY_METHODS, STATIC_MENUS_URL, TRILLIUM_SLUG, WEEKDAYS
 
@@ -233,16 +233,6 @@ def parse_static_op_hours(data_json, eatery_model):
 
             return new_operating_hours
     return []
-
-
-def string_to_date_range(dates):
-    """
-    dates: string representing a range of dates mm/dd/yy-mm/dd/yy
-    """
-    start_str, end_str = dates.split("-")
-    start_date = datetime.strptime(start_str, "%m/%d/%y").date()
-    end_date = datetime.strptime(end_str, "%m/%d/%y").date()
-    return (start_date, end_date)
 
 
 def parse_campus_area(eatery):

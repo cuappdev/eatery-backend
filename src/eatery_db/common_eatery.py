@@ -58,3 +58,13 @@ def parse_coordinates(eatery):
         latitude = eatery["coordinates"]["latitude"]
         longitude = eatery["coordinates"]["longitude"]
     return latitude, longitude
+
+
+def string_to_date_range(dates):
+    """
+    dates: string representing a range of dates mm/dd/yy-mm/dd/yy
+    """
+    start_str, end_str = dates.split("-")
+    start_date = datetime.strptime(start_str, "%m/%d/%y").date()
+    end_date = datetime.strptime(end_str, "%m/%d/%y").date()
+    return (start_date, end_date)
