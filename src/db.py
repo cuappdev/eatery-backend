@@ -20,10 +20,10 @@ from .eatery_db import (
     parse_to_csv,
 )
 
+conn = Engine.connect()
+
 
 def get_campus_eateries(data_json, refresh=False):
-    campus_eateries = CampusEatery.query.all()
-
     if refresh:
         Base.metadata.drop_all(bind=Engine)
         Base.metadata.create_all(bind=Engine)
@@ -31,6 +31,8 @@ def get_campus_eateries(data_json, refresh=False):
         campus_eateries = parse_campus_eateries(data_json)
         Session.add_all(campus_eateries)
         Session.commit()
+    else:
+        campus_eateries = CampusEatery.query.all()
 
     return campus_eateries
 
