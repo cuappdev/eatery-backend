@@ -2,8 +2,6 @@ from constants import IMAGES_URL
 from datetime import date, datetime, timedelta
 from database import ExpandedMenuStation, ExpandedMenuItem, ExpandedMenuChoice
 
-today = date.today()
-
 
 def format_time(start_time, end_time, start_date, hr24=False, overnight=False):
     """Returns a formatted time concatenated with date (string) for an eatery event

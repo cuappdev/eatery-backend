@@ -1,6 +1,6 @@
-from datetime import timedelta
+from datetime import date, timedelta
 
-from .common_eatery import format_time, get_image_url, parse_coordinates, today
+from .common_eatery import format_time, get_image_url, parse_coordinates
 
 from constants import NUM_DAYS_STORED_IN_DB, STATIC_CTOWN_HOURS_URL
 
@@ -48,6 +48,15 @@ def parse_collegetown_eateries(collegetown_data):
 
 
 def parse_collegetown_hours(data_json, eatery_model):
+    """Parses the hours of a Collegetown eatery.
+
+    Returns a list of CollegetownEateryHours that are associated to a specifc Collegetown Eatery.
+
+    Args:
+        data_json (dict): A valid json dictionary from Yelp that contains eatery information
+        eater_model (CollegetownEatery): The eatery to which to bind the hours.
+    """
+    today = date.today()
     for eatery in data_json:
         if eatery_model.url == eatery.get("url", ""):
             hours_list = eatery.get("hours", [{}])[0].get("open", [])

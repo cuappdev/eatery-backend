@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from file_read_backwards import FileReadBackwards
 import json
 import numpy as np
@@ -21,7 +21,7 @@ from constants import (
 )
 
 from database import SwipeData
-from .common_eatery import string_to_date_range, today
+from .common_eatery import string_to_date_range
 
 
 weekdays = {v: k for k, v in WEEKDAYS.items()}  # inverting to convert strings to indexes [0,6]
@@ -270,6 +270,7 @@ def export_data(file_path, eatery_models):
 
     try:
         df = pd.read_csv(file_path)
+        today = date.today()
         session_type = sort_session_type(today, breaks)
         swipe_blocks = []
         for location in df["location"].unique():

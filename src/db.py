@@ -88,8 +88,6 @@ def start_update(refresh_campus=False, recalculate_swipe=False):
                         Session.add_all(menu_items)
                         Session.commit()
 
-                campus_eateries.remove(eatery)
-
         print("[{}] Fetching static campus eateries".format(datetime.now()))
         static_json = requests.get(STATIC_EATERIES_URL).json()
         static_eateries = campus_eateries
@@ -102,21 +100,22 @@ def start_update(refresh_campus=False, recalculate_swipe=False):
 
         print("[{}] Updating static eatery hours and menus".format(datetime.now()))
         for eatery in static_eateries:
-            hours_and_menus = parse_static_op_hours(static_json, eatery)
-            eatery_hours = (x[0] for x in hours_and_menus)
-            Session.add_all(eatery_hours)
-            Session.commit()
-
-            for eatery_hour, menu_json in hours_and_menus:
-                categories_and_items = parse_menu_categories(menu_json, eatery_hour)
-                eatery_categories = (x[0] for x in categories_and_items)
-                Session.add_all(eatery_categories)
+            if eatery.slug in STATIC_EATERY_SLUGS:
+                hours_and_menus = parse_static_op_hours(static_json, eatery)
+                eatery_hours = (x[0] for x in hours_and_menus)
+                Session.add_all(eatery_hours)
                 Session.commit()
 
-                for menu_category, items_json in categories_and_items:
-                    menu_items = parse_menu_items(items_json, menu_category)
-                    Session.add_all(menu_items)
+                for eatery_hour, menu_json in hours_and_menus:
+                    categories_and_items = parse_menu_categories(menu_json, eatery_hour)
+                    eatery_categories = (x[0] for x in categories_and_items)
+                    Session.add_all(eatery_categories)
                     Session.commit()
+
+                    for menu_category, items_json in categories_and_items:
+                        menu_items = parse_menu_items(items_json, menu_category)
+                        Session.add_all(menu_items)
+                        Session.commit()
 
         Base.metadata.drop_all(bind=Engine, tables=[CollegetownEatery.__table__, CollegetownEateryHour.__table__])
         Base.metadata.create_all(bind=Engine, tables=[CollegetownEatery.__table__, CollegetownEateryHour.__table__])
