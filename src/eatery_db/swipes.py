@@ -4,10 +4,9 @@ import json
 import numpy as np
 from os.path import isfile
 import pandas as pd
-
 import traceback
 
-from constants import (
+from ..constants import (
     BRB_ONLY,
     DINING_HALL,
     EATERY_DATA_PATH,
@@ -20,7 +19,7 @@ from constants import (
     WEEKDAYS,
 )
 
-from database import SwipeData
+from ..database import SwipeData
 from .common_eatery import string_to_date_range
 
 

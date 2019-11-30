@@ -2,10 +2,8 @@ from datetime import date, datetime, timedelta
 import requests
 
 from .common_eatery import format_time, get_image_url, parse_coordinates, string_to_date_range
-
-from constants import NUM_DAYS_STORED_IN_DB, PAY_METHODS, STATIC_MENUS_URL, TRILLIUM_SLUG, WEEKDAYS
-
-from database import CampusEatery, CampusEateryHour, MenuCategory, MenuItem
+from ..constants import NUM_DAYS_STORED_IN_DB, PAY_METHODS, STATIC_MENUS_URL, TRILLIUM_SLUG, WEEKDAYS
+from ..database import CampusEatery, CampusEateryHour, MenuCategory, MenuItem
 
 
 def parse_campus_eateries(data_json):

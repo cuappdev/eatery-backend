@@ -1,10 +1,10 @@
 from datetime import datetime
 import requests
 
-from collegetown import collegetown_search
-from constants import CORNELL_DINING_URL, STATIC_EATERIES_URL, STATIC_EATERY_SLUGS, STATIC_EXPANDED_ITEMS_URL
-from database import CampusEatery, CollegetownEatery, CollegetownEateryHour, Base, Engine, Session, SwipeData
-from eatery_db import (
+from .collegetown import collegetown_search
+from .constants import CORNELL_DINING_URL, STATIC_EATERIES_URL, STATIC_EATERY_SLUGS, STATIC_EXPANDED_ITEMS_URL
+from .database import CampusEatery, CollegetownEatery, CollegetownEateryHour, Base, Engine, Session, SwipeData
+from .eatery_db import (
     export_data,
     parse_campus_eateries,
     parse_campus_hours,

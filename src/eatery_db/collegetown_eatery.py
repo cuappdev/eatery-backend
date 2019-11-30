@@ -1,12 +1,9 @@
 from datetime import date, timedelta
+import requests
 
 from .common_eatery import format_time, get_image_url, parse_coordinates
-
-from constants import NUM_DAYS_STORED_IN_DB, STATIC_CTOWN_HOURS_URL
-
-from database import CollegetownEatery, CollegetownEateryHour
-
-import requests
+from ..constants import NUM_DAYS_STORED_IN_DB, STATIC_CTOWN_HOURS_URL
+from ..database import CollegetownEatery, CollegetownEateryHour
 
 
 def parse_collegetown_eateries(collegetown_data):
