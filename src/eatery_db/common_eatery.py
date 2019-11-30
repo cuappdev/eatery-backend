@@ -3,13 +3,13 @@ from datetime import date, datetime, timedelta
 from database import ExpandedMenuStation, ExpandedMenuItem, ExpandedMenuChoice
 
 
-def format_time(start_time, end_time, start_date, hr24=False, overnight=False):
+def format_time(start_time, end_time, start_date, is_24_hour_time=False, overnight=False):
     """Returns a formatted time concatenated with date (string) for an eatery event
 
     Input comes in two forms depending on if it is collegetown eatery (24hr format).
     Some end times are 'earlier' than the start time, indicating we have rolled over to a new day.
     """
-    if hr24:
+    if is_24_hour_time:
         start = datetime.strptime(start_time, "%H%M")
         start_time = start.strftime("%I:%M%p")
         end = datetime.strptime(end_time, "%H%M")
@@ -72,15 +72,16 @@ def parse_expanded_menu(menus, eatery_model):
     categories_and_items = []
 
     for menu in menus["eateries"]:
-        if eatery_model.slug == menu["slug"]:
-            for category in menu["categories"]:
-                for station in category["stations"]:
-                    menu_category = ExpandedMenuStation(
-                        campus_eatery_id=eatery_model.id,
-                        menu_category=category["category"],
-                        station_category=station["station"],
-                    )
-                    categories_and_items.append((menu_category, station["diningItems"]))
+        for category in menu["categories"]:
+            if eatery_model.slug != menu["slug"]:
+                break
+            for station in category["stations"]:
+                menu_category = ExpandedMenuStation(
+                    campus_eatery_id=eatery_model.id,
+                    menu_category=category["category"],
+                    station_category=station["station"],
+                )
+                categories_and_items.append((menu_category, station["diningItems"]))
     return categories_and_items
 
 

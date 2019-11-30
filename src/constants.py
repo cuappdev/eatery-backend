@@ -79,13 +79,13 @@ STATIC_SOURCES_URL = GIT_CONTENT_URL + "/eatery-backend/master/static_sources/"
 STATIC_CTOWN_HOURS_URL = STATIC_SOURCES_URL + "externalHours.json"
 STATIC_EATERIES_URL = STATIC_SOURCES_URL + "externalEateries.json"
 STATIC_EATERY_SLUGS = [
-    "Terrace",
-    "Manndible",
-    "Zeus",
-    "Gimme-Coffee",
-    "Fork-and-Gavel",
-    "Louies-Lunch",
     "Anabels-Grocery",
+    "Fork-and-Gavel",
+    "Gimme-Coffee",
+    "Louies-Lunch",
+    "Manndible",
+    "Terrace",
+    "Zeus",
 ]
 STATIC_EXPANDED_ITEMS_URL = STATIC_SOURCES_URL + "expandedItems.json"
 STATIC_MENUS_URL = STATIC_SOURCES_URL + "hardcodedMenus.json"

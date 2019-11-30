@@ -133,6 +133,3 @@ def start_update(refresh_campus=False, recalculate_swipe=False):
 
     except Exception as e:
         print("Data update failed:", e)
-
-
-start_update(True, True)

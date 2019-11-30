@@ -62,7 +62,7 @@ def parse_campus_hours(data_json, eatery_model):
     eatery_hours_and_menus = []
 
     for eatery in data_json["data"]["eateries"]:
-        eatery_slug = eatery.get("slug")
+        eatery_slug = eatery.get("slug", "")
         dining_items = get_trillium_menu() if eatery_slug == TRILLIUM_SLUG else parse_dining_items(eatery)
 
         if eatery_model.slug == eatery_slug:
