@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 import requests
 
 from src.constants import IMAGES_URL, PAY_METHODS, STATIC_EXPANDED_ITEMS_URL

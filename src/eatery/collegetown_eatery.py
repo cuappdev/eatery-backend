@@ -2,7 +2,7 @@ import requests
 from datetime import date, timedelta
 
 from src.constants import NUM_DAYS_STORED_IN_DB, STATIC_CTOWN_HOURS_URL
-from src.eatery.common_eatery import format_time, get_image_url, parse_coordinates, resolve_id, today
+from src.eatery.common_eatery import format_time, get_image_url, parse_coordinates, resolve_id
 from src.types import (
     CollegetownEateryType,
     CollegetownEventType,
