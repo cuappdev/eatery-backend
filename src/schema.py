@@ -4,7 +4,7 @@ from graphene import Field, Int, List, ObjectType, String
 import pytz
 import requests
 
-from src.constants import (
+from .constants import (
     ACCOUNT_NAMES,
     CORNELL_INSTITUTION_ID,
     GET_LOCATIONS,
@@ -14,7 +14,7 @@ from src.constants import (
     POSITIVE_TRANSACTION_TYPE,
     SWIPE_PLANS,
 )
-from src.types import AccountInfoType, CampusEateryType, CollegetownEateryType, TransactionType
+from .gql_types import AccountInfoType, CampusEateryType, CollegetownEateryType, TransactionType
 
 
 class Data(object):
