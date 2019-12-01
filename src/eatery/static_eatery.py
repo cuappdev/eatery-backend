@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 from src.constants import NUM_DAYS_STORED_IN_DB, WEEKDAYS
 from src.eatery.common_eatery import (
@@ -12,7 +12,6 @@ from src.eatery.common_eatery import (
     parse_payment_methods,
     parse_payment_methods_enum,
     resolve_id,
-    today,
 )
 from src.types import CampusEateryType, OperatingHoursType
 
@@ -66,6 +65,7 @@ def parse_static_op_hours(hours_list, dining_items, dates_closed):
             weekly schedule
     """
     weekdays = {}
+    today = date.today()
     for hours in hours_list:
         if "-" in hours["weekday"]:
             start, end = hours["weekday"].split("-")

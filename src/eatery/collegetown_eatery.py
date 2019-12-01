@@ -1,5 +1,5 @@
 import requests
-from datetime import timedelta
+from datetime import date, timedelta
 
 from src.constants import NUM_DAYS_STORED_IN_DB, STATIC_CTOWN_HOURS_URL
 from src.eatery.common_eatery import format_time, get_image_url, parse_coordinates, resolve_id, today
@@ -55,6 +55,8 @@ def parse_collegetown_hours(eatery):
     Args:
         eatery (dict): A valid json dictionary from Yelp that contains eatery information
     """
+    today = date.today()
+
     hours_list = eatery.get("hours", [{}])[0].get("open", [])
     # gets open hours from first dictionary in hours, empty dict-list provided to mimic hours format
 
