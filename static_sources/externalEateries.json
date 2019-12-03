@@ -481,7 +481,7 @@
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": ["12/22/19-12/31/19"],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -545,7 +545,7 @@
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": ["12/22/19-12/31-19"],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -595,7 +595,7 @@
                             "menu": []
                         }
                     ]
-                },
+                }
             ],
             "datesClosed": ["12/7/19-12/31/19"],
             "payMethods": [
