@@ -52,7 +52,7 @@
                     ]
                 }
             ],
-            "datesClosed": ["11/28/19-11/30/19"],
+            "datesClosed": ["12/22/19-12/31/19"],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -161,7 +161,7 @@
                 }
             ],
             "datesClosed": [
-                "11/27/19-11/30/19"
+                "12/20/19-12/31/19"
             ],
             "diningItems": [
                 {
@@ -210,7 +210,7 @@
                         {
                             "descr": "General",
                             "start": "8:00am",
-                            "end": "6:30pm",
+                            "end": "7:30pm",
                             "menu": []
                         }
                     ]
@@ -227,18 +227,29 @@
                     ]
                 },
                 {
+                    "weekday": "saturday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "11:00am",
+                            "end": "5:00pm",
+                            "menu": []
+                        }
+                    ]
+                },
+                {
                     "weekday": "sunday",
                     "events": [
                         {
                             "descr": "General",
                             "start": "11:00am",
-                            "end": "6:30pm",
+                            "end": "7:30pm",
                             "menu": []
                         }
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": ["12/21/19-12/31/19"],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -575,18 +586,7 @@
             "location": "Myron Taylor Hall",
             "operatingHours": [
                 {
-                    "weekday": "monday-thursday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "8:00am",
-                            "end": "3:30pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "friday",
+                    "weekday": "monday-friday",
                     "events": [
                         {
                             "descr": "General",
@@ -595,9 +595,9 @@
                             "menu": []
                         }
                     ]
-                }
+                },
             ],
-            "datesClosed": [],
+            "datesClosed": ["12/7/19-12/31/19"],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -692,14 +692,14 @@
                     "events": [
                         {
                             "descr": "General",
-                            "start": "2:00pm",
+                            "start": "6:00pm",
                             "end": "12:00am",
                             "menu": []
                         }
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": ["12/22/19-12/31/19"],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -787,7 +787,7 @@
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": ["12/22/19-12/31/19"],
             "payMethods": [
                 {
                     "descr": "Cash",
