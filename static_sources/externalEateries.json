@@ -52,7 +52,9 @@
                     ]
                 }
             ],
-            "datesClosed": ["12/22/19-12/31/19"],
+            "datesClosed": [
+                "12/22/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -249,7 +251,9 @@
                     ]
                 }
             ],
-            "datesClosed": ["12/21/19-12/31/19"],
+            "datesClosed": [
+                "12/21/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -481,7 +485,9 @@
                     ]
                 }
             ],
-            "datesClosed": ["12/22/19-12/31/19"],
+            "datesClosed": [
+                "12/22/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -545,7 +551,9 @@
                     ]
                 }
             ],
-            "datesClosed": ["12/22/19-12/31-19"],
+            "datesClosed": [
+                "12/22/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -597,7 +605,9 @@
                     ]
                 }
             ],
-            "datesClosed": ["12/7/19-12/31/19"],
+            "datesClosed": [
+                "12/7/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -699,7 +709,9 @@
                     ]
                 }
             ],
-            "datesClosed": ["12/22/19-12/31/19"],
+            "datesClosed": [
+                "12/22/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -787,7 +799,9 @@
                     ]
                 }
             ],
-            "datesClosed": ["12/22/19-12/31/19"],
+            "datesClosed": [
+                "12/22/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
