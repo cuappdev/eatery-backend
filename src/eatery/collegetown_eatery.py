@@ -1,9 +1,8 @@
 import requests
-from datetime import timedelta
+from datetime import date, timedelta
 
-from src.constants import NUM_DAYS_STORED_IN_DB, STATIC_CTOWN_HOURS_URL
-from src.eatery.common_eatery import format_time, get_image_url, parse_coordinates, resolve_id, today
-from src.types import (
+from ..constants import NUM_DAYS_STORED_IN_DB, STATIC_CTOWN_HOURS_URL
+from ..gql_types import (
     CollegetownEateryType,
     CollegetownEventType,
     CollegetownHoursType,
@@ -11,6 +10,7 @@ from src.types import (
     PaymentMethodsType,
     RatingEnum,
 )
+from .common_eatery import format_time, get_image_url, parse_coordinates, resolve_id
 
 
 def parse_collegetown_eateries(collegetown_data, collegetown_eateries):
@@ -69,7 +69,7 @@ def parse_collegetown_hours(eatery):
     new_operating_hours = []
 
     for i in range(NUM_DAYS_STORED_IN_DB):
-        new_date = today + timedelta(days=i)
+        new_date = date.today() + timedelta(days=i)
         new_events = [event for event in hours_list if event["day"] == new_date.weekday()]
         new_operating_hours.append(
             CollegetownHoursType(

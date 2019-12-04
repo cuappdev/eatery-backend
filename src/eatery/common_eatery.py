@@ -1,8 +1,8 @@
 from datetime import date, datetime, timedelta
 import requests
 
-from src.constants import IMAGES_URL, PAY_METHODS, STATIC_EXPANDED_ITEMS_URL
-from src.types import (
+from ..constants import IMAGES_URL, PAY_METHODS, STATIC_EXPANDED_ITEMS_URL
+from ..gql_types import (
     CampusAreaType,
     CoordinatesType,
     DescriptiveFoodItemOptionType,
@@ -16,7 +16,6 @@ from src.types import (
     PaymentMethodsType,
 )
 
-today = date.today()
 static_eateries = {}
 
 
