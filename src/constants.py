@@ -23,6 +23,7 @@ GIT_CONTENT_URL = "https://raw.githubusercontent.com/cuappdev"
 IGNORE_LOCATIONS = ["BS-No Bill Workstation", "Admin Workstation (B)", "GET Location"]
 IMAGES_URL = GIT_CONTENT_URL + "/assets/master/eatery/eatery-images/"
 TRILLIUM = "trillium"
+TRILLIUM_ID = 23
 TRILLIUM_SLUG = "Trillium"
 LOCATION_NAMES = {
     "Alice Cook House": {"name": "Cook House Dining Room", "type": DINING_HALL},

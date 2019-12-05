@@ -5,7 +5,7 @@ import numpy as np
 from os.path import isfile
 import pandas as pd
 
-from src.constants import (
+from .constants import (
     BRB_ONLY,
     DINING_HALL,
     EATERY_DATA_PATH,
@@ -17,8 +17,8 @@ from src.constants import (
     WAIT_TIME_CONVERSION,
     WEEKDAYS,
 )
-from src.eatery import string_to_date_range
-from src.types import SwipeDataType
+from .eatery import string_to_date_range
+from .gql_types import SwipeDataType
 
 weekdays = {v: k for k, v in WEEKDAYS.items()}  # inverting to convert strings to indexes [0,6]
 breaks = {}
