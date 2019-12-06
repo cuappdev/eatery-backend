@@ -8,7 +8,6 @@ import pandas as pd
 from .constants import (
     BRB_ONLY,
     DINING_HALL,
-    EATERY_DATA_PATH,
     LOCATION_NAMES,
     SCHOOL_BREAKS,
     SWIPE_DENSITY_ROUND,
@@ -46,7 +45,7 @@ def parse_to_csv(file_name="data.csv"):
     """
     global breaks
     global weekdays
-    main_csv = "{}{}".format(EATERY_DATA_PATH, file_name)
+    main_csv = "{}{}".format("eatery-data/", file_name)
 
     try:
         with FileReadBackwards("eatery-data/data.log") as swipe_data:
@@ -205,7 +204,7 @@ def sort_by_timeblock(input_file_path, output_file="timeblock-averages.csv"):
         final_grouping = counter_rename.groupby(all_but_date_and_swipes).sum().reset_index()
         calculate_wait_times(final_grouping)
         final_grouping.sort_values(by=["location", "weekday"])
-        output_path = "{}{}".format(EATERY_DATA_PATH, output_file)
+        output_path = "{}{}".format("eatery-data/", output_file)
         final_grouping.to_csv(output_path, header=True, index=False)
         return output_path
     except Exception as e:
@@ -247,7 +246,7 @@ def sort_by_day(input_file_path, output_file="daily-averages.csv"):
             np.divide(final_grouping["swipes"], final_grouping["counter"]), decimals=2
         )
         final_grouping.sort_values(by=["location", "weekday"])
-        final_grouping.to_csv("{}{}".format(EATERY_DATA_PATH, output_file), header=True, index=False)
+        final_grouping.to_csv("{}{}".format("eatery-data/", output_file), header=True, index=False)
     except Exception as e:
         print("Failed at sort_by_day")
         print("Data update failed:", e)
