@@ -1,8 +1,7 @@
 import requests
 
-from src.constants import STATIC_MENUS_URL, TRILLIUM_ID
-from src.types import CampusEateryType, OperatingHoursType
-from src.eatery.common_eatery import (
+from ..constants import STATIC_MENUS_URL, TRILLIUM_ID
+from .common_eatery import (
     get_image_url,
     parse_campus_area,
     parse_coordinates,
@@ -14,6 +13,7 @@ from src.eatery.common_eatery import (
     parse_payment_methods_enum,
     resolve_id,
 )
+from ..gql_types import CampusEateryType, OperatingHoursType
 
 
 def parse_eatery(data_json, campus_eateries, all_swipe_data):

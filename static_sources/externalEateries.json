@@ -52,7 +52,9 @@
                     ]
                 }
             ],
-            "datesClosed": ["11/28/19-11/30/19"],
+            "datesClosed": [
+                "12/22/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -161,7 +163,7 @@
                 }
             ],
             "datesClosed": [
-                "11/27/19-11/30/19"
+                "12/20/19-12/31/19"
             ],
             "diningItems": [
                 {
@@ -210,7 +212,7 @@
                         {
                             "descr": "General",
                             "start": "8:00am",
-                            "end": "6:30pm",
+                            "end": "7:30pm",
                             "menu": []
                         }
                     ]
@@ -227,18 +229,31 @@
                     ]
                 },
                 {
+                    "weekday": "saturday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "11:00am",
+                            "end": "5:00pm",
+                            "menu": []
+                        }
+                    ]
+                },
+                {
                     "weekday": "sunday",
                     "events": [
                         {
                             "descr": "General",
                             "start": "11:00am",
-                            "end": "6:30pm",
+                            "end": "7:30pm",
                             "menu": []
                         }
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": [
+                "12/21/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -470,7 +485,9 @@
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": [
+                "12/22/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -534,7 +551,9 @@
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": [
+                "12/22/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -575,18 +594,7 @@
             "location": "Myron Taylor Hall",
             "operatingHours": [
                 {
-                    "weekday": "monday-thursday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "8:00am",
-                            "end": "3:30pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "friday",
+                    "weekday": "monday-friday",
                     "events": [
                         {
                             "descr": "General",
@@ -597,98 +605,9 @@
                     ]
                 }
             ],
-            "datesClosed": [],
-            "payMethods": [
-                {
-                    "descr": "Cash",
-                    "descrshort": "Cash"
-                },
-                {
-                    "descr": "Major Credit Cards (VISA, MasterCard, AMEX)",
-                    "descrshort": "Major Credit Cards"
-                }
+            "datesClosed": [
+                "12/7/19-12/31/19"
             ],
-            "diningItems": [
-                {
-                    "item": "Eggs with Toast",
-                    "healthy": false
-                },
-                {
-                    "item": "Breakfast Sandwich",
-                    "healthy": false
-                },
-                {
-                    "item": "Breakfast Burrito",
-                    "healthy": false
-                },
-                {
-                    "item": "Omelet",
-                    "healthy": false
-                },
-                {
-                    "item": "Waffles",
-                    "healthy": false
-                },
-                {
-                    "item": "Panini Sandwiches",
-                    "healthy": false
-                },
-                {
-                    "item": "Hot Sandwiches",
-                    "healthy": false
-                },
-                {
-                    "item": "Fries",
-                    "healthy": false
-                },
-                {
-                    "item": "Salad Bar",
-                    "healthy": true
-                }
-            ]
-        },
-        {
-            "slug": "Fork-and-Gavel",
-            "external": true,
-            "name": "Fork and Gavel Café",
-            "nameshort": "Fork and Gavel",
-            "about": "",
-            "cornellDining": false,
-            "contactPhone": "1-607-255-6980",
-            "coordinates": {
-                "latitude": 42.443577,
-                "longitude": -76.486034
-            },
-            "campusArea": {
-                "descr": "Central Campus",
-                "descrshort": "Central"
-            },
-            "location": "Myron Taylor Hall",
-            "operatingHours": [
-                {
-                    "weekday": "monday-thursday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "8:00am",
-                            "end": "3:00pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "friday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "11:00am",
-                            "end": "2:00pm",
-                            "menu": []
-                        }
-                    ]
-                }
-            ],
-            "datesClosed": [],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -783,14 +702,16 @@
                     "events": [
                         {
                             "descr": "General",
-                            "start": "2:00pm",
+                            "start": "6:00pm",
                             "end": "12:00am",
                             "menu": []
                         }
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": [
+                "12/22/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -878,7 +799,9 @@
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": [
+                "12/22/19-12/31/19"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",

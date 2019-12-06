@@ -8,7 +8,7 @@ BRB_ONLY = "brb_only"
 CORNELL_DINING_URL = "https://now.dining.cornell.edu/api/1.0/dining/eateries.json"
 CORNELL_INSTITUTION_ID = "73116ae4-22ad-4c71-8ffd-11ba015407b1"
 DINING_HALL = "dining_hall"
-EATERY_DATA_PATH = "./eatery-data/"
+EATERY_DATA_PATH = "../eatery-data/"
 GET_LOCATIONS = {
     "Attrium Cafe": "Atrium Café",
     "Bear Necessities Grill & C-Store": "Bear Necessities",
@@ -23,6 +23,8 @@ GIT_CONTENT_URL = "https://raw.githubusercontent.com/cuappdev"
 IGNORE_LOCATIONS = ["BS-No Bill Workstation", "Admin Workstation (B)", "GET Location"]
 IMAGES_URL = GIT_CONTENT_URL + "/assets/master/eatery/eatery-images/"
 TRILLIUM = "trillium"
+TRILLIUM_ID = 23
+TRILLIUM_SLUG = "Trillium"
 LOCATION_NAMES = {
     "Alice Cook House": {"name": "Cook House Dining Room", "type": DINING_HALL},
     "Bear Necessities": {"name": "Bear Necessities Grill & C-Store", "type": BRB_ONLY},
@@ -74,15 +76,23 @@ SCHOOL_BREAKS = {
     "finals_spring": "5/6/20-5/16/20",
     "summer": "5/17/20-8/27/20",
 }
-STATIC_SOURCES_URL = "https://raw.githubusercontent.com/cuappdev/eatery-backend/master/static_sources/"
+STATIC_SOURCES_URL = GIT_CONTENT_URL + "/eatery-backend/master/static_sources/"
 STATIC_CTOWN_HOURS_URL = STATIC_SOURCES_URL + "externalHours.json"
 STATIC_EATERIES_URL = STATIC_SOURCES_URL + "externalEateries.json"
+STATIC_EATERY_SLUGS = [
+    "Anabels-Grocery",
+    "Fork-and-Gavel",
+    "Gimme-Coffee",
+    "Louies-Lunch",
+    "Manndible",
+    "Terrace",
+    "Zeus",
+]
 STATIC_EXPANDED_ITEMS_URL = STATIC_SOURCES_URL + "expandedItems.json"
 STATIC_MENUS_URL = STATIC_SOURCES_URL + "hardcodedMenus.json"
 SWIPE_DENSITY_ROUND = 3
 SWIPE_PLANS = ["Bear Basic", "Bear Choice", "Bear Traditional", "Flex 10/500", "Off", "Unlimited"]
 TABLE_COLUMNS = ["date", "session_type", "weekday", "location", "start_time", "end_time", "swipes", "multiplier"]
-TRILLIUM_ID = 23
 UPDATE_DELAY = 86400  # 24 hours in seconds
 UPDATE_DELAY_TESTING = 60  # 1 minute in seconds
 # default multiplier for converting average swipes/count to wait time

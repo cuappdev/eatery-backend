@@ -1,7 +1,8 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
-from src.constants import NUM_DAYS_STORED_IN_DB, WEEKDAYS
-from src.eatery.common_eatery import (
+from ..constants import NUM_DAYS_STORED_IN_DB, WEEKDAYS
+from ..gql_types import CampusEateryType, OperatingHoursType
+from .common_eatery import (
     get_image_url,
     parse_campus_area,
     parse_coordinates,
@@ -12,9 +13,7 @@ from src.eatery.common_eatery import (
     parse_payment_methods,
     parse_payment_methods_enum,
     resolve_id,
-    today,
 )
-from src.types import CampusEateryType, OperatingHoursType
 
 
 def parse_static_eateries(static_json, campus_eateries, all_swipe_data):
@@ -80,7 +79,7 @@ def parse_static_op_hours(hours_list, dining_items, dates_closed):
 
     new_operating_hours = []
     for i in range(NUM_DAYS_STORED_IN_DB):
-        new_date = today + timedelta(days=i)
+        new_date = date.today() + timedelta(days=i)
         for dates in dates_closed:  # check if dates_closed contains new_date
             if "-" in dates:  # indicates this string is a date range of form "mm/dd/yy-mm/dd/yy"
                 start_date, end_date = string_to_date_range(dates)

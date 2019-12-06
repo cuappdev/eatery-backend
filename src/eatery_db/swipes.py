@@ -4,8 +4,9 @@ import json
 import numpy as np
 from os.path import isfile
 import pandas as pd
+import traceback
 
-from .constants import (
+from ..constants import (
     BRB_ONLY,
     DINING_HALL,
     EATERY_DATA_PATH,
@@ -17,8 +18,10 @@ from .constants import (
     WAIT_TIME_CONVERSION,
     WEEKDAYS,
 )
-from .eatery import string_to_date_range
-from .gql_types import SwipeDataType
+
+from ..database import SwipeData
+from .common_eatery import string_to_date_range
+
 
 weekdays = {v: k for k, v in WEEKDAYS.items()}  # inverting to convert strings to indexes [0,6]
 breaks = {}
@@ -47,7 +50,6 @@ def parse_to_csv(file_name="data.csv"):
     global breaks
     global weekdays
     main_csv = "{}{}".format(EATERY_DATA_PATH, file_name)
-
     try:
         with FileReadBackwards("{}{}".format(EATERY_DATA_PATH, "data.log")) as swipe_data:
             data_list = []
@@ -166,6 +168,8 @@ def parse_to_csv(file_name="data.csv"):
     except Exception as e:
         print("Failed at parse_to_csv")
         print("Data update failed:", e)
+        return "../eatery-data/timeblock-averages.csv"
+        traceback.print_exc()
 
 
 def sort_by_timeblock(input_file_path, output_file="timeblock-averages.csv"):
@@ -253,20 +257,21 @@ def sort_by_day(input_file_path, output_file="daily-averages.csv"):
         print("Data update failed:", e)
 
 
-def export_data(file_path):
-    """Transforms our tabular data into custom objects to be placed in Eatery objects
+def export_data(file_path, eatery_models):
+    """Transforms our tabular data into custom objects to be linked with Eatery objects
 
     Keyword arguments:
     file_path -- the file path to our input csv file with all wait time data, string
+    eatery_models -- the CampusEatery types to link to the constructed SwipeData types.
     """
     global breaks
     global weekdays
 
     try:
         df = pd.read_csv(file_path)
-        data = {}
         today = date.today()
         session_type = sort_session_type(today, breaks)
+        swipe_blocks = []
         for location in df["location"].unique():
             eatery_name = LOCATION_NAMES[location]["name"]
             # look at information that pertains to today's criteria
@@ -292,8 +297,14 @@ def export_data(file_path):
                 # convert dates into a datetime object
                 start_time = datetime.strptime(row["start_time"], "%I:%M %p")
                 end_time = datetime.strptime(row["end_time"], "%I:%M %p")
+                eatery_id = -1
 
-                new_timeblock = SwipeDataType(  # represents the data for a single timeblock of swipe data
+                for eatery in eatery_models:
+                    if eatery_name == eatery.name:
+                        eatery_id = eatery.id
+
+                new_timeblock = SwipeData(
+                    eatery_id=eatery_id,
                     end_time=fmt_date + end_time.strftime("%I:%M%p"),
                     session_type=session_type,
                     start_time=fmt_date + start_time.strftime("%I:%M%p"),
@@ -302,17 +313,14 @@ def export_data(file_path):
                     wait_time_low=row["wait_time_low"],
                 )
 
-                if eatery_name not in data:
-                    data[eatery_name] = [new_timeblock]
-                else:
-                    data[eatery_name].append(new_timeblock)
+                swipe_blocks.append(new_timeblock)
 
-        return data
+        return swipe_blocks
 
     except Exception as e:
         print("Failed at export_data")
         print("Data update failed:", e)
-        return {}
+        return []
 
 
 def aggregate_breaks(base_df):
