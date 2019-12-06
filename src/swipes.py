@@ -49,7 +49,7 @@ def parse_to_csv(file_name="data.csv"):
     main_csv = "{}{}".format(EATERY_DATA_PATH, file_name)
 
     try:
-        with FileReadBackwards("{}{}".format(EATERY_DATA_PATH, "data.log")) as swipe_data:
+        with FileReadBackwards("eatery-data/data.log") as swipe_data:
             data_list = []
             update_info = {}
 
