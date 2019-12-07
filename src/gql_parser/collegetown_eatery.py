@@ -77,8 +77,9 @@ def parse_categories(eatery):
 
     Returns a list of strings.
     """
-    categories = eatery.get("categories", "").split(",")
-    return list(filter(lambda category: category != "", categories))
+    categories_arr = eatery.get("categories", "").split(", ")
+    categories = map(lambda x: x[1:-1], categories_arr)
+    return categories
 
 
 def parse_collegetown_hours(eatery):
@@ -97,7 +98,7 @@ def parse_collegetown_hours(eatery):
             mapped_hour[column_name] = data[i]
 
         hour_event = CollegetownEventType(
-            description=mapped_hour.get("description", ""),
+            description=mapped_hour.get("event_description", ""),
             end_time=mapped_hour.get("end_time", ""),
             start_time=mapped_hour.get("start_time", ""),
         )

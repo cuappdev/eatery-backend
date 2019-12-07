@@ -213,6 +213,10 @@ def parse_operating_hours(eatery):
             mapped_hour[column_name] = hour[i]
 
         date = mapped_hour["date"]
+        if not mapped_hour["start_time"]:
+            date_to_event[date] = []
+            continue
+
         if date in date_to_event:
             date_to_event[date].append(mapped_hour)
         else:
@@ -263,6 +267,23 @@ def parse_operating_hours(eatery):
         else:
             category_to_item[category] = [mapped_item]
 
+    # query for all dining_items
+    dining_item_category = {}
+    dining_items_category_query = MenuCategory.query.filter_by(eatery_id=eatery.get("id"), event_id=None)
+    dining_items_category_result = conn.execute(dining_items_category_query.statement).fetchall()
+    for result in dining_items_category_result:
+        for i, column_name in enumerate(column_categories):
+            dining_item_category[column_name] = result[i]
+
+    dining_items_arr = []
+    dining_items_query = MenuItem.query.filter_by(category_id=dining_item_category.get("id"))
+    dining_items_result = conn.execute(dining_items_query.statement).fetchall()
+    for dining_item in dining_items_result:
+        mapped_dining_item = {}
+        for i, column_name in enumerate(column_items):
+            mapped_dining_item[column_name] = dining_item[i]
+        dining_items_arr.append(mapped_dining_item)
+
     # Put together hours, categories, and items
     populated_result = []
     for date in date_to_event:
@@ -271,6 +292,9 @@ def parse_operating_hours(eatery):
 
         for event in events_arr:
             categories_arr = event_to_category.get(event["id"], [])
+            if dining_item_category:
+                categories_arr.append(dining_item_category)
+                category_to_item[dining_item_category["id"]] = dining_items_arr
             categories_objs_arr = []
 
             for category in categories_arr:
