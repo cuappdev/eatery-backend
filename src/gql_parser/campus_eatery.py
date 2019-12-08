@@ -47,6 +47,8 @@ def get_campus_eateries(eatery_id):
         populated_eatery = parse_campus_eatery(mapped_eatery)
         populated_result.append(populated_eatery)
 
+    merge_hours(populated_result)
+
     return populated_result
 
 
@@ -350,3 +352,31 @@ def parse_swipe_data(eatery):
         populated_result.append(new_swipe_data)
 
     return populated_result
+
+
+def merge_hours(eateries):
+    """Merges invalid events with valid events
+
+    Combines events with no menu and a start_time equal to the end_time of a previous event into
+    one event. This removes the effectively removes the events with no menus and only preserves
+    the end time of the invalid event.
+
+    Args:
+        eateries (list): A list filled with CampusEateryTypes
+    """
+    for eatery in eateries:
+        for operating_hour in eatery.operating_hours:
+            if len(operating_hour.events) <= 1:  # ignore hours that don't have multiple events
+                continue
+            base_event = operating_hour.events[0]
+            for event in operating_hour.events[1:]:  # iterate over copy of list so we can safely remove
+                if (
+                    event.start_time == base_event.end_time
+                    and base_event.menu
+                    and (not event.menu or event.menu[0].equals(base_event.menu[0]))
+                ):
+                    base_event.end_time = event.end_time
+                    operating_hour.events.remove(event)
+                    print("merged events for {} on {}".format(eatery.name, operating_hour.date))
+                else:
+                    base_event = event
