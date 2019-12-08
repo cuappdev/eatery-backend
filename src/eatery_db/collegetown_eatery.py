@@ -89,5 +89,9 @@ def parse_collegetown_hours(data_json, eatery_model):
                             start_time=start,
                         )
                     )
+                if not new_events:
+                    new_operating_hours.append(
+                        CollegetownEateryHour(eatery_id=eatery_model.id, date=new_date.isoformat(),)
+                    )
             return new_operating_hours
     return []
