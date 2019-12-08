@@ -3,7 +3,7 @@ import requests
 
 from .collegetown import collegetown_search
 from .constants import CORNELL_DINING_URL, STATIC_EATERIES_URL, STATIC_EATERY_SLUGS, STATIC_EXPANDED_ITEMS_URL
-from .database import CampusEatery, CollegetownEatery, CollegetownEateryHour, Base, Engine, Session, SwipeData
+from .database import Base, CampusEatery, CollegetownEatery, CollegetownEateryHour, Engine, Session, SwipeData
 from .eatery_db import (
     export_data,
     parse_campus_eateries,
@@ -20,10 +20,10 @@ from .eatery_db import (
     parse_to_csv,
 )
 
+conn = Engine.connect()
+
 
 def get_campus_eateries(data_json, refresh=False):
-    campus_eateries = CampusEatery.query.all()
-
     if refresh:
         Base.metadata.drop_all(bind=Engine)
         Base.metadata.create_all(bind=Engine)
@@ -31,6 +31,8 @@ def get_campus_eateries(data_json, refresh=False):
         campus_eateries = parse_campus_eateries(data_json)
         Session.add_all(campus_eateries)
         Session.commit()
+    else:
+        campus_eateries = CampusEatery.query.all()
 
     return campus_eateries
 
@@ -72,13 +74,17 @@ def start_update(refresh_campus=False, recalculate_swipe=False):
 
             # if this is not a refresh, then static eateries are part of campus_eateries
             if eatery.slug not in STATIC_EATERY_SLUGS:
-                hours_and_menus = parse_campus_hours(campus_json, eatery)
+                hours_and_menus, dining_items = parse_campus_hours(campus_json, eatery)
                 eatery_hours = (x[0] for x in hours_and_menus)
                 Session.add_all(eatery_hours)
                 Session.commit()
 
+                if dining_items:
+                    hours_and_menus.append((None, dining_items))
+
                 for eatery_hour, menu_json in hours_and_menus:
-                    categories_and_items = parse_menu_categories(menu_json, eatery_hour)
+                    categories_and_items = parse_menu_categories(menu_json, eatery_hour, eatery.id)
+
                     eatery_categories = (x[0] for x in categories_and_items)
                     Session.add_all(eatery_categories)
                     Session.commit()
@@ -107,7 +113,7 @@ def start_update(refresh_campus=False, recalculate_swipe=False):
                 Session.commit()
 
                 for eatery_hour, menu_json in hours_and_menus:
-                    categories_and_items = parse_menu_categories(menu_json, eatery_hour)
+                    categories_and_items = parse_menu_categories(menu_json, eatery_hour, eatery.id)
                     eatery_categories = (x[0] for x in categories_and_items)
                     Session.add_all(eatery_categories)
                     Session.commit()
