@@ -97,6 +97,10 @@ def parse_collegetown_hours(eatery):
         for i, column_name in enumerate(columns):
             mapped_hour[column_name] = data[i]
 
+        if not mapped_hour.get("start_time"):
+            date_to_event[mapped_hour["date"]] = []
+            continue
+
         hour_event = CollegetownEventType(
             description=mapped_hour.get("event_description", ""),
             end_time=mapped_hour.get("end_time", ""),
