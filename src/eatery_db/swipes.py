@@ -168,7 +168,7 @@ def parse_to_csv(file_name="data.csv"):
     except Exception as e:
         print("Failed at parse_to_csv")
         print("Data update failed:", e)
-        return "../eatery-data/timeblock-averages.csv"
+        return "./eatery-data/timeblock-averages.csv"
         traceback.print_exc()
 
 

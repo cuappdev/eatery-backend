@@ -50,47 +50,57 @@ def parse_campus_eateries(data_json):
 def parse_campus_hours(data_json, eatery_model):
     """Parses a Cornell Dining json dictionary.
 
-    Returns a list of tuples of CampusEateryHour objects for a corresponding CampusEatery object and their unparsed
-    menu.
+    Returns 1) a list of tuples of CampusEateryHour objects for a corresponding CampusEatery object and their unparsed
+    menu 2) an array of the items an eatery serves.
 
     Args:
         data_json (dict): a valid dictionary from the Cornell Dining json
         eatery_model (CampusEatery): the CampusEatery object to which to link the hours.
     """
     eatery_hours_and_menus = []
+    dining_items = []
 
     for eatery in data_json["data"]["eateries"]:
         eatery_slug = eatery.get("slug", "")
-        dining_items = get_trillium_menu() if eatery_slug == TRILLIUM_SLUG else parse_dining_items(eatery)
 
         if eatery_model.slug == eatery_slug:
+            dining_items = get_trillium_menu() if eatery_slug == TRILLIUM_SLUG else parse_dining_items(eatery)
             hours_list = eatery["operatingHours"]
 
             for hours in hours_list:
                 new_date = hours.get("date", "")
                 hours_events = hours["events"]
 
-                for event in hours_events:
-                    start, end = format_time(event.get("start", ""), event.get("end", ""), new_date)
+                if hours_events:
+                    for event in hours_events:
+                        start, end = format_time(event.get("start", ""), event.get("end", ""), new_date)
 
+                        eatery_hour = CampusEateryHour(
+                            eatery_id=eatery_model.id,
+                            date=new_date,
+                            event_description=event.get("descr", ""),
+                            event_summary=event.get("calSummary", ""),
+                            end_time=end,
+                            start_time=start,
+                        )
+
+                        eatery_hours_and_menus.append((eatery_hour, event.get("menu", [])))
+
+                else:
                     eatery_hour = CampusEateryHour(
                         eatery_id=eatery_model.id,
                         date=new_date,
-                        event_description=event.get("descr", ""),
-                        event_summary=event.get("calSummary", ""),
-                        end_time=end,
-                        start_time=start,
+                        event_description=None,
+                        event_summary=None,
+                        end_time=None,
+                        start_time=None,
                     )
+                    eatery_hours_and_menus.append((eatery_hour, []))
 
-                    if not event["menu"] and dining_items:
-                        event["menu"] = dining_items
-
-                    eatery_hours_and_menus.append((eatery_hour, event.get("menu", [])))
-
-    return eatery_hours_and_menus
+    return eatery_hours_and_menus, dining_items
 
 
-def parse_menu_categories(menu_json, hour_model):
+def parse_menu_categories(menu_json, hour_model, eatery_id):
     """Parses the menu portion of the Cornell Dining json dictionary.
 
     Returns a tuple of a MenuCategory object linked to the provided CampusHours object and the unparsed items of that
@@ -100,13 +110,16 @@ def parse_menu_categories(menu_json, hour_model):
         menu_json (dict): a valid dictionary from the Cornell Dining json
         hours_model (CampusHours): the CampusHours object to which to link the menu.
     """
+    if not hour_model:
+        return [(MenuCategory(event_id=None, eatery_id=eatery_id, category=""), menu_json)]
+
     categories_and_items = []
     for menu in menu_json:
         if menu.get("category"):
-            new_category = MenuCategory(event_id=hour_model.id, category=menu.get("category"))
+            new_category = MenuCategory(event_id=hour_model.id, eatery_id=eatery_id, category=menu.get("category"))
             categories_and_items.append((new_category, menu.get("items", [])))
         elif menu.get("item"):
-            return [(MenuCategory(event_id=hour_model.id, category="General"), menu_json)]
+            return [(MenuCategory(event_id=hour_model.id, eatery_id=eatery_id, category="General"), menu_json)]
     return categories_and_items
 
 
@@ -221,8 +234,8 @@ def parse_static_op_hours(data_json, eatery_model):
                                 CampusEateryHour(
                                     eatery_id=eatery_model.id,
                                     date=new_date.isoformat(),
-                                    event_description=event.get("calSummary", ""),
-                                    event_summary=event.get("descr", ""),
+                                    event_description=event.get("descr", ""),
+                                    event_summary=event.get("calSummary", ""),
                                     end_time=end,
                                     start_time=start,
                                 ),
@@ -278,16 +291,16 @@ def parse_payments(methods):
 def parse_dining_items(eatery):
     """Parses the dining items of an eatery.
 
-    Returns a list that holds a dictionary for the items an eatery serves and a flag for healthy
+    Returns an array of the items an eatery serves and a flag for healthy
     options. Exclusive to non-dining hall eateries.
 
     Args:
         eatery (dict): A valid json dictionary from Cornell Dining that contains eatery information
     """
-    dining_items = {"items": []}
+    dining_items = []
     for item in eatery["diningItems"]:
-        dining_items["items"].append({"healthy": item.get("healthy", False), "item": item.get("item", "")})
-    return [dining_items]
+        dining_items.append({"healthy": item.get("healthy", False), "item": item.get("item", "")})
+    return dining_items
 
 
 def get_trillium_menu():

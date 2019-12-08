@@ -15,6 +15,7 @@ from .constants import (
     SWIPE_PLANS,
 )
 from .gql_types import AccountInfoType, CampusEateryType, CollegetownEateryType, TransactionType
+from .gql_parser import get_campus_eateries, get_collegetown_eateries
 
 
 class Data(object):
@@ -43,13 +44,13 @@ class Query(ObjectType):
         return [eatery] if eatery is not None else []
 
     def resolve_campus_eateries(self, info, eatery_id=None):
-        return Query.get_eateries(Data.campus_eateries, eatery_id)
+        return get_campus_eateries(eatery_id)
 
     def resolve_collegetown_eateries(self, info, eatery_id=None):
-        return Query.get_eateries(Data.collegetown_eateries, eatery_id)
+        return get_collegetown_eateries(eatery_id)
 
     def resolve_eateries(self, info, eatery_id=None):
-        return Query.get_eateries(Data.campus_eateries, eatery_id)
+        return get_campus_eateries(eatery_id)
 
     def resolve_account_info(self, info, session_id=None):
         if session_id is None:

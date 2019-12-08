@@ -77,7 +77,7 @@ def parse_collegetown_hours(data_json, eatery_model):
                         event.get("start", ""),
                         event.get("end", ""),
                         new_date.isoformat(),
-                        hr24=True,
+                        is_24_hour_time=True,
                         overnight=event.get("is_overnight", False),
                     )
                     new_operating_hours.append(
