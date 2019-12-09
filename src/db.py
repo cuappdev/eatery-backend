@@ -43,15 +43,6 @@ def start_update(refresh_campus=False, recalculate_swipe=False):
         campus_json = requests.get(CORNELL_DINING_URL).json()
         campus_eateries = get_campus_eateries(campus_json, refresh=refresh_campus)
 
-        if recalculate_swipe:
-            print("[{}] Updating swipe data".format(datetime.now()))
-            data_path = parse_to_csv(file_name="data.csv")
-            Base.metadata.drop_all(bind=Engine, tables=[SwipeData.__table__])
-            Base.metadata.create_all(bind=Engine, tables=[SwipeData.__table__])
-            all_swipe_data = export_data(data_path, campus_eateries)
-            Session.add_all(all_swipe_data)
-            Session.commit()
-
         print("[{}] Updating campus eatery hours and menus".format(datetime.now()))
         for eatery in campus_eateries:
             # get the expanded menu if it exists
@@ -122,6 +113,15 @@ def start_update(refresh_campus=False, recalculate_swipe=False):
                         menu_items = parse_menu_items(items_json, menu_category)
                         Session.add_all(menu_items)
                         Session.commit()
+
+        if recalculate_swipe:
+            print("[{}] Updating swipe data".format(datetime.now()))
+            data_path = parse_to_csv(file_name="data.csv")
+            Base.metadata.drop_all(bind=Engine, tables=[SwipeData.__table__])
+            Base.metadata.create_all(bind=Engine, tables=[SwipeData.__table__])
+            all_swipe_data = export_data(data_path, campus_eateries + static_eateries)
+            Session.add_all(all_swipe_data)
+            Session.commit()
 
         Base.metadata.drop_all(bind=Engine, tables=[CollegetownEatery.__table__, CollegetownEateryHour.__table__])
         Base.metadata.create_all(bind=Engine, tables=[CollegetownEatery.__table__, CollegetownEateryHour.__table__])
