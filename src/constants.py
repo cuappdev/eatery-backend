@@ -85,6 +85,7 @@ STATIC_EATERY_SLUGS = [
     "Fork-and-Gavel",
     "Gimme-Coffee",
     "Louies-Lunch",
+    "Macs",
     "Manndible",
     "Terrace",
     "Zeus",
