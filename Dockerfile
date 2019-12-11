@@ -11,4 +11,6 @@ RUN pip install -r requirements.txt
 
 EXPOSE 5000 
 
+RUN touch /var/log/cron.log
+
 CMD sh start_server.sh 
