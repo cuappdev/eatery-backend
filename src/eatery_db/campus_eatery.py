@@ -119,7 +119,7 @@ def parse_menu_categories(menu_json, hour_model, eatery_id):
             new_category = MenuCategory(event_id=hour_model.id, eatery_id=eatery_id, category=menu.get("category"))
             categories_and_items.append((new_category, menu.get("items", [])))
         elif menu.get("item"):
-            return [(MenuCategory(event_id=hour_model.id, eatery_id=eatery_id, category="General"), menu_json)]
+            return [(MenuCategory(event_id=hour_model.id, eatery_id=eatery_id, category=""), menu_json)]
     return categories_and_items
 
 
