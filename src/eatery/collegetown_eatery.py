@@ -1,7 +1,7 @@
 import requests
-from datetime import date, timedelta
+from datetime import timedelta
 
-from ..constants import NUM_DAYS_STORED_IN_DB, STATIC_CTOWN_HOURS_URL
+from ..constants import NUM_DAYS_STORED_IN_DB, STATIC_CTOWN_HOURS_URL, get_today
 from ..gql_types import (
     CollegetownEateryType,
     CollegetownEventType,
@@ -69,7 +69,7 @@ def parse_collegetown_hours(eatery):
     new_operating_hours = []
 
     for i in range(NUM_DAYS_STORED_IN_DB):
-        new_date = date.today() + timedelta(days=i)
+        new_date = get_today() + timedelta(days=i)
         new_events = [event for event in hours_list if event["day"] == new_date.weekday()]
         new_operating_hours.append(
             CollegetownHoursType(
