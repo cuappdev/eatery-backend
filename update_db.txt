@@ -1,2 +1,2 @@
-0 9,15,21 * * * ./update_db.sh
-
+0 9,15,21 * * * ./update_campus.sh
+@weekly ./update_ctown.sh
