@@ -1,3 +1,6 @@
+from datetime import datetime
+import pytz
+
 ACCOUNT_NAMES = {
     "brbs": "BRB Big Red Bucks",
     "citybucks": "CB1 City Bucks",
@@ -105,3 +108,7 @@ YELP_LONGITUDE = -76.486043
 YELP_RADIUS = 200  # meters
 YELP_RESTAURANT_LIMIT = 50  # maximum restaurants returned per query (as allowed by yelp)
 YELP_QUERY_DELAY = 0.8  # seconds
+
+
+def get_today():
+    return datetime.now(pytz.timezone("US/Eastern")).date()

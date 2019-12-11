@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 from file_read_backwards import FileReadBackwards
 import json
 import numpy as np
@@ -15,6 +15,7 @@ from .constants import (
     TRILLIUM,
     WAIT_TIME_CONVERSION,
     WEEKDAYS,
+    get_today,
 )
 from .eatery import string_to_date_range
 from .gql_types import SwipeDataType
@@ -264,7 +265,7 @@ def export_data(file_path):
     try:
         df = pd.read_csv(file_path)
         data = {}
-        today = date.today()
+        today = get_today()
         session_type = sort_session_type(today, breaks)
         for location in df["location"].unique():
             eatery_name = LOCATION_NAMES[location]["name"]

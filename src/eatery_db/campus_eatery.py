@@ -1,8 +1,8 @@
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 import requests
 
 from .common_eatery import format_time, get_image_url, parse_coordinates, string_to_date_range
-from ..constants import NUM_DAYS_STORED_IN_DB, PAY_METHODS, STATIC_MENUS_URL, TRILLIUM_SLUG, WEEKDAYS
+from ..constants import NUM_DAYS_STORED_IN_DB, PAY_METHODS, STATIC_MENUS_URL, TRILLIUM_SLUG, WEEKDAYS, get_today
 from ..database import CampusEatery, CampusEateryHour, MenuCategory, MenuItem
 
 
@@ -190,7 +190,7 @@ def parse_static_op_hours(data_json, eatery_model):
         data_json (dict): a valid dictionary from the Cornell Dining json
         eatery_model (CampusEatery): the CampusEatery object to which to link the hours.
     """
-    today = date.today()
+    today = get_today()
     for eatery in data_json["eateries"]:
         if eatery_model.slug == eatery.get("slug", ""):
             weekdays = {}

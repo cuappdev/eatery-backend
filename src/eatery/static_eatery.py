@@ -1,6 +1,6 @@
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
-from ..constants import NUM_DAYS_STORED_IN_DB, WEEKDAYS
+from ..constants import NUM_DAYS_STORED_IN_DB, WEEKDAYS, get_today
 from ..gql_types import CampusEateryType, OperatingHoursType
 from .common_eatery import (
     get_image_url,
@@ -79,7 +79,7 @@ def parse_static_op_hours(hours_list, dining_items, dates_closed):
 
     new_operating_hours = []
     for i in range(NUM_DAYS_STORED_IN_DB):
-        new_date = date.today() + timedelta(days=i)
+        new_date = get_today() + timedelta(days=i)
         for dates in dates_closed:  # check if dates_closed contains new_date
             if "-" in dates:  # indicates this string is a date range of form "mm/dd/yy-mm/dd/yy"
                 start_date, end_date = string_to_date_range(dates)
