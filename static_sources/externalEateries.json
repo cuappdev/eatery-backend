@@ -53,7 +53,8 @@
                 }
             ],
             "datesClosed": [
-                "12/22/19-12/31/19"
+                "1/1/20-1/16/20",
+                "1/20/20"
             ],
             "payMethods": [
                 {
@@ -163,7 +164,9 @@
                 }
             ],
             "datesClosed": [
-                "12/20/19-12/31/19"
+                "1/1/20-1/16/20",
+                "1/19/20-1/20/20",
+                "1/26/20"
             ],
             "diningItems": [
                 {
@@ -212,7 +215,7 @@
                         {
                             "descr": "General",
                             "start": "8:00am",
-                            "end": "7:30pm",
+                            "end": "4:00pm",
                             "menu": []
                         }
                     ]
@@ -223,36 +226,14 @@
                         {
                             "descr": "General",
                             "start": "8:00am",
-                            "end": "5:00pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "saturday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "11:00am",
-                            "end": "5:00pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "sunday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "11:00am",
-                            "end": "7:30pm",
+                            "end": "4:00pm",
                             "menu": []
                         }
                     ]
                 }
             ],
             "datesClosed": [
-                "12/21/19-12/31/19"
+                "1/1/20"
             ],
             "payMethods": [
                 {
