@@ -37,7 +37,7 @@ def get_campus_eateries(data_json, refresh=False):
     return campus_eateries
 
 
-def start_update(refresh_campus=False, recalculate_swipe=False):
+def start_update(refresh_campus=False, recalculate_swipe=False, refresh_collegetown=False):
     try:
         print("[{}] Fetching campus eateries".format(datetime.now()))
         campus_json = requests.get(CORNELL_DINING_URL).json()
@@ -123,19 +123,20 @@ def start_update(refresh_campus=False, recalculate_swipe=False):
             Session.add_all(all_swipe_data)
             Session.commit()
 
-        Base.metadata.drop_all(bind=Engine, tables=[CollegetownEatery.__table__, CollegetownEateryHour.__table__])
-        Base.metadata.create_all(bind=Engine, tables=[CollegetownEatery.__table__, CollegetownEateryHour.__table__])
-        print("[{}] Fetching Collegetown eateries".format(datetime.now()))
-        yelp_query = collegetown_search()
-        collegetown_eateries = parse_collegetown_eateries(yelp_query)
-        Session.add_all(collegetown_eateries)
-        Session.commit()
-
-        print("[{}] Updating Collegetown eateries and hours".format(datetime.now()))
-        for eatery in collegetown_eateries:
-            hours = parse_collegetown_hours(yelp_query, eatery)
-            Session.add_all(hours)
+        if refresh_collegetown:
+            Base.metadata.drop_all(bind=Engine, tables=[CollegetownEatery.__table__, CollegetownEateryHour.__table__])
+            Base.metadata.create_all(bind=Engine, tables=[CollegetownEatery.__table__, CollegetownEateryHour.__table__])
+            print("[{}] Fetching Collegetown eateries".format(datetime.now()))
+            yelp_query = collegetown_search()
+            collegetown_eateries = parse_collegetown_eateries(yelp_query)
+            Session.add_all(collegetown_eateries)
             Session.commit()
+
+            print("[{}] Updating Collegetown eateries and hours".format(datetime.now()))
+            for eatery in collegetown_eateries:
+                hours = parse_collegetown_hours(yelp_query, eatery)
+                Session.add_all(hours)
+                Session.commit()
 
     except Exception as e:
         print("Data update failed:", e)
