@@ -1,17 +1,13 @@
 language: python
 python:
 - '3.6'
-sudo: required
 services:
 - docker
-script:
-- 
-addons:
-  ssh_known_hosts: eatery-backend.cornellappdev.com
+script: echo
 deploy:
   provider: script
   script: bash docker_push
-  skip_cleanup: true
+  cleanup: false
   on:
     branch: release
 env:
@@ -21,3 +17,5 @@ env:
 before_install:
 - openssl aes-256-cbc -K $encrypted_a1a4bde2c477_key -iv $encrypted_a1a4bde2c477_iv
   -in server.pem.enc -out server.pem -d
+install:
+- echo 'AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHsZL2Icu1Ib6dXFi/rlfkTcgrWauP/Xb4e2CW5xE4Gqbv1zzMm9mcoX85gV94ovBJLKuzDVqgfaaKELvWU+keo=' >> $HOME/.ssh/known_hosts
