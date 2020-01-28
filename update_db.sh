@@ -1,1 +1,0 @@
-python -c 'from src.db import start_update; print("Running daily db update"); start_update(True, True)'
