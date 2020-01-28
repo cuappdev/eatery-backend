@@ -13,4 +13,6 @@ EXPOSE 5000
 
 RUN touch /var/log/cron.log
 
-CMD sh start_server.sh 
+RUN crontab update_db.txt
+
+CMD cron && sh start_server.sh
