@@ -90,7 +90,7 @@ class Query(ObjectType):
                 account_info["city_bucks"] = str("{0:.2f}".format(round(acct["balance"], 2)))
             elif acct["accountDisplayName"] == ACCOUNT_NAMES["laundry"]:
                 account_info["laundry"] = str("{0:.2f}".format(round(acct["balance"], 2)))
-            elif ACCOUNT_NAMES["brbs"] == acct["accountDisplayName"]:
+            elif ACCOUNT_NAMES["brbs"] in acct["accountDisplayName"]:
                 account_info["brbs"] = str("{0:.2f}".format(round(acct["balance"], 2)))
             elif any(meal_swipe_name in acct["accountDisplayName"] for meal_swipe_name in SWIPE_PLANS):
                 # Since swipes will always be >= 0, we set our swipes to the lowest value from GET
