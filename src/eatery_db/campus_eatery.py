@@ -244,7 +244,7 @@ def parse_static_op_hours(data_json, eatery_model):
                         )
                     if not new_events:
                         new_operating_hours.append(
-                            (CampusEateryHour(eatery_id=eatery_model.id, date=new_date.isoformat(),), dining_items)
+                            (CampusEateryHour(eatery_id=eatery_model.id, date=new_date.isoformat()), dining_items)
                         )
 
             return new_operating_hours
