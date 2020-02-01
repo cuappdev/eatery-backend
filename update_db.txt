@@ -1,2 +1,2 @@
-0 9,15,21 * * * ./update_campus.sh
-@weekly ./update_ctown.sh
+0 9,15,21 * * * cd /usr/src/app; /usr/local/bin/python update_campus.py >> /var/log/cron.log 2>&1
+0 5 * * 0 cd /usr/src/app; /usr/local/bin/python update_ctown.py >> /var/log/cron.log 2>&1
