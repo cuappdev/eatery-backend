@@ -37,12 +37,6 @@ class Query(ObjectType):
     collegetown_eateries = List(CollegetownEateryType, eatery_id=Int(name="id"))
     eateries = List(CampusEateryType, eatery_id=Int(name="id"))
 
-    def get_eateries(eateries, eatery_id):
-        if eatery_id is None:
-            return list(eateries.values())
-        eatery = eateries.get(eatery_id)
-        return [eatery] if eatery is not None else []
-
     def resolve_campus_eateries(self, info, eatery_id=None):
         return get_campus_eateries(eatery_id)
 
