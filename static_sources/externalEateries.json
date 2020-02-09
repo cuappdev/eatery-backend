@@ -223,7 +223,7 @@
                         {
                             "descr": "General",
                             "start": "11:00am",
-                            "end": "5:00pm",
+                            "end": "7:00pm",
                             "menu": []
                         }
                     ]
@@ -464,7 +464,6 @@
                 }
             ],
             "datesClosed": [
-                "12/22/19-12/31/19"
             ],
             "payMethods": [
                 {
@@ -530,7 +529,6 @@
                 }
             ],
             "datesClosed": [
-                "12/22/19-12/31/19"
             ],
             "payMethods": [
                 {
@@ -584,7 +582,6 @@
                 }
             ],
             "datesClosed": [
-                "12/7/19-12/31/19"
             ],
             "payMethods": [
                 {
@@ -688,7 +685,6 @@
                 }
             ],
             "datesClosed": [
-                "12/22/19-12/31/19"
             ],
             "payMethods": [
                 {
@@ -778,7 +774,6 @@
                 }
             ],
             "datesClosed": [
-                "12/22/19-12/31/19"
             ],
             "payMethods": [
                 {
