@@ -15,6 +15,7 @@ from .constants import (
     SWIPE_PLANS,
 )
 from .gql_types import AccountInfoType, CampusEateryType, CollegetownEateryType, TransactionType
+from .gql_parser import get_campus_eateries, get_collegetown_eateries
 
 
 class Data(object):
@@ -36,20 +37,14 @@ class Query(ObjectType):
     collegetown_eateries = List(CollegetownEateryType, eatery_id=Int(name="id"))
     eateries = List(CampusEateryType, eatery_id=Int(name="id"))
 
-    def get_eateries(eateries, eatery_id):
-        if eatery_id is None:
-            return list(eateries.values())
-        eatery = eateries.get(eatery_id)
-        return [eatery] if eatery is not None else []
-
     def resolve_campus_eateries(self, info, eatery_id=None):
-        return Query.get_eateries(Data.campus_eateries, eatery_id)
+        return get_campus_eateries(eatery_id)
 
     def resolve_collegetown_eateries(self, info, eatery_id=None):
-        return Query.get_eateries(Data.collegetown_eateries, eatery_id)
+        return get_collegetown_eateries(eatery_id)
 
     def resolve_eateries(self, info, eatery_id=None):
-        return Query.get_eateries(Data.campus_eateries, eatery_id)
+        return get_campus_eateries(eatery_id)
 
     def resolve_account_info(self, info, session_id=None):
         if session_id is None:
@@ -89,7 +84,7 @@ class Query(ObjectType):
                 account_info["city_bucks"] = str("{0:.2f}".format(round(acct["balance"], 2)))
             elif acct["accountDisplayName"] == ACCOUNT_NAMES["laundry"]:
                 account_info["laundry"] = str("{0:.2f}".format(round(acct["balance"], 2)))
-            elif ACCOUNT_NAMES["brbs"] == acct["accountDisplayName"]:
+            elif ACCOUNT_NAMES["brbs"] in acct["accountDisplayName"]:
                 account_info["brbs"] = str("{0:.2f}".format(round(acct["balance"], 2)))
             elif any(meal_swipe_name in acct["accountDisplayName"] for meal_swipe_name in SWIPE_PLANS):
                 # Since swipes will always be >= 0, we set our swipes to the lowest value from GET

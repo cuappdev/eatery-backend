@@ -10,6 +10,6 @@ class CollegetownEateryHour(Base):
 
     id = Column(Integer, nullable=False, primary_key=True)
     date = Column(String, nullable=False)
-    event_description = Column(String, nullable=False)
-    end_time = Column(String, nullable=False)
-    start_time = Column(String, nullable=False)
+    event_description = Column(String, nullable=True)
+    end_time = Column(String, nullable=True)
+    start_time = Column(String, nullable=True)

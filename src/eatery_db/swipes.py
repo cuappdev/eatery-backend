@@ -1,4 +1,4 @@
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 from file_read_backwards import FileReadBackwards
 import json
 import numpy as np
@@ -17,6 +17,7 @@ from ..constants import (
     TRILLIUM,
     WAIT_TIME_CONVERSION,
     WEEKDAYS,
+    get_today,
 )
 
 from ..database import SwipeData
@@ -168,7 +169,7 @@ def parse_to_csv(file_name="data.csv"):
     except Exception as e:
         print("Failed at parse_to_csv")
         print("Data update failed:", e)
-        return "../eatery-data/timeblock-averages.csv"
+        return "./eatery-data/timeblock-averages.csv"
         traceback.print_exc()
 
 
@@ -269,7 +270,7 @@ def export_data(file_path, eatery_models):
 
     try:
         df = pd.read_csv(file_path)
-        today = date.today()
+        today = get_today()
         session_type = sort_session_type(today, breaks)
         swipe_blocks = []
         for location in df["location"].unique():

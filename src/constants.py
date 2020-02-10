@@ -1,3 +1,6 @@
+from datetime import datetime
+import pytz
+
 ACCOUNT_NAMES = {
     "brbs": "BRB Big Red Bucks",
     "citybucks": "CB1 City Bucks",
@@ -8,7 +11,7 @@ BRB_ONLY = "brb_only"
 CORNELL_DINING_URL = "https://now.dining.cornell.edu/api/1.0/dining/eateries.json"
 CORNELL_INSTITUTION_ID = "73116ae4-22ad-4c71-8ffd-11ba015407b1"
 DINING_HALL = "dining_hall"
-EATERY_DATA_PATH = "../eatery-data/"
+EATERY_DATA_PATH = "./eatery-data/"
 GET_LOCATIONS = {
     "Attrium Cafe": "Atrium Café",
     "Bear Necessities Grill & C-Store": "Bear Necessities",
@@ -76,6 +79,7 @@ SCHOOL_BREAKS = {
     "finals_spring": "5/6/20-5/16/20",
     "summer": "5/17/20-8/27/20",
 }
+SQLITE_MAX_VARIABLE_NUMBER = 999
 STATIC_SOURCES_URL = GIT_CONTENT_URL + "/eatery-backend/master/static_sources/"
 STATIC_CTOWN_HOURS_URL = STATIC_SOURCES_URL + "externalHours.json"
 STATIC_EATERIES_URL = STATIC_SOURCES_URL + "externalEateries.json"
@@ -84,6 +88,7 @@ STATIC_EATERY_SLUGS = [
     "Fork-and-Gavel",
     "Gimme-Coffee",
     "Louies-Lunch",
+    "Macs",
     "Manndible",
     "Terrace",
     "Zeus",
@@ -103,3 +108,7 @@ YELP_LONGITUDE = -76.486043
 YELP_RADIUS = 200  # meters
 YELP_RESTAURANT_LIMIT = 50  # maximum restaurants returned per query (as allowed by yelp)
 YELP_QUERY_DELAY = 0.8  # seconds
+
+
+def get_today():
+    return datetime.now(pytz.timezone("US/Eastern")).date()

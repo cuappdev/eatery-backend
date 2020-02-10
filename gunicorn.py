@@ -1,8 +1,8 @@
-from src.data import start_update
+from src.db import start_update
 
 
 def on_starting(server):
-    start_update()
+    start_update(True, True, True)
 
 
 workers = 4
