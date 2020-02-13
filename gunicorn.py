@@ -2,7 +2,7 @@ from src.db import start_update
 
 
 def on_starting(server):
-    start_update(True, True, True)
+    start_update(True, True)
 
 
 workers = 4

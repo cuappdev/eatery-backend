@@ -1,4 +1,4 @@
 from src.db import start_update
 
 print("Running collegetown update")
-start_update(False, False, True)
+start_update(False, True)
