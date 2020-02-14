@@ -3,7 +3,21 @@ import requests
 
 from .collegetown import collegetown_search
 from .constants import CORNELL_DINING_URL, STATIC_EATERIES_URL, STATIC_EATERY_SLUGS, STATIC_EXPANDED_ITEMS_URL
-from .database import Base, CampusEatery, CollegetownEatery, CollegetownEateryHour, Engine, Session, SwipeData
+from .database import (
+    Base,
+    CampusEatery,
+    CampusEateryHour,
+    CollegetownEatery,
+    CollegetownEateryHour,
+    Engine,
+    ExpandedMenuChoice,
+    ExpandedMenuItem,
+    ExpandedMenuStation,
+    MenuCategory,
+    MenuItem,
+    Session,
+    SwipeData,
+)
 from .eatery_db import (
     export_data,
     parse_campus_eateries,
@@ -25,8 +39,32 @@ conn = Engine.connect()
 
 def get_campus_eateries(data_json, refresh=False):
     if refresh:
-        Base.metadata.drop_all(bind=Engine)
-        Base.metadata.create_all(bind=Engine)
+        Base.metadata.drop_all(
+            bind=Engine,
+            tables=[
+                CampusEatery.__table__,
+                CampusEateryHour.__table__,
+                ExpandedMenuChoice.__table__,
+                ExpandedMenuItem.__table__,
+                ExpandedMenuStation.__table__,
+                MenuCategory.__table__,
+                MenuItem.__table__,
+                SwipeData.__table__,
+            ],
+        )
+        Base.metadata.create_all(
+            bind=Engine,
+            tables=[
+                CampusEatery.__table__,
+                CampusEateryHour.__table__,
+                ExpandedMenuChoice.__table__,
+                ExpandedMenuItem.__table__,
+                ExpandedMenuStation.__table__,
+                MenuCategory.__table__,
+                MenuItem.__table__,
+                SwipeData.__table__,
+            ],
+        )
         print("[{}] Updating campus eateries".format(datetime.now()))
         campus_eateries = parse_campus_eateries(data_json)
         Session.add_all(campus_eateries)
