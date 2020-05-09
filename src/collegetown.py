@@ -15,8 +15,12 @@ def collegetown_search():
         eateries = []
         for place in search["businesses"]:
             eatery_id = place["id"]
-            id_query = yelp_api.business_query(id=eatery_id)
-            eateries.append(id_query)
+            try:
+                id_query = yelp_api.business_query(id=eatery_id)
+                eateries.append(id_query)
+            except Exception as e:
+                print("Error fetching " + place["name"])
+                print(e)
             sleep(YELP_QUERY_DELAY)  # delay between query calls to not trigger yelp query limits
         return eateries
     except Exception as e:
