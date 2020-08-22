@@ -13,5 +13,5 @@ jobs:
       # ls **/*.json prints the path of all json files
       # xargs <cmd> splits its input by newline, and runs <cmd> for each line
       # xargs -I % <cmd> <args> runs <cmd> for each line, replacing occurrancess of % in <args> with the line
-    - run: ls **/*.json | xargs -I % sh -c 'cat % | jq -e . || exit 255' 
+    - run: ls **/*.json | xargs -I % sh -c 'cat % | jq -e . 1>/dev/null || exit 255' 
 
