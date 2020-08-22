@@ -1,0 +1,17 @@
+name: Validate JSON files
+on: 
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  ValidateJSON:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: sudo apt-get install jq
+      # ls **/*.json prints the path of all json files
+      # xargs <cmd> splits its input by newline, and runs <cmd> for each line
+      # xargs -I % <cmd> <args> runs <cmd> for each line, replacing occurrancess of % in <args> with the line
+    - run: ls **/*.json | xargs -I % sh -c 'cat % | jq -e . 1>/dev/null || exit 255' 
+
