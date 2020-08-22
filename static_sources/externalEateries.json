@@ -2,7 +2,7 @@
     "eateries": [
         {
             "slug": "Terrace",
-            "external": true,
+            "external": true
             "name": "The Terrace",
             "nameshort": "Terrace",
             "about": "",
