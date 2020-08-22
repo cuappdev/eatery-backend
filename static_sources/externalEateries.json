@@ -22,9 +22,9 @@
                     "weekday": "monday-friday",
                     "events": [
                         {
-                            "descr": "Lunch",
-                            "start": "10:00am",
-                            "end": "3:00pm",
+                            "descr": "General",
+                            "start": "7:30am",
+                            "end": "7:30pm",
                             "menu": []
                         }
                     ]
@@ -149,50 +149,6 @@
             },
             "location": "Mann Library",
             "operatingHours": [
-                {
-                    "weekday": "monday-wednesday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "8:00am",
-                            "end": "7:30pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "thursday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "8:00am",
-                            "end": "7:00pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "friday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "8:00am",
-                            "end": "5:00pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "sunday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "11:00am",
-                            "end": "7:00pm",
-                            "menu": []
-                        }
-                    ]
-                }
             ],
             "datesClosed": [
                 "2/23/20"
@@ -539,7 +495,7 @@
                     "events": [
                         {
                             "descr": "General",
-                            "start": "11:00am",
+                            "start": "8:00am",
                             "end": "2:00pm",
                             "menu": []
                         }
@@ -547,6 +503,7 @@
                 }
             ],
             "datesClosed": [
+                "8/24/2020"
             ],
             "payMethods": [
                 {
@@ -615,39 +572,6 @@
             },
             "location": "Across from Risley",
             "operatingHours": [
-                {
-                    "weekday": "monday-friday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "11:00am",
-                            "end": "3:00am",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "saturday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "12:00pm",
-                            "end": "3:00am",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "sunday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "6:00pm",
-                            "end": "12:00am",
-                            "menu": []
-                        }
-                    ]
-                }
             ],
             "datesClosed": [
             ],
