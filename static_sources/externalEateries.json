@@ -572,6 +572,39 @@
             },
             "location": "Across from Risley",
             "operatingHours": [
+                {
+                    "weekday": "monday-friday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "11:00am",
+                            "end": "3:00am",
+                            "menu": []
+                        }
+                    ]
+                },
+                {
+                    "weekday": "saturday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "12:00pm",
+                            "end": "3:00am",
+                            "menu": []
+                        }
+                    ]
+                },
+                {
+                    "weekday": "sunday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "6:00pm",
+                            "end": "12:00am",
+                            "menu": []
+                        }
+                    ]
+                }
             ],
             "datesClosed": [
             ],
