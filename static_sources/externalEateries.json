@@ -437,17 +437,6 @@
             },
             "location": "Gates Hall",
             "operatingHours": [
-                {
-                    "weekday": "monday-friday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "8:00am",
-                            "end": "5:30pm",
-                            "menu": []
-                        }
-                    ]
-                }
             ],
             "datesClosed": [
             ],
