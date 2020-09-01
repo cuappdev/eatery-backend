@@ -372,17 +372,6 @@
             },
             "location": "Goldwin Smith Hall",
             "operatingHours": [
-                {
-                    "weekday": "monday-friday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "7:30am",
-                            "end": "6:00pm",
-                            "menu": []
-                        }
-                    ]
-                }
             ],
             "datesClosed": [
             ],
