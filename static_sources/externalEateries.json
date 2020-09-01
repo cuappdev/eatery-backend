@@ -19,18 +19,7 @@
             },
             "operatingHours": [
                 {
-                    "weekday": "sunday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "7:30am",
-                            "end": "7:30pm",
-                            "menu": []
-                        }
-                    ]
-                }, 
-                {
-                    "weekday": "monday-saturday",
+                    "weekday": "sunday-saturday",
                     "events": [
                         {
                             "descr": "General",
