@@ -9,7 +9,7 @@ deploy:
   script: bash docker_push
   skip_cleanup: true
   on:
-    branch: release
+    branch: master 
 env:
   global:
   - secure: GzWobC5BqYy1stTRXNxrr/npB3hzjvtWuM2wXTmhBJ5OXjGdKqI4ZUCJDihNIVkii4L/tA5fQhLXzRxCj6wReajV9ArjlRUKmIkiNk4aYEs202GOfDmXaHx9Fj0KqOI6mDyjYySrH2GaQ0mhsPkz64czQFMrku9UcyWXZIE2NtMaM+ghdt/rbJpjSlOcoqY9g1K6QtkFFXHM+YrvgdYDMsWxf6DujIuceynydNeasUSSefsfYhmAgaU33TBvXa/0BZPJFhRCPhwLH6qVJzxFQVqX75CKQPW+DLUb+B/1JIYhCEwfQem3Elg9FYYwdKDgk1nP1D0Hc0kYreh8VXXRDOhc7y8fuhLnz2zcC4Y7R33rbSeHuoBpa0X96c4W6GjZVwm4aisaQX2Bf8t6lZdAxkb7irH/iDwflwgBHVnO5gZ/6AOcOh2HqJozvCEYS3b7112rR9AKYw9oJN0b8Ms/HMY3sFtoC3RhNKAmr2PUICDmZJ6tftnt4epDcXxqMd9AQCMb8AAhfA9o6OMK17MxJxaY3MZm2uRCRCa3cEl+k+jqVLA9SNZHDm3ifTdVnU4kNErI3HeiKWkkADN0vrIRPC+YHY7LbUuZh3E6WOr9H9QPFzTxCp7jIqvb1gKk3UP+Dv5fynMytAzbH0hj+fhHAmZF/5B52ahFPW2J2vB/eZg=
