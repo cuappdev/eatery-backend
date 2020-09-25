@@ -22,3 +22,4 @@ class CampusEatery(Base):
     payment_method_swipes = Column(Boolean, nullable=False)
     phone = Column(String, nullable=False)
     slug = Column(String, nullable=False)
+    exceptions = Column(String, nullable=False)
