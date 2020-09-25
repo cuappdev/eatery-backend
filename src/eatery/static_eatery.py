@@ -27,7 +27,10 @@ def parse_static_eateries(static_json, campus_eateries, all_swipe_data):
             static eateries
         campus_eateries (dict): A dictionary to fill with static eateries
     """
+
     for eatery in static_json["eateries"]:
+        exceptions = eatery.get("exceptions")
+        exceptions = [] if not exceptions else exceptions.split(";;")
         new_eatery = CampusEateryType(
             about=eatery.get("about", ""),
             campus_area=parse_campus_area(eatery),
@@ -47,6 +50,7 @@ def parse_static_eateries(static_json, campus_eateries, all_swipe_data):
             phone=eatery.get("contactPhone", "N/A"),
             slug=eatery.get("slug", ""),
             swipe_data=all_swipe_data.get(eatery.get("name", ""), []),
+            exceptions=exceptions,
         )
         campus_eateries[new_eatery.id] = new_eatery
 

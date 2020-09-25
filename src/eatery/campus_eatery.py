@@ -28,7 +28,7 @@ def parse_eatery(data_json, campus_eateries, all_swipe_data):
     exceptions_json = requests.get(STATIC_EXCEPTIONS_URL).json()
     for eatery in data_json["data"]["eateries"]:
         eatery_id = eatery.get("id", resolve_id(eatery))
-        eatery_exceptions = ";;".join(exceptions_json.get(eatery.get("slug"), []))
+        eatery_exceptions = ";;".join(exceptions_json.get(eatery.get("slug", ""), []))
         dining_items = get_trillium_menu() if eatery_id == TRILLIUM_ID else parse_dining_items(eatery)
         phone = eatery.get("contactPhone", "N/A")
         phone = phone if phone else "N/A"  # handle None values

@@ -48,6 +48,7 @@ class CampusEateryType(EateryBaseType):
     operating_hours = List(OperatingHoursType, required=True)
     slug = String(required=True)
     swipe_data = List(SwipeDataType, required=True)
+    exceptions = List(String, required=True)
 
 
 class CollegetownEateryType(EateryBaseType):
