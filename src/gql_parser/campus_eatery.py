@@ -57,6 +57,8 @@ def parse_campus_eatery(eatery):
 
     Returns a new CampusEateryType.
     """
+    exceptions = eatery.get("exceptions")
+    exceptions = [] if not exceptions else exceptions.split(";;")
 
     new_eatery = CampusEateryType(
         about=eatery.get("about", ""),
@@ -75,6 +77,7 @@ def parse_campus_eatery(eatery):
         phone=eatery.get("phone", "N/A"),
         slug=eatery.get("slug", ""),
         swipe_data=parse_swipe_data(eatery),
+        exceptions=exceptions,
     )
     return new_eatery
 
