@@ -2,7 +2,15 @@ from datetime import datetime, timedelta
 import requests
 
 from .common_eatery import format_time, get_image_url, parse_coordinates, string_to_date_range
-from ..constants import NUM_DAYS_STORED_IN_DB, PAY_METHODS, STATIC_MENUS_URL, TRILLIUM_SLUG, WEEKDAYS, get_today
+from ..constants import (
+    NUM_DAYS_STORED_IN_DB,
+    PAY_METHODS,
+    STATIC_MENUS_URL,
+    STATIC_EXCEPTIONS_URL,
+    TRILLIUM_SLUG,
+    WEEKDAYS,
+    get_today,
+)
 from ..database import CampusEatery, CampusEateryHour, MenuCategory, MenuItem
 
 
@@ -15,12 +23,14 @@ def parse_campus_eateries(data_json):
         data_json (dict): a valid dictionary from the Cornell Dining json
     """
     campus_eateries = []
+    exceptions_json = requests.get(STATIC_EXCEPTIONS_URL).json()
 
     for eatery in data_json["data"]["eateries"]:
         brbs, cash, cornell_card, credit, mobile, swipes = parse_payments(eatery["payMethods"])
         phone = eatery.get("contactPhone", "N/A")
         phone = phone if phone else "N/A"
         latitude, longitude = parse_coordinates(eatery)
+        eatery_exceptions = ";;".join(exceptions_json.get(eatery.get("slug", ""), []))
 
         new_eatery = CampusEatery(
             about=eatery.get("about", ""),
@@ -40,6 +50,7 @@ def parse_campus_eateries(data_json):
             payment_method_swipes=swipes,
             phone=phone,
             slug=eatery.get("slug", ""),
+            exceptions=eatery_exceptions,
         )
 
         campus_eateries.append(new_eatery)
@@ -151,11 +162,11 @@ def parse_static_eateries(static_json):
       static_json (dict): A valid dictionary in the format of the dynamic Cornell Dining json for static eateries
     """
     static_eateries = []
-
+    exceptions_json = requests.get(STATIC_EXCEPTIONS_URL).json()
     for eatery in static_json["eateries"]:
         brbs, cash, cornell_card, credit, mobile, swipes = parse_payments(eatery["payMethods"])
         latitude, longitude = parse_coordinates(eatery)
-
+        eatery_exceptions = ";;".join(exceptions_json.get(eatery.get("slug", ""), []))
         new_eatery = CampusEatery(
             about=eatery.get("about", ""),
             campus_area_desc=parse_campus_area(eatery),
@@ -174,6 +185,7 @@ def parse_static_eateries(static_json):
             payment_method_swipes=swipes,
             phone=eatery.get("contactPhone", "N/A"),
             slug=eatery.get("slug", ""),
+            exceptions=eatery_exceptions,
         )
         static_eateries.append(new_eatery)
 
@@ -244,7 +256,7 @@ def parse_static_op_hours(data_json, eatery_model):
                         )
                     if not new_events:
                         new_operating_hours.append(
-                            (CampusEateryHour(eatery_id=eatery_model.id, date=new_date.isoformat(),), dining_items)
+                            (CampusEateryHour(eatery_id=eatery_model.id, date=new_date.isoformat()), dining_items)
                         )
 
             return new_operating_hours

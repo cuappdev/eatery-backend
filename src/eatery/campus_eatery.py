@@ -1,6 +1,6 @@
 import requests
 
-from ..constants import STATIC_MENUS_URL, TRILLIUM_ID
+from ..constants import STATIC_MENUS_URL, TRILLIUM_ID, STATIC_EXCEPTIONS_URL
 from .common_eatery import (
     get_image_url,
     parse_campus_area,
@@ -25,8 +25,10 @@ def parse_eatery(data_json, campus_eateries, all_swipe_data):
         data_json (dict): a valid dictionary from the Cornell Dining json
         campus_eateries (dict): a dictionary to fill with campus eateries
     """
+    exceptions_json = requests.get(STATIC_EXCEPTIONS_URL).json()
     for eatery in data_json["data"]["eateries"]:
         eatery_id = eatery.get("id", resolve_id(eatery))
+        eatery_exceptions = ";;".join(exceptions_json.get(eatery.get("slug", ""), []))
         dining_items = get_trillium_menu() if eatery_id == TRILLIUM_ID else parse_dining_items(eatery)
         phone = eatery.get("contactPhone", "N/A")
         phone = phone if phone else "N/A"  # handle None values
@@ -48,6 +50,7 @@ def parse_eatery(data_json, campus_eateries, all_swipe_data):
             phone=phone,
             slug=eatery.get("slug", ""),
             swipe_data=all_swipe_data.get(eatery.get("name", ""), []),
+            exceptions=eatery_exceptions,
         )
         campus_eateries[new_eatery.id] = new_eatery
 
