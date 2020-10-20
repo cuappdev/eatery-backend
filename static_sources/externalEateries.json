@@ -17,6 +17,12 @@
                 "descr": "Central Campus",
                 "descrshort": "Central"
             },
+            "eateryTypes": [
+                {
+                    "descr": "Cafe",
+                    "descrshort": "cafe"
+                }
+            ],
             "operatingHours": [
                 {
                     "weekday": "monday-friday",
@@ -52,8 +58,7 @@
                     ]
                 }
             ],
-            "datesClosed": [
-            ],
+            "datesClosed": [],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -112,8 +117,13 @@
                 "descrshort": "Central"
             },
             "location": "Statler Hotel",
-            "operatingHours": [
+            "eateryTypes": [
+                {
+                    "descr": "Cafe",
+                    "descrshort": "cafe"
+                }
             ],
+            "operatingHours": [],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -128,8 +138,7 @@
                     "descrshort": "Meal Plan - Debit"
                 }
             ],
-            "datesClosed": [
-            ],
+            "datesClosed": [],
             "diningItems": [
                 {
                     "item": "Pizza",
@@ -170,8 +179,14 @@
                 "descrshort": "Central"
             },
             "location": "Mann Library",
+            "eateryTypes": [
+                {
+                    "descr": "Cafe",
+                    "descrshort": "cafe"
+                }
+            ],
             "operatingHours": [
-                 {
+                {
                     "weekday": "monday-friday",
                     "events": [
                         {
@@ -404,10 +419,14 @@
                 "descrshort": "Central"
             },
             "location": "Goldwin Smith Hall",
-            "operatingHours": [
+            "eateryTypes": [
+                {
+                    "descr": "Cafe",
+                    "descrshort": "cafe"
+                }
             ],
-            "datesClosed": [
-            ],
+            "operatingHours": [],
+            "datesClosed": [],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -458,10 +477,14 @@
                 "descrshort": "Central"
             },
             "location": "Gates Hall",
-            "operatingHours": [
+            "eateryTypes": [
+                {
+                    "descr": "Cafe",
+                    "descrshort": "cafe"
+                }
             ],
-            "datesClosed": [
-            ],
+            "operatingHours": [],
+            "datesClosed": [],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -500,6 +523,12 @@
                 "descrshort": "Central"
             },
             "location": "Myron Taylor Hall",
+            "eateryTypes": [
+                {
+                    "descr": "Cafe",
+                    "descrshort": "cafe"
+                }
+            ],
             "operatingHours": [
                 {
                     "weekday": "monday-friday",
@@ -582,6 +611,12 @@
                 "descrshort": "North"
             },
             "location": "Across from Risley",
+            "eateryTypes": [
+                {
+                    "descr": "Cafe",
+                    "descrshort": "cafe"
+                }
+            ],
             "operatingHours": [
                 {
                     "weekday": "monday-friday",
@@ -617,8 +652,7 @@
                     ]
                 }
             ],
-            "datesClosed": [
-            ],
+            "datesClosed": [],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -693,6 +727,12 @@
                 "descrshort": "South"
             },
             "location": "Anabel Taylor Hall",
+            "eateryTypes": [
+                {
+                    "descr": "Cafe",
+                    "descrshort": "cafe"
+                }
+            ],
             "operatingHours": [
                 {
                     "weekday": "wednesday-friday",
@@ -706,8 +746,7 @@
                     ]
                 }
             ],
-            "datesClosed": [
-            ],
+            "datesClosed": [],
             "payMethods": [
                 {
                     "descr": "Cash",
