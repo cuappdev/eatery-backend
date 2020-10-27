@@ -1,0 +1,17 @@
+{
+  "Bear-Necessities": {
+    "exceptions": [
+      "Mobile Order Only"
+    ]
+  },
+  "Jansens-Market": {
+    "exceptions": [
+      "Mobile Order Only"
+    ]
+  },
+  "Macs": {
+    "exceptions": [
+      "Cash Only After 3PM"
+    ]
+  }
+}

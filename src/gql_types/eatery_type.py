@@ -1,4 +1,4 @@
-from graphene import Enum, Field, Float, Int, List, ObjectType, String
+from graphene import Enum, Field, Float, Int, List, ObjectType, String, Boolean
 
 from .expanded_menu_type import FoodCategoryType
 from .operating_hours_type import OperatingHoursType, CollegetownHoursType
@@ -49,6 +49,8 @@ class CampusEateryType(EateryBaseType):
     slug = String(required=True)
     swipe_data = List(SwipeDataType, required=True)
     exceptions = List(String, required=True)
+    reserve_link = String(required=False)
+    is_get = Boolean(required=True)
 
 
 class CollegetownEateryType(EateryBaseType):
