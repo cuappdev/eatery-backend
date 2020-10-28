@@ -1,17 +1,67 @@
 {
+  "104-West": {
+    "reserveLink": "https://www.opentable.com/restaurant/profile/1080703"
+  },
   "Bear-Necessities": {
     "exceptions": [
       "Mobile Order Only"
-    ]
+    ],
+    "isGet": true
+  },
+  "Becker-House-Dining": {
+    "reserveLink": "https://www.opentable.com/restaurant/profile/1080700"
+  },
+  "Bus-Stop-Bagels": {
+    "isGet": true
+  },
+  "Cafe-Jennie": {
+    "isGet": true
+  },
+  "Carols-Cafe": {
+    "isGet": true
+  },
+  "Cook-House-Dining": {
+    "reserveLink": "https://www.opentable.com/restaurant/profile/1080697"
+  },
+  "Cornell-Dairy-Bar": {
+    "isGet": true
+  },
+  "Goldies-Cafe": {
+    "isGet": true
+  },
+  "Jansens-Dining": {
+    "reserveLink": "https://www.opentable.com/restaurant/profile/1080709"
   },
   "Jansens-Market": {
     "exceptions": [
       "Mobile Order Only"
-    ]
+    ],
+    "isGet": true
+  },
+  "Keeton-House-Dining": {
+    "reserveLink": "https://www.opentable.com/restaurant/profile/1080712"
   },
   "Macs": {
     "exceptions": [
       "Cash Only After 3PM"
     ]
+  },
+  "Mattins-Cafe": {
+    "isGet": true
+  },
+  "North-Star": {
+    "reserveLink": "https://www.opentable.com/restaurant/profile/1080715"
+  },
+  "Okenshields": {
+    "reserveLink": "https://www.opentable.com/restaurant/profile/1080706"
+  },
+  "RPCC-Marketplace": {
+    "reserveLink": "https://www.opentable.com/restaurant/profile/1080718"
+  },
+  "Rose-House-Dining": {
+    "reserveLink": "https://www.opentable.com/restaurant/profile/1080721"
+  },
+  "Terrace": {
+    "isGet": true
   }
 }
