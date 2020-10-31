@@ -49,7 +49,7 @@ class CampusEateryType(EateryBaseType):
     slug = String(required=True)
     swipe_data = List(SwipeDataType, required=True)
     exceptions = List(String, required=True)
-    reserve_link = String(required=False)
+    reserve_url = String(required=False)
     is_get = Boolean(required=True)
 
 

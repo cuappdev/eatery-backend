@@ -32,8 +32,8 @@ def parse_campus_eateries(data_json):
         latitude, longitude = parse_coordinates(eatery)
         eatery_attributes = attributes_json.get(eatery.get("slug", ""), {})
         eatery_exceptions = ";;".join(eatery_attributes.get("exceptions", []))
-        reserve_link = eatery_attributes.get("reserveLink")
-        is_get = eatery_attributes.get("isGet", False)
+        reserve_url = eatery_attributes.get("reserve_url")
+        is_get = eatery_attributes.get("is_get", False)
 
         new_eatery = CampusEatery(
             about=eatery.get("about", ""),
@@ -54,7 +54,7 @@ def parse_campus_eateries(data_json):
             phone=phone,
             slug=eatery.get("slug", ""),
             exceptions=eatery_exceptions,
-            reserve_link=reserve_link,
+            reserve_url=reserve_url,
             is_get=is_get,
         )
 
@@ -192,8 +192,8 @@ def parse_static_eateries(static_json):
             phone=eatery.get("contactPhone", "N/A"),
             slug=eatery.get("slug", ""),
             exceptions=eatery_exceptions,
-            reserve_link=attributes_json.get("reserveLink"),
-            is_get=attributes_json.get("isGet", False),
+            reserve_url=attributes_json.get("reserve_url"),
+            is_get=attributes_json.get("is_get", False),
         )
         static_eateries.append(new_eatery)
 
