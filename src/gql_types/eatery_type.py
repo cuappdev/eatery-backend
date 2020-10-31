@@ -1,4 +1,4 @@
-from graphene import Enum, Field, Float, Int, List, ObjectType, String, Boolean
+from graphene import Boolean, Enum, Field, Float, Int, List, ObjectType, String
 
 from .expanded_menu_type import FoodCategoryType
 from .operating_hours_type import OperatingHoursType, CollegetownHoursType
