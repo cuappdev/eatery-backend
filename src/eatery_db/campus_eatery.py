@@ -192,8 +192,8 @@ def parse_static_eateries(static_json):
             phone=eatery.get("contactPhone", "N/A"),
             slug=eatery.get("slug", ""),
             exceptions=eatery_exceptions,
-            reserve_url=attributes_json.get("reserve_url"),
-            is_get=attributes_json.get("is_get", False),
+            reserve_url=eatery_attributes.get("reserve_url"),
+            is_get=eatery_attributes.get("is_get", False),
         )
         static_eateries.append(new_eatery)
 

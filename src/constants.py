@@ -80,7 +80,7 @@ SCHOOL_BREAKS = {
     "summer": "5/17/20-8/27/20",
 }
 SQLITE_MAX_VARIABLE_NUMBER = 999
-STATIC_SOURCES_URL = GIT_CONTENT_URL + "/eatery-backend/raahi/openTable-get/static_sources/"
+STATIC_SOURCES_URL = GIT_CONTENT_URL + "/eatery-backend/master/static_sources/"
 STATIC_CTOWN_HOURS_URL = STATIC_SOURCES_URL + "externalHours.json"
 STATIC_EATERIES_URL = STATIC_SOURCES_URL + "externalEateries.json"
 STATIC_EATERY_SLUGS = [
