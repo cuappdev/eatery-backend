@@ -6,7 +6,7 @@ from ..constants import (
     NUM_DAYS_STORED_IN_DB,
     PAY_METHODS,
     STATIC_MENUS_URL,
-    STATIC_EXCEPTIONS_URL,
+    STATIC_ATTRIBUTES_URL,
     TRILLIUM_SLUG,
     WEEKDAYS,
     get_today,
@@ -23,14 +23,17 @@ def parse_campus_eateries(data_json):
         data_json (dict): a valid dictionary from the Cornell Dining json
     """
     campus_eateries = []
-    exceptions_json = requests.get(STATIC_EXCEPTIONS_URL).json()
+    attributes_json = requests.get(STATIC_ATTRIBUTES_URL).json()
 
     for eatery in data_json["data"]["eateries"]:
         brbs, cash, cornell_card, credit, mobile, swipes = parse_payments(eatery["payMethods"])
         phone = eatery.get("contactPhone", "N/A")
         phone = phone if phone else "N/A"
         latitude, longitude = parse_coordinates(eatery)
-        eatery_exceptions = ";;".join(exceptions_json.get(eatery.get("slug", ""), []))
+        eatery_attributes = attributes_json.get(eatery.get("slug", ""), {})
+        eatery_exceptions = ";;".join(eatery_attributes.get("exceptions", []))
+        reserve_url = eatery_attributes.get("reserve_url")
+        is_get = eatery_attributes.get("is_get", False)
 
         new_eatery = CampusEatery(
             about=eatery.get("about", ""),
@@ -51,6 +54,8 @@ def parse_campus_eateries(data_json):
             phone=phone,
             slug=eatery.get("slug", ""),
             exceptions=eatery_exceptions,
+            reserve_url=reserve_url,
+            is_get=is_get,
         )
 
         campus_eateries.append(new_eatery)
@@ -162,11 +167,12 @@ def parse_static_eateries(static_json):
       static_json (dict): A valid dictionary in the format of the dynamic Cornell Dining json for static eateries
     """
     static_eateries = []
-    exceptions_json = requests.get(STATIC_EXCEPTIONS_URL).json()
+    attributes_json = requests.get(STATIC_ATTRIBUTES_URL).json()
     for eatery in static_json["eateries"]:
         brbs, cash, cornell_card, credit, mobile, swipes = parse_payments(eatery["payMethods"])
         latitude, longitude = parse_coordinates(eatery)
-        eatery_exceptions = ";;".join(exceptions_json.get(eatery.get("slug", ""), []))
+        eatery_attributes = attributes_json.get(eatery.get("slug", ""), {})
+        eatery_exceptions = ";;".join(eatery_attributes.get("exceptions", []))
         new_eatery = CampusEatery(
             about=eatery.get("about", ""),
             campus_area_desc=parse_campus_area(eatery),
@@ -186,6 +192,8 @@ def parse_static_eateries(static_json):
             phone=eatery.get("contactPhone", "N/A"),
             slug=eatery.get("slug", ""),
             exceptions=eatery_exceptions,
+            reserve_url=eatery_attributes.get("reserve_url"),
+            is_get=eatery_attributes.get("is_get", False),
         )
         static_eateries.append(new_eatery)
 

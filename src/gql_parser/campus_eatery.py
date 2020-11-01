@@ -78,6 +78,8 @@ def parse_campus_eatery(eatery):
         slug=eatery.get("slug", ""),
         swipe_data=parse_swipe_data(eatery),
         exceptions=exceptions,
+        reserve_url=eatery.get("reserve_url", ""),
+        is_get=eatery.get("is_get", False),
     )
     return new_eatery
 

@@ -23,3 +23,5 @@ class CampusEatery(Base):
     phone = Column(String, nullable=False)
     slug = Column(String, nullable=False)
     exceptions = Column(String, nullable=False)
+    reserve_url = Column(String, nullable=True)
+    is_get = Column(Boolean, nullable=False)
