@@ -45,9 +45,20 @@
                             "menu": []
                         }
                     ]
+                },
+                {
+                    "weekday": "thursday-sunday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "11:00am",
+                            "end": "6:30pm",
+                            "menu": []
+                        }
+                    ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": ["11/26/20", "11/27/20", "11/28/20", "11/29/20"],
             "payMethods": [
                 {
                     "descr": "Cash",
