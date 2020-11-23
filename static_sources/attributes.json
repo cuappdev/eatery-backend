@@ -62,6 +62,9 @@
     "reserve_url": "https://www.opentable.com/restaurant/profile/1080721"
   },
   "Terrace": {
-    "is_get": true
+    "is_get": true,
+    "exceptions": [
+      "Closed"
+    ]
   }
 }
