@@ -93,7 +93,7 @@ STATIC_EATERY_SLUGS = [
     "Terrace",
     "Zeus",
 ]
-STATIC_EXPANDED_ITEMS_URL = STATIC_SOURCES_URL + "expandedItems.json"
+STATIC_EXPANDED_ITEMS_URL = STATIC_SOURCES_URL + "modifiedExpandedItems.json"
 STATIC_MENUS_URL = STATIC_SOURCES_URL + "hardcodedMenus.json"
 STATIC_ATTRIBUTES_URL = STATIC_SOURCES_URL + "attributes.json"
 SWIPE_DENSITY_ROUND = 3
