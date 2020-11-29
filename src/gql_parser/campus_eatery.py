@@ -112,11 +112,11 @@ def parse_expanded_menu(eatery):
         for i, column_name in enumerate(column_stations):
             mapped_station[column_name] = station[i]
 
-        menu_category = mapped_station["station_category"]
-        if menu_category in menu_to_station:
-            menu_to_station[menu_category].append(mapped_station)
+        station_category = mapped_station["station_category"]
+        if station_category in menu_to_station:
+            menu_to_station[station_category].append(mapped_station)
         else:
-            menu_to_station[menu_category] = [mapped_station]
+            menu_to_station[station_category] = [mapped_station]
         station_ids.append(mapped_station["id"])
 
     # query for all menu ITEMs that will be needed to populate expanded menu

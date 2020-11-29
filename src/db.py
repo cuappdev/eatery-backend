@@ -179,4 +179,4 @@ def start_update(refresh_campus=False, recalculate_swipe=False, refresh_colleget
                 Session.commit()
 
     except Exception as e:
-        print("Data update failed: alanna", e)
+        print("Data update failed:", e)
