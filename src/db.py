@@ -1,6 +1,4 @@
 from datetime import datetime
-import json
-import os
 import requests
 
 from .collegetown import collegetown_search
