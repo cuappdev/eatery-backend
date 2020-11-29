@@ -112,7 +112,7 @@ def parse_expanded_menu(eatery):
         for i, column_name in enumerate(column_stations):
             mapped_station[column_name] = station[i]
 
-        menu_category = mapped_station["menu_category"]
+        menu_category = mapped_station["station_category"]
         if menu_category in menu_to_station:
             menu_to_station[menu_category].append(mapped_station)
         else:

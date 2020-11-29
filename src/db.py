@@ -1,4 +1,6 @@
 from datetime import datetime
+import json
+import os
 import requests
 
 from .collegetown import collegetown_search
@@ -82,11 +84,21 @@ def start_update(refresh_campus=False, recalculate_swipe=False, refresh_colleget
         campus_eateries = get_campus_eateries(campus_json, refresh=refresh_campus)
 
         print("[{}] Updating campus eatery hours and menus".format(datetime.now()))
+        print("here???")
         for eatery in campus_eateries:
+            print("eatery", eatery)
             # get the expanded menu if it exists
-            menus = requests.get(STATIC_EXPANDED_ITEMS_URL).json()
+            print("static url", STATIC_EXPANDED_ITEMS_URL)
+            data = {}
+            print("path", os.getcwd())
+            with open(f"{os.getcwd()}/static_sources/modifiedExpandedItems.json") as f:
+                data = json.load(f)
+            menus = data
+            # menus = requests.get(STATIC_EXPANDED_ITEMS_URL).json()
+            print("menus", menus)
             station_and_items = parse_expanded_menu(menus, eatery)
             eatery_categories = (x[0] for x in station_and_items)
+            print("line 90")
             Session.add_all(eatery_categories)
             Session.commit()
 
@@ -177,4 +189,4 @@ def start_update(refresh_campus=False, recalculate_swipe=False, refresh_colleget
                 Session.commit()
 
     except Exception as e:
-        print("Data update failed:", e)
+        print("Data update failed: alanna", e)

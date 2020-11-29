@@ -78,7 +78,7 @@ def parse_expanded_menu(menus, eatery_model):
                 campus_eatery_id=eatery_model.id,
                 station_category=station["station"],
             )
-            items.append(station["diningItems"])
+            items.append((menu_category, station["diningItems"]))
     return items
 
 
