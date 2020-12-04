@@ -9,5 +9,4 @@ class ExpandedMenuStation(Base):
         return Column(Integer, ForeignKey("campusEateries.id"), nullable=False)
 
     id = Column(Integer, nullable=False, primary_key=True)
-    menu_category = Column(String, nullable=False)
     station_category = Column(String, nullable=False)

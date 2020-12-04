@@ -70,20 +70,16 @@ def parse_expanded_menu(menus, eatery_model):
         menu (dict): A valid json segment from the static expanded menu resource.
         eatery_model (CampusEatery): A valid campus eatery to which to link the menu object.
     """
-    categories_and_items = []
+    items = []
 
     for menu in menus["eateries"]:
-        for category in menu["categories"]:
-            if eatery_model.slug != menu["slug"]:
-                break
-            for station in category["stations"]:
-                menu_category = ExpandedMenuStation(
-                    campus_eatery_id=eatery_model.id,
-                    menu_category=category["category"],
-                    station_category=station["station"],
-                )
-                categories_and_items.append((menu_category, station["diningItems"]))
-    return categories_and_items
+        for station in menu["stations"]:
+            expanded_menu = ExpandedMenuStation(
+                campus_eatery_id=eatery_model.id,
+                station_category=station["station"],
+            )
+            items.append((expanded_menu, station["diningItems"]))
+    return items
 
 
 def parse_expanded_items(items, station_model):
