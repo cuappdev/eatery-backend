@@ -25,7 +25,7 @@
             ],
             "operatingHours": [
                 {
-                    "weekday": "monday-wednesday",
+                    "weekday": "monday-friday",
                     "events": [
                         {
                             "descr": "General",
