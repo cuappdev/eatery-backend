@@ -23,19 +23,7 @@
                     "descrshort": "cafe"
                 }
             ],
-            "operatingHours": [
-                {
-                    "weekday": "monday-wednesday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "11:00am",
-                            "end": "6:30pm",
-                            "menu": []
-                        }
-                    ]
-                }
-            ],
+            "operatingHours": [],
             "datesClosed": [],
             "payMethods": [
                 {
