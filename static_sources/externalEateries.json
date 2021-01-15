@@ -23,8 +23,30 @@
                     "descrshort": "cafe"
                 }
             ],
-            "operatingHours": [],
-            "datesClosed": [],
+            "operatingHours": [
+                {
+                    "weekday": "sunday-saturday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "11:00am",
+                            "end": "6:30pm",
+                            "menu": []
+                        }
+                    ]
+                }
+            ],
+            "datesClosed": [
+                "1/14/21",
+                "1/15/21",
+                "1/16/21",
+                "1/17/21",
+                "1/18/21",
+                "1/19/21",
+                "1/20/21",
+                "1/21/21",
+                "1/22/21"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
