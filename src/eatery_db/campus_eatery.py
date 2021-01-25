@@ -237,12 +237,6 @@ def parse_static_op_hours(data_json, eatery_model):
                     if weekday not in weekdays:
                         weekdays[weekday] = hours["events"]
 
-            if eatery.get("slug") == "Terrace":
-                print("Days:", days)
-                print("S/E:", start, end)
-                print("SI/EI:", start_index, end_index)
-                print("Weekdays:", weekdays)
-
             new_operating_hours = []
             for i in range(NUM_DAYS_STORED_IN_DB):
                 new_date = today + timedelta(days=i)
