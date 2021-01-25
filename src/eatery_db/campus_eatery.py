@@ -223,8 +223,13 @@ def parse_static_op_hours(data_json, eatery_model):
                 if "-" in hours["weekday"]:
                     start, end = hours["weekday"].split("-")
                     start_index = WEEKDAYS[start]
-                    end_index = WEEKDAYS[end] + 1
-                    days = list(range(start_index, end_index))
+                    end_index = WEEKDAYS[end]
+                    days = []
+                    idx = start_index
+                    while idx != end_index:
+                        days.append(idx)
+                        idx = (idx + 1) % 7
+                    days.append(end_index)
                 else:
                     days = [WEEKDAYS[hours["weekday"]]]
                 for weekday in days:
