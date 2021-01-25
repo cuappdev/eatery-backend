@@ -139,9 +139,6 @@ def start_update(refresh_campus=False, recalculate_swipe=False, refresh_colleget
                 print("Updating Hours for: {}".format(eatery.slug))
                 hours_and_menus = parse_static_op_hours(static_json, eatery)
                 eatery_hours = (x[0] for x in hours_and_menus)
-                # if eatery.slug == "Terrace":
-                #     print("H&M:", hours_and_menus)
-                #     print("EH:", eatery_hours)
                 Session.add_all(eatery_hours)
                 Session.commit()
 
