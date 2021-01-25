@@ -228,8 +228,7 @@ def parse_static_op_hours(data_json, eatery_model):
                     idx = start_index
                     while idx != end_index:
                         days.append(idx)
-                        idx += 1
-                        idx %= 7
+                        idx = (idx + 1) % 7
                     days.append(end_index)
                 else:
                     days = [WEEKDAYS[hours["weekday"]]]
