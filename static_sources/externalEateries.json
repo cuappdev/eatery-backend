@@ -25,12 +25,23 @@
             ],
             "operatingHours": [
                 {
-                    "weekday": "sunday-saturday",
+                    "weekday": "wednesday",
                     "events": [
                         {
                             "descr": "General",
                             "start": "11:00am",
                             "end": "3:30pm",
+                            "menu": []
+                        }
+                    ]
+                },
+                {
+                    "weekday": "thursday-tuesday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "11:00am",
+                            "end": "6:30pm",
                             "menu": []
                         }
                     ]
