@@ -66,5 +66,11 @@
   },
   "Terrace": {
     "is_get": true
+  },
+  "Zeus": {
+    "exceptions": [
+      "Mobile Order Only"
+    ],
+    "reserve_url": "https://cornell.revelup.online/store/1/category/30/subcategory/228"
   }
 }
