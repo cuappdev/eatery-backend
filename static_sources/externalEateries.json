@@ -403,7 +403,19 @@
                     "descrshort": "cafe"
                 }
             ],
-            "operatingHours": [],
+            "operatingHours": [
+                {
+                    "weekday": "monday-friday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "8:00am",
+                            "end": "2:00pm",
+                            "menu": []
+                        }
+                    ]
+                }
+            ],
             "datesClosed": [],
             "payMethods": [
                 {
@@ -454,7 +466,7 @@
                 "descr": "Central Campus",
                 "descrshort": "Central"
             },
-            "location": "Gates Hall",
+            "location": "Gates HaTll",
             "eateryTypes": [
                 {
                     "descr": "Cafe",
