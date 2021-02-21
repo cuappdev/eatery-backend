@@ -26,6 +26,12 @@
   "Cornell-Dairy-Bar": {
     "is_get": true
   },
+  "Gimme-Coffee": {
+    "exceptions": [
+      "Mobile Order Only"
+    ],
+    "reserve_url": "https://delivery.gimmecoffee.com/s/order?location=11eb624a90fa47b8b61d0cc47a2ae6a4"
+  },
   "Goldies-Cafe": {
     "is_get": true
   },
