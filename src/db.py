@@ -136,21 +136,28 @@ def start_update(refresh_campus=False, recalculate_swipe=False, refresh_colleget
         print("[{}] Updating static eatery hours and menus".format(datetime.now()))
         for eatery in static_eateries:
             if eatery.slug in STATIC_EATERY_SLUGS:
+                print(eatery.slug)
                 hours_and_menus = parse_static_op_hours(static_json, eatery)
+                print("Got hours and menus")
                 eatery_hours = (x[0] for x in hours_and_menus)
                 Session.add_all(eatery_hours)
                 Session.commit()
+                print("Added to Session")
 
                 for eatery_hour, menu_json in hours_and_menus:
                     categories_and_items = parse_menu_categories(menu_json, eatery_hour, eatery.id)
+                    print(f"Parsed menu categories for {eatery_hour}")
                     eatery_categories = (x[0] for x in categories_and_items)
                     Session.add_all(eatery_categories)
                     Session.commit()
+                    print("Added to session")
 
                     for menu_category, items_json in categories_and_items:
                         menu_items = parse_menu_items(items_json, menu_category)
+                        print(f"Prased menu items for {menu_category}")
                         Session.add_all(menu_items)
                         Session.commit()
+                        print("Added to Session")
 
         if recalculate_swipe:
             print("[{}] Updating swipe data".format(datetime.now()))
