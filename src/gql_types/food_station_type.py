@@ -4,6 +4,7 @@ from graphene import Boolean, List, ObjectType, String
 class FoodItemType(ObjectType):
     item = String(required=True)
     healthy = Boolean(required=True)
+    favorite = Boolean(required=True)
 
     def equals(self, food_item):
         return self.item == food_item.item and self.healthy == food_item.healthy
