@@ -249,18 +249,23 @@ def parse_static_op_hours(data_json, eatery_model):
             new_operating_hours = []
             for i in range(NUM_DAYS_STORED_IN_DB):
                 new_date = today + timedelta(days=i)
+                print(f"Checking {new_date}")
                 for dates in dates_closed:  # check if dates_closed contains new_date
+                    print(f"Is this in {dates}")
                     if "-" in dates:  # indicates this string is a date range of form "mm/dd/yy-mm/dd/yy"
+                        print("- in date")
                         start_date, end_date = string_to_date_range(dates)
+                        print("Got range")
                         if start_date <= new_date <= end_date:
                             break
                     else:  # date string is a singular date
+                        print("- not in date")
                         closed_date = datetime.strptime(dates, "%m/%d/%y").date()
+                        print("Got date")
                         if new_date == closed_date:
                             break
-                if gimme:
-                    print("got dates")
                 else:
+                    print("Open")
                     # new_date is not present in dates_closed, we can add this date to the db
                     new_events = weekdays.get(new_date.weekday(), [])
 
@@ -279,10 +284,12 @@ def parse_static_op_hours(data_json, eatery_model):
                                 dining_items,
                             )
                         )
+                    print("Got through events")
                     if not new_events:
                         new_operating_hours.append(
                             (CampusEateryHour(eatery_id=eatery_model.id, date=new_date.isoformat()), dining_items)
                         )
+                    print("Added to db")
 
             return new_operating_hours
     return []
