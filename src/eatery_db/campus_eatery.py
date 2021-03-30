@@ -210,16 +210,9 @@ def parse_static_op_hours(data_json, eatery_model):
         data_json (dict): a valid dictionary from the Cornell Dining json
         eatery_model (CampusEatery): the CampusEatery object to which to link the hours.
     """
-    gimme = False
-    if eatery_model.slug == "Gimme-Coffee":
-        gimme = True
     today = get_today()
     for eatery in data_json["eateries"]:
-        if gimme:
-            print("Inside loop")
         if eatery_model.slug == eatery.get("slug", ""):
-            if gimme:
-                print("Inside if")
             weekdays = {}
 
             hours_list = eatery.get("operatingHours", [])
@@ -243,29 +236,19 @@ def parse_static_op_hours(data_json, eatery_model):
                     if weekday not in weekdays:
                         weekdays[weekday] = hours["events"]
 
-            if gimme:
-                print("Got hours")
-
             new_operating_hours = []
             for i in range(NUM_DAYS_STORED_IN_DB):
                 new_date = today + timedelta(days=i)
-                print(f"Checking {new_date}")
                 for dates in dates_closed:  # check if dates_closed contains new_date
-                    print(f"Is this in {dates}")
                     if "-" in dates:  # indicates this string is a date range of form "mm/dd/yy-mm/dd/yy"
-                        print("- in date")
                         start_date, end_date = string_to_date_range(dates)
-                        print("Got range")
                         if start_date <= new_date <= end_date:
                             break
                     else:  # date string is a singular date
-                        print("- not in date")
                         closed_date = datetime.strptime(dates, "%m/%d/%y").date()
-                        print("Got date")
                         if new_date == closed_date:
                             break
                 else:
-                    print("Open")
                     # new_date is not present in dates_closed, we can add this date to the db
                     new_events = weekdays.get(new_date.weekday(), [])
 
@@ -284,12 +267,10 @@ def parse_static_op_hours(data_json, eatery_model):
                                 dining_items,
                             )
                         )
-                    print("Got through events")
                     if not new_events:
                         new_operating_hours.append(
                             (CampusEateryHour(eatery_id=eatery_model.id, date=new_date.isoformat()), dining_items)
                         )
-                    print("Added to db")
 
             return new_operating_hours
     return []
