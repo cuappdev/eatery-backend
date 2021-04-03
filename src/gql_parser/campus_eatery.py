@@ -26,7 +26,7 @@ from ..gql_types import (
 )
 
 
-def get_campus_eateries(eatery_id):
+def get_campus_eateries(eatery_id, favorites):
     """Queries db to fetch information about a specific or all campus eateries.
 
     Returns a list of CampusEateryType objects.
@@ -44,7 +44,7 @@ def get_campus_eateries(eatery_id):
         mapped_eatery = {}
         for i, column_name in enumerate(columns):
             mapped_eatery[column_name] = data[i]
-        populated_eatery = parse_campus_eatery(mapped_eatery)
+        populated_eatery = parse_campus_eatery(mapped_eatery, favorites)
         populated_result.append(populated_eatery)
 
     merge_hours(populated_result)
@@ -52,7 +52,7 @@ def get_campus_eateries(eatery_id):
     return populated_result
 
 
-def parse_campus_eatery(eatery):
+def parse_campus_eatery(eatery, favorites):
     """Parses eatery data from db and populates to an object.
 
     Returns a new CampusEateryType.
@@ -71,7 +71,7 @@ def parse_campus_eatery(eatery):
         location=eatery.get("location", ""),
         name=eatery.get("name", ""),
         name_short=eatery.get("name_short", ""),
-        operating_hours=parse_operating_hours(eatery),
+        operating_hours=parse_operating_hours(eatery, favorites),
         payment_methods=parse_payment_methods(eatery),
         payment_methods_enums=parse_payment_methods_enum(eatery),
         phone=eatery.get("phone", "N/A"),
@@ -201,7 +201,7 @@ def parse_expanded_menu(eatery):
     return populated_result
 
 
-def parse_operating_hours(eatery):
+def parse_operating_hours(eatery, favorites):
     """Queries db for operating hours, menu categories, and menu items that are relevant to the specific eatery,
     then parses the information into appropriate data format.
 
@@ -309,7 +309,9 @@ def parse_operating_hours(eatery):
                 items_objs_arr = []
 
                 for item in items_arr:
-                    item_obj = FoodItemType(item=item["item"], healthy=item["healthy"])
+                    item_obj = FoodItemType(
+                        item=item["item"], healthy=item["healthy"], favorite=(item["item"] in favorites)
+                    )
                     items_objs_arr.append(item_obj)
 
                 category_obj = FoodStationType(category=category["category"], items=items_objs_arr)

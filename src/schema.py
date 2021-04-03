@@ -33,18 +33,20 @@ class Data(object):
 
 class Query(ObjectType):
     account_info = Field(AccountInfoType, session_id=String(name="id"))
-    campus_eateries = List(CampusEateryType, eatery_id=Int(name="id"))
+    campus_eateries = List(CampusEateryType, eatery_id=Int(name="id"), favorites=List(String, name="favorites"))
     collegetown_eateries = List(CollegetownEateryType, eatery_id=Int(name="id"))
-    eateries = List(CampusEateryType, eatery_id=Int(name="id"))
+    eateries = List(CampusEateryType, eatery_id=Int(name="id"), favorites=List(String, name="favorites"))
 
-    def resolve_campus_eateries(self, info, eatery_id=None):
-        return get_campus_eateries(eatery_id)
+    def resolve_campus_eateries(self, info, eatery_id=None, favorites=None):
+        favorites = [] if favorites is None else favorites
+        return get_campus_eateries(eatery_id, favorites)
 
     def resolve_collegetown_eateries(self, info, eatery_id=None):
         return get_collegetown_eateries(eatery_id)
 
-    def resolve_eateries(self, info, eatery_id=None):
-        return get_campus_eateries(eatery_id)
+    def resolve_eateries(self, info, eatery_id=None, favorites=None):
+        favorites = [] if favorites is None else favorites
+        return get_campus_eateries(eatery_id, favorites)
 
     def resolve_account_info(self, info, session_id=None):
         if session_id is None:
