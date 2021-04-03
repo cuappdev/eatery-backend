@@ -37,13 +37,15 @@ class Query(ObjectType):
     collegetown_eateries = List(CollegetownEateryType, eatery_id=Int(name="id"))
     eateries = List(CampusEateryType, eatery_id=Int(name="id"), favorites=List(String, name="favorites"))
 
-    def resolve_campus_eateries(self, info, eatery_id=None, favorites=[]):
+    def resolve_campus_eateries(self, info, eatery_id=None, favorites=None):
+        favorites = [] if favorites is None else favorites
         return get_campus_eateries(eatery_id, favorites)
 
     def resolve_collegetown_eateries(self, info, eatery_id=None):
         return get_collegetown_eateries(eatery_id)
 
-    def resolve_eateries(self, info, eatery_id=None, favorites=[]):
+    def resolve_eateries(self, info, eatery_id=None, favorites=None):
+        favorites = [] if favorites is None else favorites
         return get_campus_eateries(eatery_id, favorites)
 
     def resolve_account_info(self, info, session_id=None):

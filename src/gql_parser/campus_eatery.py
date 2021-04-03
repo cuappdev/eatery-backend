@@ -26,7 +26,7 @@ from ..gql_types import (
 )
 
 
-def get_campus_eateries(eatery_id, favorites=[]):
+def get_campus_eateries(eatery_id, favorites):
     """Queries db to fetch information about a specific or all campus eateries.
 
     Returns a list of CampusEateryType objects.
@@ -52,7 +52,7 @@ def get_campus_eateries(eatery_id, favorites=[]):
     return populated_result
 
 
-def parse_campus_eatery(eatery, favorites=[]):
+def parse_campus_eatery(eatery, favorites):
     """Parses eatery data from db and populates to an object.
 
     Returns a new CampusEateryType.
@@ -201,7 +201,7 @@ def parse_expanded_menu(eatery):
     return populated_result
 
 
-def parse_operating_hours(eatery, favorites=[]):
+def parse_operating_hours(eatery, favorites):
     """Queries db for operating hours, menu categories, and menu items that are relevant to the specific eatery,
     then parses the information into appropriate data format.
 
