@@ -65,7 +65,7 @@ def parse_campus_eatery(eatery, favorites):
         campus_area=parse_campus_area(eatery),
         coordinates=parse_coordinates(eatery),
         eatery_type=eatery.get("eatery_type", ""),
-        expanded_menu=parse_expanded_menu(eatery),
+        expanded_menu=parse_expanded_menu(eatery, favorites),
         id=eatery.get("id"),
         image_url=eatery.get("image_url"),
         location=eatery.get("location", ""),
@@ -94,7 +94,7 @@ def parse_campus_area(eatery):
     return CampusAreaType(description_short=campus_area)
 
 
-def parse_expanded_menu(eatery):
+def parse_expanded_menu(eatery, favorites):
     """Queries db for expanded menu stations, items, and chocies that are relevant to the specific eatery, then parses
     the information into appropriate data format.
 
@@ -188,7 +188,11 @@ def parse_expanded_menu(eatery):
                     choice_objs_arr.append(choice_obj)
 
                 item_obj = DescriptiveFoodItemType(
-                    item=item["item"], healthy=item["healthy"], price=item["price"], choices=choice_objs_arr
+                    item=item["item"],
+                    healthy=item["healthy"],
+                    price=item["price"],
+                    choices=choice_objs_arr,
+                    favorite=item["item"] in favorites,
                 )
                 item_objs_arr.append(item_obj)
 
