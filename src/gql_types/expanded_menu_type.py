@@ -1,4 +1,4 @@
-from graphene import Boolean, List, ObjectType, String
+from graphene import List, ObjectType, String
 
 from .food_station_type import FoodItemType, FoodStationType
 
@@ -6,7 +6,6 @@ from .food_station_type import FoodItemType, FoodStationType
 class DescriptiveFoodItemOptionType(ObjectType):
     label = String(required=True)
     options = List(String, required=True)
-    favorite = Boolean(required=True)
 
 
 class DescriptiveFoodItemType(FoodItemType):
