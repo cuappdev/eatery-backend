@@ -54,13 +54,17 @@ class Query(ObjectType):
 
         account_info = {}
 
-        # Query 1: Get user id
+        # Query 1: Get user id and netid
         try:
-            user_id = requests.post(
+            response = requests.post(
                 GET_URL + "/user", json={"version": "1", "method": "retrieve", "params": {"sessionId": session_id}}
-            ).json()["response"]["id"]
+                ).json()["response"]
+            print(response)
+            user_id = response["id"]
+            netid = response["userName"].split("@")[0]
         except:
             user_id = {}
+            netid = {}
 
         # Query 2: Get finance info
         try:
