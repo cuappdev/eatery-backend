@@ -1006,6 +1006,320 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "Café Jennie",
+            "slug": "Cafe-Jennie",
+            "stations": [
+                {
+                    "station": "Breakfast Specialities and Sandwiches",
+                    "diningItems": [
+                        {
+                            "item": "Steel Cut Oatmeal",
+                            "choices": [],
+                            "price": "$4.59"
+                        },
+                        {
+                            "item": "Acai Bowl",
+                            "choices": [],
+                            "price": "$6.99"
+                        },
+                        {
+                            "item": "The Traditional",
+                            "choices": [],
+                            "price": "$4.29"
+                        },
+                        {
+                            "item": "The California",
+                            "choices": [],
+                            "price": "$4.39"
+                        },
+                        {
+                            "item": "The Garden",
+                            "choices": [],
+                            "price": "$4.39"
+                        }
+                    ]
+                },
+                {
+                    "station": "Sandwiches and Wraps",
+                    "diningItems": [
+                        {
+                            "item": "Beef Brisket",
+                            "choices": [],
+                            "price": "$7.39"
+                        },
+                        {
+                            "item": "Chicken Milano",
+                            "choices": [],
+                            "price": "$7.59"
+                        },
+                        {
+                            "item": "Turkey Croissant BLT with Avocado",
+                            "choices": [],
+                            "price": "$7.49"
+                        },
+                        {
+                            "item": "Open Face Salmon Club",
+                            "choices": [],
+                            "price": "$7.99"
+                        },
+                        {
+                            "item": "Roasted Vegetable Stirato",
+                            "choices": [],
+                            "price": "$6.99"
+                        },
+                        {
+                            "item": "Rainbow Tofu Banh Mi",
+                            "choices": [],
+                            "price": "$7.49"
+                        },
+                        {
+                            "item": "Thai Chicken Wing",
+                            "choices": [],
+                            "price": "$7.39"
+                        },
+                        {
+                            "item": "Citrus Ginger Salmon Wrap",
+                            "choices": [],
+                            "price": "$7.89"
+                        }
+                    ]
+                },
+                {
+                    "station": "Soups of the Day",
+                    "diningItems": [
+                        {
+                            "item": "8oz",
+                            "choices": [],
+                            "price": "$3.49"
+                        },
+                        {
+                            "item": "12oz",
+                            "choices": [],
+                            "price": "$4.29"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Gimme Coffee",
+            "slug": "Gimme-Coffee",
+            "stations": [
+                {
+                    "station": "Coffee",
+                    "diningItems": [
+                        {
+                            "item": "Leftist Espresso",
+                            "choices": [],
+                            "price": "$2.75"
+                        },
+                        {
+                            "item": "Featured Espresso",
+                            "choices": [],
+                            "price": "$3.00"
+                        },
+                        {
+                            "item": "Americano",
+                            "choices": [
+                                {
+                                    "label": "Sizes",
+                                    "options": [
+                                        "Small",
+                                        "Medium",
+                                        "Large"
+                                    ]
+                                }
+                            ],
+                            "price": "$2.90/$3.00/$3.10"
+                        },
+                        {
+                            "item": "Macchiato",
+                            "choices": [],
+                            "price": "3.25"
+                        },
+                        {
+                            "item": "Cortado",
+                            "choices": [],
+                            "price": "3.50"
+                        },
+                        {
+                            "item": "Latte",
+                            "choices": [
+                                {
+                                    "label": "Sizes",
+                                    "options": [
+                                        "Medium",
+                                        "Large"
+                                    ]
+                                }
+                            ],
+                            "price": "$4.00/$4.25"
+                        },
+                        {
+                            "item": "Mocha",
+                            "choices": [
+                                {
+                                    "label": "Sizes",
+                                    "options": [
+                                        "Small",
+                                        "Medium",
+                                        "Large"
+                                    ]
+                                }
+                            ],
+                            "price": "$4.00/$4.25/$4.75"
+                        },
+                        {
+                            "item": "Drip Brew",
+                            "choices": [
+                                {
+                                    "label": "Sizes",
+                                    "options": [
+                                        "Small",
+                                        "Medium",
+                                        "Large"
+                                    ]
+                                }
+                            ],
+                            "price": "$2.00/$2.25/$2.50"
+                        },
+                        {
+                            "item": "Iced Coffee",
+                            "choices": [
+                                {
+                                    "label": "Sizes",
+                                    "options": [
+                                        "Large"
+                                    ]
+                                }
+                            ],
+                            "price": "$3.25"
+                        }
+                    ]
+                },
+                {
+                    "station": "Other",
+                    "diningItems": [
+                        {
+                            "item": "Cocoa",
+                            "choices": [
+                                {
+                                    "label": "Sizes",
+                                    "options": [
+                                        "Small",
+                                        "Medium",
+                                        "Large"
+                                    ]
+                                }
+                            ],
+                            "price": "$3.00/$3.25/$3.75"
+                        },
+                        {
+                            "item": "Chai",
+                            "choices": [
+                                {
+                                    "label": "Sizes",
+                                    "options": [
+                                        "Small",
+                                        "Medium",
+                                        "Large"
+                                    ]
+                                }
+                            ],
+                            "price": "$3.25/$3.75/$4.25"
+                        },
+                        {
+                            "item": "Hot Tea",
+                            "choices": [],
+                            "price": "$2.50"
+                        },
+                        {
+                            "item": "Iced Tea",
+                            "choices": [],
+                            "price": "$3.00"
+                        },
+                        {
+                            "item": "Italian Soda",
+                            "choices": [],
+                            "price": "$3.00"
+                        },
+                        {
+                            "item": "Natalie's Orange Juice",
+                            "choices": [],
+                            "price": "$3.25"
+                        },
+                        {
+                            "item": "Saratoga Springs Water",
+                            "choices": [],
+                            "price": "$1.35"
+                        }
+                    ]
+                },
+                {
+                    "station": "Add-ins",
+                    "diningItems": [
+                        {
+                            "item": "Syrup/Breve/AuLait",
+                            "choices": [
+                                {
+                                    "label": "Amount",
+                                    "options": [
+                                        "Light",
+                                        "Regular",
+                                        "Extra"
+                                    ]
+                                }
+                            ],
+                            "price": "$0.60/$0.70/$0.80"
+                        },
+                        {
+                            "item": "Soy",
+                            "choices": [
+                                {
+                                    "label": "Amount",
+                                    "options": [
+                                        "Light",
+                                        "Regular",
+                                        "Extra"
+                                    ]
+                                }
+                            ],
+                            "price": "$0.25/$0.50/$0.75"
+                        },
+                        {
+                            "item": "Oat",
+                            "choices": [
+                                {
+                                    "label": "Amount",
+                                    "options": [
+                                        "Light",
+                                        "Regular",
+                                        "Extra"
+                                    ]
+                                }
+                            ],
+                            "price": "$0.75/$1.00/$1.25"
+                        },
+                        {
+                            "item": "Espresso Shot",
+                            "choices": [],
+                            "price": "$1.00"
+                        },
+                        {
+                            "item": "Ice",
+                            "choices": [],
+                            "price": "$0.25"
+                        },
+                        {
+                            "item": "Bring Your Own Mug",
+                            "choices": [],
+                            "price": "$-.40"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
