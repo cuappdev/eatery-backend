@@ -473,23 +473,8 @@
                     "descrshort": "cafe"
                 }
             ],
-            "operatingHours": [
-                {
-                    "weekday": "monday-friday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "8:00am",
-                            "end": "3:00pm",
-                            "menu": []
-                        }
-                    ]
-                }
-            ],
-            "datesClosed": [
-                "3/25/21",
-                "3/26/21"
-            ],
+            "operatingHours": [],
+            "datesClosed": [],
             "payMethods": [
                 {
                     "descr": "Cash",
