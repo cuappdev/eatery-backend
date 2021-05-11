@@ -7,6 +7,10 @@ from src.schema import Query
 app = Flask(__name__)
 schema = Schema(query=Query)
 
+from src.database.config import PBase, PEngine
+from src.database.user import User
+
+PBase.metadata.create_all(bind=PEngine, tables=[User.__table__])
 
 @app.route("/hello")
 def hello_world():

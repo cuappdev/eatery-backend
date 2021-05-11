@@ -14,3 +14,4 @@ class AccountInfoType(ObjectType):
     history = List(TransactionType, required=True)
     laundry = String(required=True)
     swipes = String(required=True)
+    favorites = List(String, required=True)

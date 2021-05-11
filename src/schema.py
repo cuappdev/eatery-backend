@@ -16,7 +16,8 @@ from .constants import (
 )
 from .gql_types import AccountInfoType, CampusEateryType, CollegetownEateryType, TransactionType
 from .gql_parser import get_campus_eateries, get_collegetown_eateries
-
+from .database.config import PSession
+from .database.user import User
 
 class Data(object):
     campus_eateries = {}
@@ -32,7 +33,7 @@ class Data(object):
 
 
 class Query(ObjectType):
-    account_info = Field(AccountInfoType, session_id=String(name="id"))
+    account_info = Field(AccountInfoType, session_id=String(name="id"), favorites=List(String, name="favorites"))
     campus_eateries = List(CampusEateryType, eatery_id=Int(name="id"), favorites=List(String, name="favorites"))
     collegetown_eateries = List(CollegetownEateryType, eatery_id=Int(name="id"))
     eateries = List(CampusEateryType, eatery_id=Int(name="id"), favorites=List(String, name="favorites"))
@@ -48,10 +49,10 @@ class Query(ObjectType):
         favorites = [] if favorites is None else favorites
         return get_campus_eateries(eatery_id, favorites)
 
-    def resolve_account_info(self, info, session_id=None):
+    def resolve_account_info(self, info, session_id=None, favorites=None):
         if session_id is None:
             return "Provide a valid session ID!"
-
+        
         account_info = {}
 
         # Query 1: Get user id and netid
@@ -59,12 +60,24 @@ class Query(ObjectType):
             response = requests.post(
                 GET_URL + "/user", json={"version": "1", "method": "retrieve", "params": {"sessionId": session_id}}
                 ).json()["response"]
-            print(response)
             user_id = response["id"]
             netid = response["userName"].split("@")[0]
         except:
             user_id = {}
             netid = {}
+
+        favorites = [] if favorites is None else favorites
+        user = PSession.query(User).filter_by(netid=netid).first()
+        if user is None:
+            new_user = User(netid=netid, favorites=favorites)
+            PSession.add(new_user)
+            PSession.commit()
+            user = new_user
+        if len(favorites) != 0:
+            for f in favorites:
+                user.favorites.append(f)
+            PSession.commit()
+        account_info["favorites"] = user.favorites
 
         # Query 2: Get finance info
         try:

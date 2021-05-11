@@ -33,9 +33,10 @@ from .eatery_db import (
     parse_static_op_hours,
     parse_to_csv,
 )
+from .database.config import PBase, PEngine
+from .database.user import User
 
 conn = Engine.connect()
-
 
 def get_campus_eateries(data_json, refresh=False):
     if refresh:
