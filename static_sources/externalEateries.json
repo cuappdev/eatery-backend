@@ -36,7 +36,12 @@
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": [
+                "5/31/21",
+                "6/1/21",
+                "6/2/21",
+                "6/3/21"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
