@@ -25,7 +25,7 @@
             ],
             "operatingHours": [
                 {
-                    "weekday": "sunday-saturday",
+                    "weekday": "monday-friday",
                     "events": [
                         {
                             "descr": "General",
@@ -36,12 +36,7 @@
                     ]
                 }
             ],
-            "datesClosed": [
-                "5/31/21",
-                "6/1/21",
-                "6/2/21",
-                "6/3/21"
-            ],
+            "datesClosed": [],
             "payMethods": [
                 {
                     "descr": "Cash",
