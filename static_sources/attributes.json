@@ -48,9 +48,7 @@
     "reserve_url": "https://www.opentable.com/restaurant/profile/1080712"
   },
   "Macs": {
-    "exceptions": [
-      "Cash Only After 3PM"
-    ]
+    "is_get": true
   },
   "Mattins-Cafe": {
     "is_get": true
@@ -71,7 +69,6 @@
     "reserve_url": "https://www.opentable.com/restaurant/profile/1080721"
   },
   "Terrace": {
-    "is_get": true
   },
   "Zeus": {
     "exceptions": [
