@@ -36,7 +36,9 @@
                     ]
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": [
+                "9/6/21"
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -101,7 +103,19 @@
                     "descrshort": "cafe"
                 }
             ],
-            "operatingHours": [],
+            "operatingHours": [
+                {
+                    "weekday": "monday-friday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "7:30am",
+                            "end": "5:30pm",
+                            "menu": []
+                        }
+                    ]
+                }
+            ],
             "payMethods": [
                 {
                     "descr": "Cash",
@@ -116,7 +130,14 @@
                     "descrshort": "Meal Plan - Debit"
                 }
             ],
-            "datesClosed": [],
+            "datesClosed": [
+                "8/18/21",
+                "8/19/21",
+                "8/20/21",
+                "8/21/21",
+                "8/22/21",
+                "8/23/21"
+            ],
             "diningItems": [
                 {
                     "item": "Pizza",
@@ -176,9 +197,7 @@
                     ]
                 }
             ],
-            "datesClosed": [
-                "2/23/20"
-            ],
+            "datesClosed": [],
             "payMethods": [
                 {
                     "descr": "Cash",
