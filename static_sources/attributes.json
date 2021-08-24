@@ -48,6 +48,9 @@
     "reserve_url": "https://www.opentable.com/restaurant/profile/1080712"
   },
   "Macs": {
+    "exceptions": [
+      "Mobile Order Only"
+    ],
     "is_get": true
   },
   "Mattins-Cafe": {
