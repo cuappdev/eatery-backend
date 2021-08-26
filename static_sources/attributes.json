@@ -1,15 +1,6 @@
 {
-  "104-West": {
-    "reserve_url": "https://www.opentable.com/restaurant/profile/1081261"
-  },
   "Bear-Necessities": {
-    "exceptions": [
-      "Mobile Order Only"
-    ],
     "is_get": true
-  },
-  "Becker-House-Dining": {
-    "reserve_url": "https://www.opentable.com/restaurant/profile/1080700"
   },
   "Bug-Stop-Bagels": {
     "is_get": true
@@ -19,9 +10,6 @@
   },
   "Carols-Cafe": {
     "is_get": true
-  },
-  "Cook-House-Dining": {
-    "reserve_url": "https://www.opentable.com/restaurant/profile/1080697"
   },
   "Cornell-Dairy-Bar": {
     "is_get": true
@@ -35,17 +23,8 @@
   "Goldies-Cafe": {
     "is_get": true
   },
-  "Jansens-Dining": {
-    "reserve_url": "https://www.opentable.com/restaurant/profile/1080709"
-  },
   "Jansens-Market": {
-    "exceptions": [
-      "Mobile Order Only"
-    ],
     "is_get": true
-  },
-  "Keeton-House-Dining": {
-    "reserve_url": "https://www.opentable.com/restaurant/profile/1080712"
   },
   "Macs": {
     "exceptions": [
@@ -56,27 +35,7 @@
   "Mattins-Cafe": {
     "is_get": true
   },
-  "North-Star": {
-    "reserve_url": "https://www.opentable.com/restaurant/profile/1080715"
-  },
-  "Okenshields": {
-    "reserve_url": "https://www.opentable.com/restaurant/profile/1080706"
-  },
-  "Risley-Dining": {
-    "reserve_url": "https://www.opentable.com/restaurant/profile/1133323"
-  },
-  "RPCC-Marketplace": {
-    "reserve_url": "https://www.opentable.com/restaurant/profile/1080718"
-  },
-  "Rose-House-Dining": {
-    "reserve_url": "https://www.opentable.com/restaurant/profile/1080721"
-  },
-  "Terrace": {
-  },
   "Zeus": {
-    "exceptions": [
-      "Mobile Order Only"
-    ],
     "reserve_url": "https://cornell.revelup.online/store/1/"
   }
 }
