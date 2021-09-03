@@ -27,10 +27,6 @@
     "is_get": true
   },
   "Macs": {
-    "exceptions": [
-      "Mobile Order Only"
-    ],
-    "is_get": true
   },
   "Mattins-Cafe": {
     "is_get": true
