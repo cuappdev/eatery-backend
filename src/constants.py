@@ -46,7 +46,7 @@ LOCATION_NAMES = {
     "Keeton House": {"name": "Keeton House Dining Room", "type": DINING_HALL},
     "Kosher": {"name": "104West!", "type": DINING_HALL},
     "Marthas": {"name": "Martha's Express", "type": BRB_ONLY},
-    "McCormick's": {"name": "McCormick's at Moakley House", "type": BRB_ONLY},
+    "McCormick's": {"name": "McCormick's", "type": BRB_ONLY},
     "North Star Marketplace": {"name": "North Star Dining Room", "type": DINING_HALL},
     "Okenshields": {"name": "Okenshields", "type": DINING_HALL},
     "Olin Libe Cafe": {"name": "Amit Bhatia Libe Café", "type": BRB_ONLY},
@@ -56,7 +56,7 @@ LOCATION_NAMES = {
     "Rustys": {"name": "Rusty's", "type": BRB_ONLY},
     "Sage": {"name": "Atrium Café", "type": BRB_ONLY},
     "Statler Macs": {"name": "Mac's Café", "type": BRB_ONLY},
-    "Statler Terrace": {"name": "The Terrace", "type": BRB_ONLY},
+    "Statler Terrace": {"name": "Terrace Restaurant", "type": BRB_ONLY},
     "Straight Market": {"name": "Straight from the Market", "type": BRB_ONLY},
     "Trillium": {"name": "Trillium", "type": TRILLIUM},
 }
