@@ -25,7 +25,29 @@
             ],
             "operatingHours": [
                 {
-                    "weekday": "monday-friday",
+                    "weekday": "monday-tuesday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "10:00am",
+                            "end": "3:00pm",
+                            "menu": []
+                        }
+                    ]
+                },
+                {
+                    "weekday": "wednesday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "8:00am",
+                            "end": "1:30pm",
+                            "menu": []
+                        }
+                    ]
+                },
+                {
+                    "weekday": "monday-tuesday",
                     "events": [
                         {
                             "descr": "General",
@@ -38,7 +60,6 @@
             ],
             "datesClosed": [
                 "9/6/21",
-                "11/24/21",
                 "11/25/21",
                 "11/26/21",
                 "11/27/21",
@@ -110,7 +131,29 @@
             ],
             "operatingHours": [
                 {
-                    "weekday": "monday-friday",
+                    "weekday": "monday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "9:30am",
+                            "end": "5:30pm",
+                            "menu": []
+                        }
+                    ]
+                },
+                {
+                    "weekday": "tuesday",
+                    "events": [
+                        {
+                            "descr": "General",
+                            "start": "8:30am",
+                            "end": "3:00pm",
+                            "menu": []
+                        }
+                    ]
+                },
+                {
+                    "weekday": "wednesday-friday",
                     "events": [
                         {
                             "descr": "General",
