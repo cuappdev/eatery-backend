@@ -25,29 +25,7 @@
             ],
             "operatingHours": [
                 {
-                    "weekday": "monday-tuesday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "10:00am",
-                            "end": "3:00pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "wednesday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "8:00am",
-                            "end": "1:30pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "monday-tuesday",
+                    "weekday": "monday-friday",
                     "events": [
                         {
                             "descr": "General",
@@ -131,29 +109,7 @@
             ],
             "operatingHours": [
                 {
-                    "weekday": "monday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "9:30am",
-                            "end": "5:30pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "tuesday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "8:30am",
-                            "end": "3:00pm",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "wednesday-friday",
+                    "weekday": "monday-friday",
                     "events": [
                         {
                             "descr": "General",
