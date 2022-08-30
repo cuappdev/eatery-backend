@@ -349,7 +349,7 @@
                     "events": [
                         {
                             "descr": "General",
-                            "start": "11:00am",
+                            "start": "5:00pm",
                             "end": "3:00am",
                             "menu": []
                         }
@@ -360,19 +360,8 @@
                     "events": [
                         {
                             "descr": "General",
-                            "start": "12:00pm",
+                            "start": "5:00pm",
                             "end": "3:00am",
-                            "menu": []
-                        }
-                    ]
-                },
-                {
-                    "weekday": "sunday",
-                    "events": [
-                        {
-                            "descr": "General",
-                            "start": "6:00pm",
-                            "end": "12:00am",
                             "menu": []
                         }
                     ]
