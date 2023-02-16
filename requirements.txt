@@ -27,6 +27,6 @@ Rx==1.6.1
 six==1.16.0
 SQLAlchemy==1.4.36
 urllib3==1.26.9
-Werkzeug==2.1.2
+Werkzeug==2.2.3
 yelpapi==2.4.0
 zipp==3.8.0
